@@ -27,19 +27,13 @@
 #include <timer.h>
 #include <glmhelper.h>
 
-#ifdef GFX_ENV_VULKAN
-  #include "vulkan-render/render.h"
-  #include "vulkan-render/resources.h"
-#endif
-
-#ifdef GFX_ENV_OPENGL
-  #include "opengl-render/render.h"
-  #include "opengl-render/resources/resources.h"
-#endif
+#include "renderer-include.h"
 
 #include <config.h>
 
 #include "camera.h"
+
+#include "game/map.h"
 
 //#define TIME_APP_DRAW_UPDATE
 //#define MULTI_UPDATE_ON_SLOW_DRAW
@@ -74,15 +68,18 @@ private:
   int mWindowWidth, mWindowHeight;
   Input previousInput;
   Timer timer;
-  Camera::FirstPerson fpcam;
+
   Audio::Manager audioManager;
 
   std::thread submitDraw;
   std::atomic<bool> finishedDrawSubmit;
 
-  Resource::Model testModel;
+  Camera::RoomFollow2D camera;
+  glm::vec2 target = glm::vec2(0, 0);
+
   Resource::Texture testTex;
   Resource::Font testFont;
+  Map testMap;
 };
 
 #endif

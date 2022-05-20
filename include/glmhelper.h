@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-	
+
 namespace glmhelper
 {
 
@@ -59,6 +59,11 @@ inline glm::mat4 calcMatFromRect(glm::vec4 rect, float rotate, float depth)
 inline glm::mat4 calcMatFromRect(glm::vec4 rect, float rotate)
 {
 	return calcMatFromRect(rect, rotate, 0.0);
+}
+
+inline glm::vec4 calcTexOffset(glm::vec2 texDim, glm::vec4 section)
+{
+	return glm::vec4(section.x / texDim.x, section.y / texDim.y, section.z / texDim.x, section.w /  texDim.y);
 }
 
 }//namespace end

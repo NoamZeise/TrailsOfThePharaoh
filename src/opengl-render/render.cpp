@@ -102,6 +102,11 @@ void Render::set3DViewMatrixAndFov(glm::mat4 view, float fov)
 			((float)width) / ((float)height), 0.1f, 500.0f);
 }
 
+void Render::set2DViewMatrix(glm::mat4 view)
+{
+  view2D = view;
+}
+
 Render::Draw2D::Draw2D(Resource::Texture tex, glm::mat4 model, glm::vec4 colour, glm::vec4 texOffset)
 {
   this->tex = tex;

@@ -394,7 +394,6 @@ void Render::Begin2DDraw() {
   mVP2D.data[0].proj = glm::ortho(
       0.0f, (float)mSwapchain.offscreenExtent.width / correction, 0.0f,
       (float)mSwapchain.offscreenExtent.height / correction, -10.0f, 10.0f);
-  mVP2D.data[0].view = glm::mat4(1.0f);
 
   mVP2D.storeData(mImg);
 
@@ -632,10 +631,16 @@ void Render::_updateViewProjectionMatrix() {
       -1; // opengl has inversed y axis, so need to correct
 }
 
-void Render::set3DViewMatrixAndFov(glm::mat4 view, float fov) {
+void Render::set3DViewMatrixAndFov(glm::mat4 view, float fov)
+{
   mVP3D.data[0].view = view;
   mProjectionFov = fov;
   _updateViewProjectionMatrix();
+}
+
+void Render::set2DViewMatrix(glm::mat4 view)
+{
+  mVP2D.data[0].view = view;
 }
 
 void Render::FramebufferResize() { mFramebufferResized = true; }

@@ -41,6 +41,7 @@ public:
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   }
   void set3DViewMatrixAndFov(glm::mat4 view, float fov);
+  void set2DViewMatrix(glm::mat4 view);
   void restartResourceLoad();
   Resource::Texture LoadTexture(std::string filepath);
   Resource::Font LoadFont(std::string filepath);

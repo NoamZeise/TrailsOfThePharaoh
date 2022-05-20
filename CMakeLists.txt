@@ -32,18 +32,21 @@ endif()
 
 #add executables
 file(GLOB SOURCES src/*)
+file(GLOB GAME src/game/*)
 if(GFX_ENV_VULKAN)
   file(GLOB GRAPHICS-RENDER src/vulkan-render/*)
   add_executable(${ProjectName} ${SOURCES}
                               ${GRAPHICS-RENDER}
-                              ${PROJ_INCLUDE})
+                              ${PROJ_INCLUDE}
+                              ${GAME})
 elseif(GFX_ENV_OPENGL)
   file(GLOB OGL_RENDER src/opengl-render/*)
   file(GLOB OGL_RENDER_RESOURCES src/opengl-render/resources/*)
   add_executable(${ProjectName}   ${SOURCES}
                                 ${OGL_RENDER}
                                 ${OGL_RENDER_RESOURCES}
-                                ${PROJ_INCLUDE})
+                                ${PROJ_INCLUDE}
+                              ${GAME})
 endif()
 #link
 target_include_directories(${ProjectName} PUBLIC include/)

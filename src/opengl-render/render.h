@@ -41,6 +41,7 @@ public:
   	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   }
 	void set3DViewMatrixAndFov(glm::mat4 view, float fov);
+	void set2DViewMatrix(glm::mat4 view);
 
 	Resource::Texture LoadTexture(std::string filepath);
   Resource::Model LoadModel(std::string filepath);

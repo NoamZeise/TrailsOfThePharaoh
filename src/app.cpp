@@ -1,6 +1,7 @@
 #include "app.h"
 
-App::App() {
+App::App()
+{
 
   mWindowWidth = settings::INITIAL_WINDOW_WIDTH;
   mWindowHeight = settings::INITIAL_WINDOW_HEIGHT;
@@ -46,35 +47,41 @@ App::App() {
     glfwSetWindowAspectRatio(mWindow, width, height);
 
   loadAssets();
+  camera.setCameraMapRect(testMap.getMapRect());
 
-  fpcam = Camera::FirstPerson(glm::vec3(3.0f, 0.0f, 2.0f));
   audioManager.Play("audio/test.wav", true, 0.5f);
   finishedDrawSubmit = true;
 }
 
-App::~App() {
+App::~App()
+{
   if (submitDraw.joinable())
     submitDraw.join();
   delete mRender;
   glfwTerminate();
 }
 
-void App::loadAssets() {
-  testModel = mRender->LoadModel("models/testScene.fbx");
+void App::loadAssets()
+{
   testTex = mRender->LoadTexture("textures/error.png");
   testFont = mRender->LoadFont("textures/Roboto-Black.ttf");
+  testMap = Map("maps/level1.tmx", mRender, 1.0f, testFont);
+
   mRender->EndResourceLoad();
 }
 
-void App::run() {
-  while (!glfwWindowShouldClose(mWindow)) {
+void App::run()
+{
+  while (!glfwWindowShouldClose(mWindow))
+  {
     update();
     if (mWindowWidth != 0 && mWindowHeight != 0)
       draw();
   }
 }
 
-void App::resize(int windowWidth, int windowHeight) {
+void App::resize(int windowWidth, int windowHeight)
+{
   if (submitDraw.joinable())
     submitDraw.join();
   this->mWindowWidth = windowWidth;
@@ -83,28 +90,45 @@ void App::resize(int windowWidth, int windowHeight) {
     mRender->FramebufferResize();
 }
 
-void App::update() {
+void App::update()
+{
 #ifdef TIME_APP_DRAW_UPDATE
   auto start = std::chrono::high_resolution_clock::now();
 #endif
   glfwPollEvents();
 
-  if (input.Keys[GLFW_KEY_F] && !previousInput.Keys[GLFW_KEY_F]) {
+  if (input.Keys[GLFW_KEY_F] && !previousInput.Keys[GLFW_KEY_F])
+  {
     if (glfwGetWindowMonitor(mWindow) == nullptr) {
       const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
       glfwSetWindowMonitor(mWindow, glfwGetPrimaryMonitor(), 0, 0, mode->width,
                            mode->height, mode->refreshRate);
-    } else {
+    }
+    else
+    {
       const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
       glfwSetWindowMonitor(mWindow, NULL, 0, 0, mWindowWidth, mWindowHeight,
                            mode->refreshRate);
     }
   }
-  if (input.Keys[GLFW_KEY_ESCAPE] && !previousInput.Keys[GLFW_KEY_ESCAPE]) {
+  if (input.Keys[GLFW_KEY_ESCAPE] && !previousInput.Keys[GLFW_KEY_ESCAPE])
+  {
     glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
   }
 
-  fpcam.update(input, previousInput, timer);
+ float camspeed = 1.0f;
+  if(input.Keys[GLFW_KEY_UP])
+    target.y -= camspeed * timer.FrameElapsed();
+  if(input.Keys[GLFW_KEY_DOWN])
+    target.y += camspeed * timer.FrameElapsed();
+  if(input.Keys[GLFW_KEY_LEFT])
+    target.x -= camspeed * timer.FrameElapsed();
+  if(input.Keys[GLFW_KEY_RIGHT])
+    target.x += camspeed * timer.FrameElapsed();
+
+  camera.Target(target, timer);
+
+  testMap.Update(camera.getCameraArea(), timer);
 
   postUpdate();
 #ifdef TIME_APP_DRAW_UPDATE
@@ -117,14 +141,16 @@ void App::update() {
 #endif
 }
 
-void App::postUpdate() {
+void App::postUpdate()
+{
+  mRender->set2DViewMatrix(camera.getViewMat());
   previousInput = input;
   input.offset = 0;
   timer.Update();
-  mRender->set3DViewMatrixAndFov(fpcam.getViewMatrix(), fpcam.getZoom());
 }
 
-void App::draw() {
+void App::draw()
+{
 #ifdef TIME_APP_DRAW_UPDATE
   auto start = std::chrono::high_resolution_clock::now();
 #endif
@@ -138,22 +164,18 @@ void App::draw() {
   if(submitDraw.joinable())
     submitDraw.join();
 
-    mRender->Begin3DDraw();
+  mRender->Begin2DDraw();
 
-    mRender->DrawModel(
-			testModel, glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)),
-			glm::inverseTranspose(fpcam.getViewMatrix() * glm::mat4(1.0f)));
+  testMap.Draw(mRender);
 
-    mRender->Begin2DDraw();
-
-    mRender->DrawString(testFont, "test", glm::vec2(400, 100), 100, -0.5,
+  mRender->DrawString(testFont, "test", glm::vec2(400, 100), 100, -0.5,
     										glm::vec4(1), 90.0f);
 
-    mRender->DrawQuad(testTex,
+  mRender->DrawQuad(testTex,
     								 glmhelper::getModelMatrix(glm::vec4(400, 100, 100, 100), 0, -1),
     								 glm::vec4(1), glm::vec4(0, 0, 1, 1));
 
-    mRender->DrawQuad(testTex,
+  mRender->DrawQuad(testTex,
     									glmhelper::getModelMatrix(glm::vec4(0, 0, 400, 400), 0, 0),
     									glm::vec4(1, 0, 1, 0.3), glm::vec4(0, 0, 1, 1));
 
