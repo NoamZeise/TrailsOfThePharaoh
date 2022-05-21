@@ -23,7 +23,7 @@ class Map
 {
 public:
 Map() {}
-Map(std::string filename, Render* render, float scale, Resource::Font mapFont);
+Map(std::string filename, Render* render, Resource::Font mapFont);
 void Update(glm::vec4 cameraRect, Timer &timer);
 void Draw(Render *render);
 
@@ -43,14 +43,16 @@ private:
 
 	struct MapText
 	{
-		MapText(glm::vec4 rect, glm::vec4 colour, std::string text, float pixelSize)
+		MapText(glm::vec2 pos, glm::vec4 rect, glm::vec4 colour, std::string text, float pixelSize)
 		{
+			this->pos = pos;
 			this->rect = rect;
 			this->colour = colour;
 			this->text = text;
 			this->pixelSize = pixelSize;
 		}
 		glm::vec4 rect;
+		glm::vec2 pos;
 		glm::vec4 colour;
 		std::string text;
 		float pixelSize;

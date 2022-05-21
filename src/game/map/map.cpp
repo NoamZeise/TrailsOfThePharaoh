@@ -1,11 +1,9 @@
 #include "map.h"
 
-Map::Map(std::string filename, Render* render, float scale, Resource::Font mapFont)
+Map::Map(std::string filename, Render* render, Resource::Font mapFont)
 {
 	this->mapFont = mapFont;
 	map = tiled::Map(filename);
-	map.tileWidth *= scale;
-	map.tileHeight *= scale;
 	mapRect = glm::vec4(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
 	tileMats.resize(map.layers.size());
@@ -70,10 +68,11 @@ Map::Map(std::string filename, Render* render, float scale, Resource::Font mapFo
 	{
 		mapTexts.push_back(
 			MapText(
-				glm::vec4(txt.obj.x * scale, txt.obj.y * scale, txt.obj.w * scale * 1.2f, txt.obj.h * scale),
+				glm::vec2(txt.obj.x, txt.obj.y),
+				glm::vec4(txt.obj.x, txt.obj.y - txt.obj.h/1.5f, txt.obj.w, txt.obj.h),
 				glm::vec4(txt.colour.r / 255.0f, txt.colour.g / 255.0f, txt.colour.b / 255.0f, txt.colour.a / 255.0f),
 				txt.text,
-				txt.pixelSize * scale));
+				txt.pixelSize));
 	}
 
 	colliders.push_back(glm::vec4(-100, -100, 100, mapRect.w + 100));
@@ -116,9 +115,10 @@ void Map::Draw(Render *render)
 	#endif
 	for(auto &txt: mapTexts)
 	{
+		//render->DrawQuad(Resource::Texture(), glmhelper::calcMatFromRect(txt.rect, 0, -5.0f));
 		if(txt.toDraw)
 			render->DrawString(mapFont, txt.text,
-				glm::vec2(txt.rect.x, txt.rect.y),
+				glm::vec2(txt.pos.x, txt.pos.y),
 				 txt.pixelSize, 0, txt.colour, 0.0f);
 	}
 

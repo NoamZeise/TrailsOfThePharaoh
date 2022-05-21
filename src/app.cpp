@@ -64,7 +64,7 @@ void App::loadAssets()
 {
   testTex = mRender->LoadTexture("textures/error.png");
   testFont = mRender->LoadFont("textures/Roboto-Black.ttf");
-  testMap = Map("maps/level1.tmx", mRender, 1.0f, testFont);
+  testMap = Map("maps/level1.tmx", mRender, testFont);
 
   mRender->EndResourceLoad();
 }
@@ -115,7 +115,7 @@ void App::update()
     glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
   }
 
- float camspeed = 1.0f;
+ float camspeed = 1.0f * scale;
   if(input.Keys[GLFW_KEY_UP])
     target.y -= camspeed * timer.FrameElapsed();
   if(input.Keys[GLFW_KEY_DOWN])
