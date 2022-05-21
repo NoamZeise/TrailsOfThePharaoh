@@ -11,6 +11,7 @@ namespace Resource
 		ID = 0;
 		width = 0;
 		height = 0;
+		this->path  = path;
 		int nrChannels;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
 		if (!data)
@@ -89,6 +90,16 @@ namespace Resource
 
 	Texture TextureLoader::LoadTexture(std::string path)
 	{
+		for(auto &tex: textures)
+		{
+			if(tex->path == path)
+			{
+				#ifndef NDEBUG
+						std::cout << "texture at " << path  << " was already loaded" << std::endl;
+				#endif
+				return Texture(tex->ID, glm::vec2(tex->width, tex->height), path);
+			}
+		}
 		textures.push_back(new LoadedTex(path));
 		return Texture(textures.size() - 1, glm::vec2(textures.back()->width, textures.back()->height), path);
 	}

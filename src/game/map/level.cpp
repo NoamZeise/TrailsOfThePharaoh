@@ -5,6 +5,11 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 	tiled::Map map = tiled::Map(filename);
 	logical.SetPropsWithTiledMap(map);
 	visual = Map::Visual(map, render, mapFont);
+
+	for(auto &ray  : logical.raySources)
+	{
+		rays.push_back(LightRay(render->LoadTexture("textures/pixel.png"), ray.rect, ray.angle));
+	}
 }
 
 
@@ -12,6 +17,10 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer)
 {
 	lastCamRect = cameraRect;
 	visual.Update(cameraRect, timer, &activeColliders);
+	for(auto &ray : rays)
+	{
+		ray.Update(mirrors, cameraRect);
+	}
 }
 
 void Level::Draw(Render *render)
@@ -24,5 +33,8 @@ void Level::Draw(Render *render)
 	#endif
 
 	visual.Draw(render);
-
+	for(auto &ray : rays)
+	{
+		ray.Draw(render);
+	}
 }

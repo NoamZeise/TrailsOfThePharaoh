@@ -33,7 +33,7 @@ void TextureLoader::UnloadTextures()
 	vkDestroySampler(base.device, textureSampler, nullptr);
 	vkFreeMemory(base.device, memory, nullptr);
 
-	textures.clear();
+	textures.clear(); 
 }
 
 Texture TextureLoader::LoadTexture(std::string path)
@@ -41,6 +41,14 @@ Texture TextureLoader::LoadTexture(std::string path)
 #ifndef NDEBUG
 	std::cout << "loading texture: " << path << std::endl;
 #endif
+	for(unsigned int i = 0 ; i < texToLoad.size() ; i++)
+	{
+		if(texToLoad[i].path == path)
+		{
+			std::cout << "texture at " << path << " has already been set to load" << std::endl;
+			return Texture(i, glm::vec2(texToLoad[i].width, texToLoad[i].height), path);
+		}
+	}
 	texToLoad.push_back({ std::string(path.c_str()) });
 	TempTexture* tex = &texToLoad.back();
 	tex->pixelData = stbi_load(tex->path.c_str(), &tex->width, &tex->height, &tex->nrChannels, 4);

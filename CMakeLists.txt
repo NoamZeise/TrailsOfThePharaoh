@@ -36,6 +36,7 @@ file(GLOB GAME src/game/*)
 file(GLOB MAP src/game/map/*)
 file(GLOB SPRITES src/game/sprites/*)
 file(GLOB UI src/game/sprites/UI/*)
+file(GLOB MAP_ELEMENTS src/game/map/elements/*)
 if(GFX_ENV_VULKAN)
   file(GLOB GRAPHICS-RENDER src/vulkan-render/*)
   add_executable(${ProjectName} ${SOURCES}
@@ -44,6 +45,7 @@ if(GFX_ENV_VULKAN)
                               ${GAME}
                               ${MAP}
                               ${SPRITES}
+                              ${MAP_ELEMENTS}
                               ${UI})
 elseif(GFX_ENV_OPENGL)
   file(GLOB OGL_RENDER src/opengl-render/*)
@@ -55,6 +57,7 @@ elseif(GFX_ENV_OPENGL)
                                 ${GAME}
                                 ${MAP}
                                 ${SPRITES}
+                                ${MAP_ELEMENTS}
                                 ${UI})
 endif()
 #link

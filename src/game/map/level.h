@@ -15,6 +15,7 @@
 
 #include "logical.h"
 #include "visual.h"
+#include "elements/light_ray.h"
 
 //#define SEE_COLLIDERS
 
@@ -34,6 +35,8 @@ private:
 	Map::Visual visual;
 
 	std::vector<glm::vec4> activeColliders;
+	std::vector<glm::vec4> mirrors;
+	std::vector<LightRay> rays;
 
 	glm::vec4 lastCamRect;
 };

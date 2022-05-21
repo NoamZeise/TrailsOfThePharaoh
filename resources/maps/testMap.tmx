@@ -80,6 +80,9 @@
 </data>
  </layer>
  <layer id="5" name="doors" width="20" height="20">
+  <properties>
+   <property name="door" type="bool" value="true"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
