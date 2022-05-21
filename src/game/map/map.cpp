@@ -13,7 +13,7 @@ Map::Map(std::string filename, Render* render, Resource::Font mapFont)
 	for(unsigned int y = 0; y < map.height; y++)
 		for(unsigned int x = 0; x < map.width; x++)
 		{
-			tileRects[index] = glm::vec4(x * map.tileWidth, y * map.tileHeight, map.tileWidth, map.tileHeight);
+			tileRects[index] = glm::vec4((x * map.tileWidth), (y * map.tileHeight), map.tileWidth, map.tileHeight);
 			for(unsigned int i = 0; i < map.layers.size(); i++)
 				tileMats[i].push_back(glmhelper::calcMatFromRect(tileRects[index], 0, 0.0f + (float)i/10.0f));
 			index++;
@@ -93,7 +93,7 @@ void Map::Update(glm::vec4 cameraRect, Timer &timer)
 	toDraw.clear();
 	for(unsigned int tile = 0; tile < tileRects.size(); tile++)
 		if(gh::colliding(cameraRect, tileRects[tile]))
-			for(unsigned int layer = 0; layer < map.layers.size(); layer++)
+			for(unsigned int layer = map.layers.size() - 1; layer >= 0 && layer < map.layers.size(); layer--)
 				if(map.layers[layer].data[tile] != 0)
 				{
 					toDraw.push_back(TileDraw(tiles[map.layers[layer].data[tile]].texture, tileMats[layer][tile], tiles[map.layers[layer].data[tile]].tileRect));
@@ -101,6 +101,7 @@ void Map::Update(glm::vec4 cameraRect, Timer &timer)
 					{
 						currentFrameColliders.push_back(tileRects[tile]);
 					}
+					break; //only draw top layer tile of each tileRect
 				}
 
 }

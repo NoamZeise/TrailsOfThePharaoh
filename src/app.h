@@ -34,6 +34,8 @@
 #include "camera.h"
 
 #include "game/map/map.h"
+#include "game/sprites/sprite.h"
+#include "game/sprites/UI/button.h"
 
 //#define TIME_APP_DRAW_UPDATE
 //#define MULTI_UPDATE_ON_SLOW_DRAW
@@ -52,10 +54,11 @@ public:
   static void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
   static void error_callback(int error, const char *description);
 
-  Input input;
+  Input::Raw input;
 
 private:
   void loadAssets();
+  void preUpdate();
   void update();
   void postUpdate();
   void draw();
@@ -66,7 +69,8 @@ private:
   GLFWwindow *mWindow;
   Render *mRender;
   int mWindowWidth, mWindowHeight;
-  Input previousInput;
+  Input::Raw previousInput;
+  Input::Controls controls;
   Timer timer;
 
   Audio::Manager audioManager;
@@ -78,9 +82,11 @@ private:
   glm::vec2 target = glm::vec2(0, 0);
   float scale  = 1.0f;
 
-  Resource::Texture testTex;
   Resource::Font testFont;
   Map testMap;
+  Sprite testSprite;
+  Button testButton;
+
 };
 
 #endif

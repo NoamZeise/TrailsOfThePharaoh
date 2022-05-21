@@ -23,11 +23,11 @@
 #include "resources/model_loader.h"
 
 //match in shaders
-const int MAX_2D_DRAWS = 10000;
-const int MAX_3D_DRAWS = 10000;
+const int MAX_2D_DRAWS = 450;
+const int MAX_3D_DRAWS = 100;
 
-const int MAX_2D_BATCH = 10000;
-const int MAX_3D_BATCH = 10000;
+const int MAX_2D_BATCH = 450;
+const int MAX_3D_BATCH = 100;
 
 class Render
 {

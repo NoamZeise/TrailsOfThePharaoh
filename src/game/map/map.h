@@ -11,11 +11,7 @@
 #include <glmhelper.h>
 #include "../../renderer-include.h"
 #include <gamehelper.h>
-
-#ifndef GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#endif
+#include  "../../glm-include.h"
 
 //#define SEE_COLLIDERS
 

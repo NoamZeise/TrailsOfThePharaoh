@@ -30,7 +30,7 @@ App::App()
   glfwSetScrollCallback(mWindow, scroll_callback);
   glfwSetKeyCallback(mWindow, key_callback);
   glfwSetMouseButtonCallback(mWindow, mouse_button_callback);
-  glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
   glfwSetInputMode(mWindow, GLFW_RAW_MOUSE_MOTION, glfwRawMouseMotionSupported());
 
   int width = mWindowWidth;
@@ -62,9 +62,10 @@ App::~App()
 
 void App::loadAssets()
 {
-  testTex = mRender->LoadTexture("textures/error.png");
   testFont = mRender->LoadFont("textures/Roboto-Black.ttf");
-  testMap = Map("maps/level1.tmx", mRender, testFont);
+  testMap = Map("maps/testMap.tmx", mRender, testFont);
+  testSprite = Sprite(mRender->LoadTexture("textures/error.png"), glm::vec4(0, 0, 10, 10));
+  testButton = Button(Sprite(mRender->LoadTexture("textures/error.png"), glm::vec4(100, 100, 400, 150)), false);
 
   mRender->EndResourceLoad();
 }
@@ -89,13 +90,10 @@ void App::resize(int windowWidth, int windowHeight)
     mRender->FramebufferResize();
 }
 
-void App::update()
+void App::preUpdate()
 {
-#ifdef TIME_APP_DRAW_UPDATE
-  auto start = std::chrono::high_resolution_clock::now();
-#endif
   glfwPollEvents();
-
+  controls.Update(input, correctedMouse(), camera.getCameraOffset());
   if (input.Keys[GLFW_KEY_F] && !previousInput.Keys[GLFW_KEY_F])
   {
     if (glfwGetWindowMonitor(mWindow) == nullptr) {
@@ -114,26 +112,40 @@ void App::update()
   {
     glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
   }
+}
 
- float camspeed = 1.0f * scale;
-  if(input.Keys[GLFW_KEY_UP])
+void App::update()
+{
+#ifdef TIME_APP_DRAW_UPDATE
+  auto start = std::chrono::high_resolution_clock::now();
+#endif
+
+  preUpdate();
+
+  float camspeed = 1.0f * scale;
+  if(controls.Up())
     target.y -= camspeed * timer.FrameElapsed();
-  if(input.Keys[GLFW_KEY_DOWN])
+  if(controls.Down())
     target.y += camspeed * timer.FrameElapsed();
-  if(input.Keys[GLFW_KEY_LEFT])
+  if(controls.Left())
     target.x -= camspeed * timer.FrameElapsed();
-  if(input.Keys[GLFW_KEY_RIGHT])
+  if(controls.Right())
     target.x += camspeed * timer.FrameElapsed();
-  if(input.Keys[GLFW_KEY_EQUAL])
+  if(controls.Plus())
     scale -=  0.001f * timer.FrameElapsed();
-  if(input.Keys[GLFW_KEY_MINUS])
+  if(controls.Minus())
     scale +=  0.001f * timer.FrameElapsed();
 
   camera.setScale(scale);
   camera.Target(target, timer);
   testMap.Update(camera.getCameraArea(), timer);
+  testButton.Update(camera.getCameraArea(), controls, scale);
+
+  testSprite.setRect(glm::vec4(controls.MousePos().x, controls.MousePos().y, 10, 10));
+  testSprite.Update(camera.getCameraArea());
 
   postUpdate();
+
 #ifdef TIME_APP_DRAW_UPDATE
   auto stop = std::chrono::high_resolution_clock::now();
   std::cout << "update: "
@@ -171,16 +183,10 @@ void App::draw()
 
   testMap.Draw(mRender);
 
-  mRender->DrawString(testFont, "test", glm::vec2(400, 100), 100, -0.5,
-    										glm::vec4(1), 90.0f);
+  testButton.Draw(mRender);
 
-  mRender->DrawQuad(testTex,
-    								 glmhelper::getModelMatrix(glm::vec4(400, 100, 100, 100), 0, -1),
-    								 glm::vec4(1), glm::vec4(0, 0, 1, 1));
+  testSprite.Draw(mRender);
 
-  mRender->DrawQuad(testTex,
-    									glmhelper::getModelMatrix(glm::vec4(0, 0, 400, 400), 0, 0),
-    									glm::vec4(1, 0, 1, 0.3), glm::vec4(0, 0, 1, 1));
 
 #ifdef GFX_ENV_VULKAN
   submitDraw =
@@ -205,8 +211,8 @@ glm::vec2 App::correctedPos(glm::vec2 pos)
 {
   if (settings::USE_TARGET_RESOLUTION)
     return glm::vec2(
-        pos.x * ((float)settings::TARGET_WIDTH / (float)mWindowWidth),
-        pos.y * ((float)settings::TARGET_HEIGHT / (float)mWindowHeight));
+        pos.x * ((float)settings::TARGET_WIDTH*scale / (float)mWindowWidth),
+        pos.y * ((float)settings::TARGET_HEIGHT*scale / (float)mWindowHeight));
 
   return glm::vec2(pos.x, pos.y);
 }
@@ -220,23 +226,26 @@ glm::vec2 App::correctedMouse()
  *       GLFW CALLBACKS
  */
 
-void App::framebuffer_size_callback(GLFWwindow *window, int width, int height) {
+void App::framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
   auto app = reinterpret_cast<App *>(glfwGetWindowUserPointer(window));
   app->resize(width, height);
 }
 
-void App::mouse_callback(GLFWwindow *window, double xpos, double ypos) {
+void App::mouse_callback(GLFWwindow *window, double xpos, double ypos)
+{
   App *app = reinterpret_cast<App *>(glfwGetWindowUserPointer(window));
   app->input.X = xpos;
   app->input.Y = ypos;
 }
-void App::scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+void App::scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
+{
   App *app = reinterpret_cast<App *>(glfwGetWindowUserPointer(window));
   app->input.offset = yoffset;
 }
 
-void App::key_callback(GLFWwindow *window, int key, int scancode, int action,
-                       int mode) {
+void App::key_callback(GLFWwindow *window, int key, int scancode, int action, int mode)
+{
   App *app = reinterpret_cast<App *>(glfwGetWindowUserPointer(window));
   if (key >= 0 && key < 1024) {
     if (action == GLFW_PRESS) {
@@ -247,8 +256,8 @@ void App::key_callback(GLFWwindow *window, int key, int scancode, int action,
   }
 }
 
-void App::mouse_button_callback(GLFWwindow *window, int button, int action,
-                                int mods) {
+void App::mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
   App *app = reinterpret_cast<App *>(glfwGetWindowUserPointer(window));
 
   if (button >= 0 && button < 8) {
@@ -260,6 +269,7 @@ void App::mouse_button_callback(GLFWwindow *window, int button, int action,
   }
 }
 
-void App::error_callback(int error, const char *description) {
+void App::error_callback(int error, const char *description)
+{
   throw std::runtime_error(description);
 }

@@ -14,7 +14,7 @@ layout(set = 0, binding = 0) uniform UniformBufferObject
 
 layout(set = 1, binding = 0) readonly buffer PerFrameBuffer {
     mat4 model;
-} pid[300];
+} pid[450];
 
 
 layout(location = 0) in vec3 inPos;

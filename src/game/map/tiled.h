@@ -21,11 +21,15 @@ const std::string TILED_TEXTURE_LOCATION = "textures/tilesets";
 const std::string TILED_IMAGE_LOCATION = "textures/tiledimage";
 
 //some example properties -> match what you set in tiled (do not need to be boolean, but you need to change the fillPropStruct to match those cases)
-struct Properties 
+struct Properties
 {
 	bool collidable = false;
 	bool playerSpawn = false;
-	bool enemySpawn = false;
+	bool mirror = false;
+	bool door = false;
+	bool target = false;
+	bool lightSource = false;
+	float angle = 0;
 };
 
 //change this function defined in tiled.cpp to match the properties you added

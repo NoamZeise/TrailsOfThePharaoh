@@ -1,8 +1,10 @@
 #ifndef FREE_CAMERA_H
 #define FREE_CAMERA_H
 
-#ifndef GLFW_INCLUDE_VULKAN
-#define GLFW_INCLUDE_VULKAN
+#ifdef GFX_ENV_VULKAN
+	#ifndef GLFW_INCLUDE_VULKAN
+		#define GLFW_INCLUDE_VULKAN
+	#endif
 #endif
 #include <GLFW/glfw3.h>
 #ifndef GLM_FORCE_DEPTH_ZERO_TO_ONE
@@ -30,7 +32,7 @@ namespace Camera
 		FirstPerson(glm::vec3 position);
 		glm::mat4 getViewMatrix();
 		float getZoom();
-		void update(Input &input, Input &prevInput, Timer &timer);
+		void update(Input::Raw &input, Input::Raw &prevInput, Timer &timer);
 
 
 	private:

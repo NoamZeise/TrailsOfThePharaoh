@@ -25,7 +25,7 @@ namespace Camera
 	}
 
 
-	void FirstPerson::update(Input &input, Input &prevInput, Timer &timer)
+	void FirstPerson::update(Input::Raw &input, Input::Raw &prevInput, Timer &timer)
 	{
 		viewUpdated = true;
 		//keyboard
@@ -149,8 +149,8 @@ namespace Camera
 
 			cameraArea = glm::vec4(-transform.x - correctedWidth/2, -transform.y - correctedHeight/2,
 									(correctedWidth), (correctedHeight));
-			offset = glm::translate(glm::mat4(1.0f), glm::vec3((int)(transform.x + correctedWidth/2),
-				 					(int)(transform.y + correctedHeight/2), 0));
+			offset = glm::translate(glm::mat4(1.0f), glm::vec3((int)(transform.x + correctedWidth/2.0f),
+				 					(int)(transform.y + correctedHeight/2.0f), 0));
 			previousOff = transform;
 		}
 

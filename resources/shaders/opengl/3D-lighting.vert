@@ -7,7 +7,7 @@ layout (location = 0) out vec2 outTexCoord;
 layout (location = 1) out vec3 outFragPos;
 layout (location = 2) out vec3 outNormal;
 
-const int MAX_3D_INSTANCE = 10000;
+const int MAX_3D_INSTANCE = 100;
 
 layout (std430, binding = 2) buffer perInstanceModelData
 {
