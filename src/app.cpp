@@ -63,7 +63,7 @@ App::~App()
 void App::loadAssets()
 {
   testFont = mRender->LoadFont("textures/Roboto-Black.ttf");
-  testMap = Map("maps/testMap.tmx", mRender, testFont);
+  testMap = Level("maps/testMap.tmx", mRender, testFont);
   testSprite = Sprite(mRender->LoadTexture("textures/error.png"), glm::vec4(0, 0, 10, 10));
   testButton = Button(Sprite(mRender->LoadTexture("textures/error.png"), glm::vec4(100, 100, 400, 150)), false);
 

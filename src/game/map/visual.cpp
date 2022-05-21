@@ -1,10 +1,13 @@
-#include "map.h"
+#include "level.h"
 
-Map::Map(std::string filename, Render* render, Resource::Font mapFont)
+
+namespace Map
 {
+
+Visual::Visual(tiled::Map map, Render* render, Resource::Font mapFont)
+{
+  this->map = map;
 	this->mapFont = mapFont;
-	map = tiled::Map(filename);
-	mapRect = glm::vec4(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
 	tileMats.resize(map.layers.size());
 	toDraw.resize(map.width * map.height);
@@ -18,24 +21,6 @@ Map::Map(std::string filename, Render* render, Resource::Font mapFont)
 				tileMats[i].push_back(glmhelper::calcMatFromRect(tileRects[index], 0, 0.0f + (float)i/10.0f));
 			index++;
 		}
-
-
-	int layerIndex = -1;
-	for(const auto &layer: map.layers)
-	{
-		layerIndex++;
-		if(layer.props.collidable)
-		{
-			size_t i = 0;
-			for(unsigned int y = 0; y < map.height; y++)
-				for(unsigned int x = 0; x < map.width; x++)
-				{
-					if(layer.data[i] != 0 && layer.props.collidable)
-						colliders.push_back(glm::vec4(x * map.tileWidth, y * map.tileHeight, map.tileWidth, map.tileHeight));
-					i++;
-				}
-		}
-	}
 
 
 	tiles.resize(map.totalTiles + 1);
@@ -55,15 +40,6 @@ Map::Map(std::string filename, Render* render, Resource::Font mapFont)
 			}
 	}
 
-	for(const auto &objGroup: map.objectGroups)
-	{
-		for(const auto &obj: objGroup.objs)
-		{
-			if(obj.props.collidable || objGroup.props.collidable)
-				colliders.push_back(glm::vec4(obj.x, obj.y, obj.w, obj.h));
-		}
-	}
-
 	for(const auto &txt: map.texts)
 	{
 		mapTexts.push_back(
@@ -75,21 +51,17 @@ Map::Map(std::string filename, Render* render, Resource::Font mapFont)
 				txt.pixelSize));
 	}
 
-	colliders.push_back(glm::vec4(-100, -100, 100, mapRect.w + 100));
-	colliders.push_back(glm::vec4(mapRect.z, -100, 100, mapRect.w + 100));
 }
 
 
-void Map::Update(glm::vec4 cameraRect, Timer &timer)
+void Visual::Update(glm::vec4 cameraRect, Timer &timer, std::vector<glm::vec4> *activeColliders)
 {
-	lastCamRect = cameraRect;
-
 	for(auto &txt: mapTexts)
 	{
 		txt.toDraw = gh::colliding(txt.rect, cameraRect);
 	}
 
-	currentFrameColliders.clear();
+  activeColliders->clear();
 	toDraw.clear();
 	for(unsigned int tile = 0; tile < tileRects.size(); tile++)
 		if(gh::colliding(cameraRect, tileRects[tile]))
@@ -99,21 +71,14 @@ void Map::Update(glm::vec4 cameraRect, Timer &timer)
 					toDraw.push_back(TileDraw(tiles[map.layers[layer].data[tile]].texture, tileMats[layer][tile], tiles[map.layers[layer].data[tile]].tileRect));
 					if(map.layers[layer].props.collidable)
 					{
-						currentFrameColliders.push_back(tileRects[tile]);
+						activeColliders->push_back(tileRects[tile]);
 					}
 					break; //only draw top layer tile of each tileRect
 				}
-
 }
 
-void Map::Draw(Render *render)
+void Visual::Draw(Render *render)
 {
-	#ifdef SEE_COLLIDERS
-	for(const auto &rect: colliders)
-	{
-		render.DrawQuad(Resource::Texture(), glmhelper::calcMatFromRect(rect, 0, 5.0f), glm::vec4(1.0f));
-	}
-	#endif
 	for(auto &txt: mapTexts)
 	{
 		//render->DrawQuad(Resource::Texture(), glmhelper::calcMatFromRect(txt.rect, 0, -5.0f));
@@ -122,9 +87,10 @@ void Map::Draw(Render *render)
 				glm::vec2(txt.pos.x, txt.pos.y),
 				 txt.pixelSize, 0, txt.colour, 0.0f);
 	}
-
 	for(unsigned int i = 0; i < toDraw.size(); i++)
 	{
 		render->DrawQuad(toDraw[i].tex, toDraw[i].tileMat, glm::vec4(1.0f), toDraw[i].texOffset);
 	}
+}
+
 }

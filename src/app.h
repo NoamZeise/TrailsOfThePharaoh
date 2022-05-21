@@ -33,7 +33,7 @@
 
 #include "camera.h"
 
-#include "game/map/map.h"
+#include "game/map/level.h"
 #include "game/sprites/sprite.h"
 #include "game/sprites/UI/button.h"
 
@@ -83,7 +83,7 @@ private:
   float scale  = 1.0f;
 
   Resource::Font testFont;
-  Map testMap;
+  Level testMap;
   Sprite testSprite;
   Button testButton;
 
