@@ -53,8 +53,6 @@ namespace Camera
 		void calculateVectors();
 	};
 
-	float getOffset(float target, float focus, float roomPos, float roomSize);
-
 	const unsigned int CAM2D_FLOAT = 100;
 	class RoomFollow2D
 	{
@@ -71,8 +69,8 @@ namespace Camera
 
 		void Target(glm::vec2 focus, Timer &timer);
 
-		void setZoom(float val) { zoom = val; }
-
+		void setScale(float val) { scale = val; }
+		float getScale() { return scale; }
 
 		glm::mat4 getViewMat()
 		{
@@ -104,6 +102,9 @@ namespace Camera
 
 		glm::vec4 currentRoom = glm::vec4(0);
 	private:
+
+		float getOffset(float target, float focus, float roomPos, float roomSize);
+
 		glm::mat4 offset = glm::mat4(1.0f);
 		std::vector<glm::vec4> cameraRects;
 		glm::vec4 mapRect =  glm::vec4(0);
@@ -112,7 +113,7 @@ namespace Camera
 		glm::vec2 previousOff = glm::vec2(0);
 
 		glm::vec4 cameraArea = glm::vec4(0);
-		float zoom = 1.0f;
+		float scale = 1.0f;
 	};
 
 }	//namesapce end

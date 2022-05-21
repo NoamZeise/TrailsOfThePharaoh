@@ -41,7 +41,7 @@ public:
   	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   }
 	void set3DViewMatrixAndFov(glm::mat4 view, float fov);
-	void set2DViewMatrix(glm::mat4 view);
+	void set2DViewMatrixAndScale(glm::mat4 view, float scale);
 
 	Resource::Texture LoadTexture(std::string filepath);
   Resource::Model LoadModel(std::string filepath);
@@ -92,6 +92,7 @@ private:
 
   glm::mat4 proj2D;
   glm::mat4 view2D;
+	float scale = 1.0f;
 
   glm::mat4 proj3D;
   glm::mat4 view3D;

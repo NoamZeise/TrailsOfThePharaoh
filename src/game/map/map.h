@@ -9,7 +9,7 @@
 #include "tiled.h"
 #include <timer.h>
 #include <glmhelper.h>
-#include "../renderer-include.h"
+#include "../../renderer-include.h"
 #include <gamehelper.h>
 
 #ifndef GLM_FORCE_DEPTH_ZERO_TO_ONE

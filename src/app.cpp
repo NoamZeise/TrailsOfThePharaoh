@@ -49,7 +49,6 @@ App::App()
   loadAssets();
   camera.setCameraMapRect(testMap.getMapRect());
 
-  audioManager.Play("audio/test.wav", true, 0.5f);
   finishedDrawSubmit = true;
 }
 
@@ -125,9 +124,13 @@ void App::update()
     target.x -= camspeed * timer.FrameElapsed();
   if(input.Keys[GLFW_KEY_RIGHT])
     target.x += camspeed * timer.FrameElapsed();
+  if(input.Keys[GLFW_KEY_EQUAL])
+    scale -=  0.001f * timer.FrameElapsed();
+  if(input.Keys[GLFW_KEY_MINUS])
+    scale +=  0.001f * timer.FrameElapsed();
 
+  camera.setScale(scale);
   camera.Target(target, timer);
-
   testMap.Update(camera.getCameraArea(), timer);
 
   postUpdate();
@@ -143,7 +146,7 @@ void App::update()
 
 void App::postUpdate()
 {
-  mRender->set2DViewMatrix(camera.getViewMat());
+  mRender->set2DViewMatrixAndScale(camera.getViewMat(), camera.getScale());
   previousInput = input;
   input.offset = 0;
   timer.Update();

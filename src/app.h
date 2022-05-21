@@ -33,7 +33,7 @@
 
 #include "camera.h"
 
-#include "game/map.h"
+#include "game/map/map.h"
 
 //#define TIME_APP_DRAW_UPDATE
 //#define MULTI_UPDATE_ON_SLOW_DRAW
@@ -76,6 +76,7 @@ private:
 
   Camera::RoomFollow2D camera;
   glm::vec2 target = glm::vec2(0, 0);
+  float scale  = 1.0f;
 
   Resource::Texture testTex;
   Resource::Font testFont;

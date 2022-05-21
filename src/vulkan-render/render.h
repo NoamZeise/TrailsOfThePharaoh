@@ -41,7 +41,7 @@ public:
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   }
   void set3DViewMatrixAndFov(glm::mat4 view, float fov);
-  void set2DViewMatrix(glm::mat4 view);
+  void set2DViewMatrixAndScale(glm::mat4 view, float scale);
   void restartResourceLoad();
   Resource::Texture LoadTexture(std::string filepath);
   Resource::Font LoadFont(std::string filepath);
@@ -122,6 +122,7 @@ private:
   Resource::Texture currentTexture;
   glm::vec4 currentTexOffset = glm::vec4(0, 0, 1, 1);
   glm::vec4 currentColour = glm::vec4(1, 1, 1, 1);
+  float scale2D = 1.0f;
 
   unsigned int instance2Druns = 0;
   unsigned int current2DInstanceIndex = 0;

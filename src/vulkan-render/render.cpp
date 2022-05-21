@@ -392,8 +392,8 @@ void Render::Begin2DDraw() {
     correction = xCorrection;
   }
   mVP2D.data[0].proj = glm::ortho(
-      0.0f, (float)mSwapchain.offscreenExtent.width / correction, 0.0f,
-      (float)mSwapchain.offscreenExtent.height / correction, -10.0f, 10.0f);
+      0.0f, (float)mSwapchain.offscreenExtent.width*scale2D / correction, 0.0f,
+      (float)mSwapchain.offscreenExtent.height*scale2D / correction, -10.0f, 10.0f);
 
   mVP2D.storeData(mImg);
 
@@ -638,9 +638,10 @@ void Render::set3DViewMatrixAndFov(glm::mat4 view, float fov)
   _updateViewProjectionMatrix();
 }
 
-void Render::set2DViewMatrix(glm::mat4 view)
+void Render::set2DViewMatrixAndScale(glm::mat4 view, float scale)
 {
   mVP2D.data[0].view = view;
+  scale2D = scale;
 }
 
 void Render::FramebufferResize() { mFramebufferResized = true; }

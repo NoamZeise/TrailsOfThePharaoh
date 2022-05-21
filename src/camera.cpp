@@ -74,7 +74,7 @@ namespace Camera
 		_up = glm::normalize(glm::cross(_right, _front));
 	}
 
-	float getOffset(float target, float focus, float roomPos, float roomSize)
+	float RoomFollow2D::getOffset(float target, float focus, float roomPos, float roomSize)
 	{
 		if(target > roomSize)
 				return -roomSize/2 -roomPos;
@@ -93,6 +93,8 @@ namespace Camera
 	void RoomFollow2D::Target(glm::vec2 focus, Timer &timer)
 		{
 
+			int correctedWidth = settings::TARGET_WIDTH*scale;
+			int correctedHeight = settings::TARGET_HEIGHT*scale;
 			glm::vec2 transform = glm::vec2(0);
 
 			if(mapRect.z == 0 && cameraRects.size() == 0)
@@ -102,8 +104,8 @@ namespace Camera
 			}
 			else if(cameraRects.size() == 0)
 			{
-				transform.x = getOffset(settings::TARGET_WIDTH, focus.x, mapRect.x, mapRect.z);
-				transform.y = getOffset(settings::TARGET_HEIGHT, focus.y, mapRect.y, mapRect.w);
+				transform.x = getOffset(correctedWidth, focus.x, mapRect.x, mapRect.z);
+				transform.y = getOffset(correctedHeight, focus.y, mapRect.y, mapRect.w);
 			}
 			else
 			{
@@ -127,14 +129,14 @@ namespace Camera
 				{
 					if (newRect != currentRect)
 						currentRect = newRect;
-					transform.x = getOffset(settings::TARGET_WIDTH, focus.x, currentRect.x, currentRect.z);
-					transform.y = getOffset(settings::TARGET_HEIGHT, focus.y, currentRect.y, currentRect.w);
+					transform.x = getOffset(correctedWidth, focus.x, currentRect.x, currentRect.z);
+					transform.y = getOffset(correctedHeight, focus.y, currentRect.y, currentRect.w);
 				}
 
 				if(mapRect != glm::vec4(0))
 				{
-					transform.x = getOffset(settings::TARGET_WIDTH, -transform.x, mapRect.x, mapRect.z);
-					transform.y = getOffset(settings::TARGET_HEIGHT, -transform.y, mapRect.y, mapRect.w);
+					transform.x = getOffset(correctedWidth, -transform.x, mapRect.x, mapRect.z);
+					transform.y = getOffset(correctedHeight, -transform.y, mapRect.y, mapRect.w);
 				}
 			}
 
@@ -145,11 +147,10 @@ namespace Camera
 			transform = previousOff;
 			}
 
-			cameraArea = glm::vec4(-transform.x - (settings::TARGET_WIDTH/zoom)/2, -transform.y - (settings::TARGET_HEIGHT/zoom)/2,
-									(settings::TARGET_WIDTH/zoom), (settings::TARGET_HEIGHT/zoom));
-			offset = glm::translate(glm::mat4(1.0f), glm::vec3((int)(transform.x + (settings::TARGET_WIDTH/zoom)/2),
-				 					(int)(transform.y + (settings::TARGET_HEIGHT/zoom)/2), 0));
-			offset = glm::scale(offset, glm::vec3(zoom, zoom, 1));
+			cameraArea = glm::vec4(-transform.x - correctedWidth/2, -transform.y - correctedHeight/2,
+									(correctedWidth), (correctedHeight));
+			offset = glm::translate(glm::mat4(1.0f), glm::vec3((int)(transform.x + correctedWidth/2),
+				 					(int)(transform.y + correctedHeight/2), 0));
 			previousOff = transform;
 		}
 
