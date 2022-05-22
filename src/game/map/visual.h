@@ -1,7 +1,7 @@
 #ifndef MAP_VISUAL_H
 #define MAP_VISUAL_H
 
-#include "../../renderer-include.h"
+#include "../../renderer-include.h"g
 #include  "../../glm-include.h"
 #include "tiled.h"
 #include <timer.h>
