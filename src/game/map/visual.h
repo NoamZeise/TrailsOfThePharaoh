@@ -1,13 +1,12 @@
 #ifndef MAP_VISUAL_H
 #define MAP_VISUAL_H
 
-
+#include "../../renderer-include.h"
+#include  "../../glm-include.h"
 #include "tiled.h"
 #include <timer.h>
 #include <glmhelper.h>
-#include "../../renderer-include.h"
 #include <gamehelper.h>
-#include  "../../glm-include.h"
 
 namespace Map
 {

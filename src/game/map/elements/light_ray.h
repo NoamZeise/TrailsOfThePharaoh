@@ -3,11 +3,12 @@
 
 #include <vector>
 
+#include "../../../renderer-include.h"
+#include "../../../glm-include.h"
+
 #include <glmhelper.h>
 #include <gamehelper.h>
 #include <input.h>
-#include "../../../glm-include.h"
-#include "../../../renderer-include.h"
 
 class LightRay
 {

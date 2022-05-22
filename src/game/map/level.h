@@ -6,17 +6,18 @@
 #include <string>
 #include <iostream>
 
+#include "../../renderer-include.h"
+#include  "../../glm-include.h"
 #include "tiled.h"
 #include <timer.h>
 #include <input.h>
-#include <glmhelper.h>
-#include "../../renderer-include.h"
-#include <gamehelper.h>
-#include  "../../glm-include.h"
 
 #include "logical.h"
 #include "visual.h"
 #include "elements/light_ray.h"
+
+#include <glmhelper.h>
+#include <gamehelper.h>
 
 //#define SEE_COLLIDERS
 
