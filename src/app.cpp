@@ -138,11 +138,7 @@ void App::update()
 
   camera.setScale(scale);
   camera.Target(target, timer);
-  testMap.Update(camera.getCameraArea(), timer);
-  testButton.Update(camera.getCameraArea(), controls, scale);
-
-  testSprite.setRect(glm::vec4(controls.MousePos().x, controls.MousePos().y, 10, 10));
-  testSprite.Update(camera.getCameraArea());
+  testMap.Update(camera.getCameraArea(), timer, controls);
 
   postUpdate();
 
@@ -183,9 +179,6 @@ void App::draw()
 
   testMap.Draw(mRender);
 
-  testButton.Draw(mRender);
-
-  testSprite.Draw(mRender);
 
 
 #ifdef GFX_ENV_VULKAN

@@ -33,7 +33,7 @@ void TextureLoader::UnloadTextures()
 	vkDestroySampler(base.device, textureSampler, nullptr);
 	vkFreeMemory(base.device, memory, nullptr);
 
-	textures.clear(); 
+	textures.clear();
 }
 
 Texture TextureLoader::LoadTexture(std::string path)
@@ -45,7 +45,9 @@ Texture TextureLoader::LoadTexture(std::string path)
 	{
 		if(texToLoad[i].path == path)
 		{
-			std::cout << "texture at " << path << " has already been set to load" << std::endl;
+			#ifndef NDEBUG
+				std::cout << "texture at " << path << " has already been set to load" << std::endl;
+			#endif
 			return Texture(i, glm::vec2(texToLoad[i].width, texToLoad[i].height), path);
 		}
 	}

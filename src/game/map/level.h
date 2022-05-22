@@ -8,6 +8,7 @@
 
 #include "tiled.h"
 #include <timer.h>
+#include <input.h>
 #include <glmhelper.h>
 #include "../../renderer-include.h"
 #include <gamehelper.h>
@@ -24,7 +25,7 @@ class Level
 public:
 Level() {}
 Level(std::string filename, Render* render, Resource::Font mapFont);
-void Update(glm::vec4 cameraRect, Timer &timer);
+void Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls);
 void Draw(Render *render);
 
 glm::vec4 getMapRect() { return logical.mapRect; }

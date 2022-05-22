@@ -13,13 +13,13 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 }
 
 
-void Level::Update(glm::vec4 cameraRect, Timer &timer)
+void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls)
 {
 	lastCamRect = cameraRect;
 	visual.Update(cameraRect, timer, &activeColliders);
 	for(auto &ray : rays)
 	{
-		ray.Update(mirrors, cameraRect);
+		ray.Update(logical.mirrors, logical.colliders, cameraRect, controls);
 	}
 }
 

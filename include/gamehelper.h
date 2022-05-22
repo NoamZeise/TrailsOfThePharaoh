@@ -1,6 +1,11 @@
 #ifndef GAME_HELPER_H
 #define GAME_HELPER_H
 
+#ifdef  GFX_ENV_VULKAN
+	#ifndef  GLM_FORCE_DEPTH_ZERO_TO_ONE
+		#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+	#endif
+#endif
 #include <glm/glm.hpp>
 #include <string>
 #include <stdio.h>
@@ -9,23 +14,23 @@
 
 namespace gh
 {
-	static bool colliding(glm::vec4 a, glm::vec4 b)
+	inline static bool colliding(glm::vec4 a, glm::vec4 b)
 	{
 		return  a.x < b.x + b.z &&
-				a.x + a.z > b.x && 
+				a.x + a.z > b.x &&
 				a.y < b.y + b.w &&
 				a.y + a.w > b.y;
 	}
 
-	static bool aInB(glm::vec4 a, glm::vec4 b)
+	inline static bool aInB(glm::vec4 a, glm::vec4 b)
 	{
 		return a.x > b.x && a.x < b.x + b.z &&
 				a.y > b.y && a.y < b.y + b.z;
 	}
 
-	static bool contains(glm::vec2 p, glm::vec4 r)
+	inline static bool contains(glm::vec2 p, glm::vec4 r)
 	{
-		return r.x < p.x && p.x < r.x + r.z  && r.y < p.y && p.y < r.y + r.w;   
+		return r.x < p.x && p.x < r.x + r.z  && r.y < p.y && p.y < r.y + r.w;
 	}
 
 	inline static bool exists (const std::string& name) {
@@ -34,8 +39,13 @@ namespace gh
         return true;
     } else {
         return false;
-    } 
-	}  
+    }
+	}
+
+	inline static float distance(glm::vec2 p1, glm::vec2 p2)
+	{
+		return sqrt(((p1.x - p2.x) * (p1.x - p2.x)) + ((p1.y - p2.y) * (p1.y - p2.y)));
+	}
 
 class Random
 {
@@ -60,7 +70,7 @@ private:
 	std::uniform_real_distribution<float> posReal;
 	std::uniform_real_distribution<float> real;
 };
-	
+
 
 
 } //end namespace
