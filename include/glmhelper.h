@@ -40,8 +40,8 @@ inline glm::vec4 getTextureOffset(glm::vec4 drawArea, glm::vec4 textureArea)
 	glm::vec4 offset = glm::vec4(0, 0, 1, 1);
 	offset.x = -(textureArea.x) / drawArea.z;
 	offset.y = -(textureArea.y) / drawArea.w;
-	offset.z = drawArea.z / textureArea.z;
-	offset.w = drawArea.w / textureArea.w;
+	offset.z = (drawArea.z / textureArea.z);
+	offset.w = (drawArea.w / textureArea.w);
 
 	return offset;
 }

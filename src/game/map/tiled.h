@@ -77,6 +77,9 @@ struct Tileset
 	unsigned int tileCount;
 	unsigned int columns;
 
+	unsigned int margin = 0;
+	unsigned int spacing = 0;
+
 	std::string imageSource;
 	unsigned int imageWidth;
 	unsigned int imageHeight;

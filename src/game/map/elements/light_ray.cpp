@@ -32,17 +32,18 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
   glm::vec2 sourceVec = glm::vec2(this->source.x + this->source.z/2, this->source.y + this->source.w/2);
   glm::vec2 currentPos = sourceVec;
   float currentAngle = angle;
-  glm::vec2 deltaStep = glm::vec2(cos(glm::radians(currentAngle)), sin(glm::radians(currentAngle))) / 2.0f;
+  glm::vec2 deltaStep = glm::vec2(cos(glm::radians(currentAngle)), sin(glm::radians(currentAngle))) * 1.0f;
   int reflections = 0;
+  int steps = 0;
   while(true)
   {
     if(reflections > 10)
       break;
     currentPos += deltaStep;
-    float dist = gh::distance(sourceVec, currentPos);
-    if(dist > 1000)
+    steps++;
+    if(steps > 2000)
     {
-      lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec, dist, thickness), currentAngle, 1.0f, false));
+      lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec, gh::distance(sourceVec, currentPos), thickness), currentAngle, 1.0f, false));
       break;
     }
     bool struck = false;
@@ -51,7 +52,7 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
     {
       if(gh::contains(currentPos, m))
       {
-        lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec, dist, thickness), currentAngle, 1.0f, false));
+        lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec,gh::distance(sourceVec, currentPos), thickness), currentAngle, 1.0f, false));
         if(gh::contains(glm::vec2(currentPos.x - deltaStep.x, currentPos.y), m))//flat hit
         {
           deltaStep.y *= -1;
@@ -65,6 +66,7 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
         currentPos += deltaStep;
         reflected = true;
         reflections++;
+        steps = 0;
         break;
       }
     }
@@ -75,7 +77,7 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
 
         if(gh::contains(currentPos, c))
         {
-          lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec, dist, thickness), currentAngle, 1.0f, false));
+          lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec, gh::distance(sourceVec, currentPos), thickness), currentAngle, 1.0f, false));
           struck = true;
           break;
         }

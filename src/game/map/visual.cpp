@@ -30,13 +30,13 @@ Visual::Visual(tiled::Map map, Render* render, Resource::Font mapFont)
 	{
 		Resource::Texture tex = render->LoadTexture(tileset.imageSource);
 		unsigned int id = tileset.firstTileID;
-		for(unsigned int y = 0; y < tileset.imageHeight / tileset.tileHeight; y++)
+		for(unsigned int y = 0; y < tileset.tileCount / tileset.columns; y++)
 			for(unsigned int x = 0; x < tileset.columns; x++)
 			{
 				tiles[id] = Tile();
 				tiles[id].texture = tex;
 				tiles[id++].tileRect = glmhelper::calcTexOffset(glm::vec2(tileset.imageWidth, tileset.imageHeight),
-					glm::vec4(x * tileset.tileWidth, y * tileset.tileHeight, tileset.tileWidth, tileset.tileHeight));
+					glm::vec4(tileset.margin + (x * (tileset.tileWidth + tileset.spacing)), tileset.margin + ( y * (tileset.tileHeight + tileset.spacing)), tileset.tileWidth, tileset.tileHeight));
 			}
 	}
 

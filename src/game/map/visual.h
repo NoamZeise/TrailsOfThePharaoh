@@ -8,6 +8,8 @@
 #include <glmhelper.h>
 #include <gamehelper.h>
 
+#include <iostream>
+
 namespace Map
 {
 

@@ -103,11 +103,18 @@ Tileset::Tileset(std::string filename)
 	if(tilesetInfo == nullptr)
 		throw std::runtime_error("tileset at " + filename + " has no tileset node");
 
+
+std::cout << "here" << std::endl;
 	this->name = tilesetInfo->first_attribute("name")->value();
 	this->tileWidth = std::atoi(tilesetInfo->first_attribute("tilewidth")->value());
 	this->tileHeight = std::atoi(tilesetInfo->first_attribute("tileheight")->value());
 	this->tileCount = std::atoi(tilesetInfo->first_attribute("tilecount")->value());
 	this->columns = std::atoi(tilesetInfo->first_attribute("columns")->value());
+
+	if(tilesetInfo->first_attribute("spacing"))
+		this->spacing  = std::atoi(tilesetInfo->first_attribute("spacing")->value());
+	if(tilesetInfo->first_attribute("margin"))
+		this->margin  = std::atoi(tilesetInfo->first_attribute("margin")->value());
 
 	auto imageInfo = tilesetInfo->first_node("image");
 	if(imageInfo == nullptr)
