@@ -20,7 +20,7 @@ struct Logical
     glm::vec4 rect;
     float angle;
   };
-  
+
   void SetPropsWithTiledMap(tiled::Map &map)
   {
     mapRect = glm::vec4(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
@@ -74,6 +74,8 @@ struct Logical
     }
 
     colliders.push_back(glm::vec4(-100, -100, 100, mapRect.w + 100));
+    colliders.push_back(glm::vec4(0, -100, mapRect.z, 90));
+    colliders.push_back(glm::vec4(0, mapRect.w, mapRect.z, 100));
     colliders.push_back(glm::vec4(mapRect.z, -100, 100, mapRect.w + 100));
   }
 

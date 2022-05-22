@@ -40,7 +40,7 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
       break;
     currentPos += deltaStep;
     float dist = gh::distance(sourceVec, currentPos);
-    if(dist > 100)
+    if(dist > 1000)
     {
       lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec, dist, thickness), currentAngle, 1.0f, false));
       break;
