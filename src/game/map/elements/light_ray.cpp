@@ -33,11 +33,14 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
   glm::vec2 currentPos = sourceVec;
   float currentAngle = angle;
   glm::vec2 deltaStep = glm::vec2(cos(glm::radians(currentAngle)), sin(glm::radians(currentAngle))) / 2.0f;
+  int reflections = 0;
   while(true)
   {
+    if(reflections > 10)
+      break;
     currentPos += deltaStep;
     float dist = gh::distance(sourceVec, currentPos);
-    if(dist > 3000)
+    if(dist > 100)
     {
       lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec, dist, thickness), currentAngle, 1.0f, false));
       break;
@@ -61,6 +64,7 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
         sourceVec = currentPos;
         currentPos += deltaStep;
         reflected = true;
+        reflections++;
         break;
       }
     }
