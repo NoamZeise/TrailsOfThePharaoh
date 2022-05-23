@@ -73,16 +73,16 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
     {
       auto mirrorPoints = t.getMirrorPoints();
       float normal = fmod(t.getAngle() + 90.0f, 360.0f);
+      if(abs(normal - currentAngle) <= 90.0f || abs(normal  - currentAngle) >= 270.0f)
+        normal = fmod(normal + 180.0f, 360.0f);
       auto p1 =  glm::vec2(mirrorPoints.x, mirrorPoints.y);
       auto p2 =  glm::vec2(mirrorPoints.z, mirrorPoints.w);
       auto correction = glmhelper::getVectorFromAngle(normal) * t.getThickness()/2.0f;
-      p1 -= correction;
-      p2 -= correction;
+      p1 += correction;
+      p2 += correction;
       if(gh::linesCross(sourceVec, currentPos, p1, p2))
       {
         addRay(sourceVec, currentPos, currentAngle);
-        if(abs(normal - currentAngle) <= 90.0f || abs(normal  - currentAngle) >= 270.0f)
-          normal = fmod(normal + 180.0f, 360.0f);
         float incidence = (currentAngle) - normal;
         currentAngle -=  incidence*2;
         currentAngle += 180.0f;
@@ -102,7 +102,6 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
       {
         if(gh::contains(currentPos, c))
         {
-        //            std::cout  <<  "collided\n";
           addRay(sourceVec, currentPos, currentAngle);
           struck = true;
           break;
@@ -116,8 +115,11 @@ void LightRay::calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> 
 
 void LightRay::addRay(glm::vec2 sourceVec, glm::vec2 currentPos, float currentAngle)
 {
-  const float THICKNESS = 10.0f;
+  const float THICKNESS = 4.0f;
   glm::vec2 correction = glmhelper::getVectorFromAngle(currentAngle - 90.0f) * THICKNESS/2.0f;
-  std::cout << "correction: x:" << correction.x << "   y: " << correction.y << std::endl;
-  lightRayModels.push_back(glmhelper::calcMatFromRect(glm::vec4(sourceVec.x + correction.x, sourceVec.y + correction.y, gh::distance(sourceVec, currentPos), THICKNESS), currentAngle, 5.0f, false));
+  //std::cout << "correction: x:" << correction.x << "   y: " << correction.y << std::endl;
+  lightRayModels.push_back(
+    glmhelper::calcMatFromRect(
+      glm::vec4(sourceVec.x + correction.x, sourceVec.y + correction.y, gh::distance(sourceVec, currentPos), THICKNESS),
+      currentAngle, 1.0f, false));
 }

@@ -28,8 +28,7 @@ private:
 
   bool calculatedThisFrame = false;
   glm::vec4 mirrorPoints;
-
-  glm::vec2 prevMouse;
+  
   bool selected = false;
   bool changed = false;
 };

@@ -84,7 +84,7 @@ private:
 
   Resource::Font testFont;
   Level testMap;
-  Sprite testSprite;
+  Sprite cursor;
   Button testButton;
 
 };

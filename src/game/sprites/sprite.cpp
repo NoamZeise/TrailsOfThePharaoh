@@ -7,6 +7,13 @@ Sprite::Sprite(Resource::Texture texture, glm::vec4 drawRect, float depth)
   this->depth = depth;
 }
 
+Sprite::Sprite(Resource::Texture texture, float depth)
+{
+  this->texture = texture;
+  this->drawRect = glm::vec4(0, 0, texture.dim.x, texture.dim.y);
+  this->depth = depth;
+}
+
 void Sprite::Update(glm::vec4 camRect)
 {
   toDraw = gh::colliding(camRect, drawRect);

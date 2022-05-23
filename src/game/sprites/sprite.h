@@ -12,6 +12,7 @@ class Sprite
 public:
   Sprite() {}
   Sprite(Resource::Texture texture, glm::vec4 drawRect, float depth);
+  Sprite(Resource::Texture texture, float depth);
   virtual void Update(glm::vec4 camRect);
   void Draw(Render *render);
   glm::vec4 getDrawRect() { return drawRect; }

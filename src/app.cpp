@@ -30,7 +30,7 @@ App::App()
   glfwSetScrollCallback(mWindow, scroll_callback);
   glfwSetKeyCallback(mWindow, key_callback);
   glfwSetMouseButtonCallback(mWindow, mouse_button_callback);
-  glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+  glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
   glfwSetInputMode(mWindow, GLFW_RAW_MOUSE_MOTION, glfwRawMouseMotionSupported());
 
   int width = mWindowWidth;
@@ -64,7 +64,7 @@ void App::loadAssets()
 {
   testFont = mRender->LoadFont("textures/Roboto-Black.ttf");
   testMap = Level("maps/testMap.tmx", mRender, testFont);
-  testSprite = Sprite(mRender->LoadTexture("textures/error.png"), glm::vec4(0, 0, 10, 10), 5.0f);
+  cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.0f);
   testButton = Button(Sprite(mRender->LoadTexture("textures/error.png"), glm::vec4(100, 100, 400, 150), 5.0f), false);
 
   mRender->EndResourceLoad();
@@ -140,6 +140,11 @@ void App::update()
   camera.Target(target, timer);
   testMap.Update(camera.getCameraArea(), timer, controls);
 
+  auto cursorRect = cursor.getDrawRect();
+  cursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
+  cursor.Update(camera.getCameraArea());
+
+
   postUpdate();
 
 #ifdef TIME_APP_DRAW_UPDATE
@@ -179,7 +184,7 @@ void App::draw()
 
   testMap.Draw(mRender);
 
-
+  cursor.Draw(mRender);
 
 #ifdef GFX_ENV_VULKAN
   submitDraw =

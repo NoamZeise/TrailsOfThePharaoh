@@ -99,16 +99,16 @@ void Logical::setTilterAngles()
     switch(direction)
     {
       case 0:
-        tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z/2, tilter.rect.y);
+        tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z/2, tilter.rect.y + tilter.rect.w/5);
         break;
       case 1:
-        tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z, tilter.rect.y + tilter.rect.w/2);
+        tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z - tilter.rect.z/5, tilter.rect.y + tilter.rect.w/2);
         break;
       case 2:
-        tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z/2, tilter.rect.y + tilter.rect.w);
+        tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z/2, tilter.rect.y + tilter.rect.w - + tilter.rect.w/5);
         break;
       case 3:
-        tilter.pivot = glm::vec2(tilter.rect.x, tilter.rect.y + tilter.rect.w/2);
+        tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z/5, tilter.rect.y + tilter.rect.w/2);
         break;
     }
   }
