@@ -138,7 +138,7 @@ void App::update()
 
   camera.setScale(scale);
   camera.Target(target, timer);
-  testMap.Update(camera.getCameraArea(), timer);
+  testMap.Update(camera.getCameraArea(), timer, controls);
 
   postUpdate();
 

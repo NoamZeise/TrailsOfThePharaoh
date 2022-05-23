@@ -6,19 +6,32 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 	logical.SetPropsWithTiledMap(map);
 	visual = Map::Visual(map, render, mapFont);
 
-	for(auto &ray  : logical.raySources)
+	for(const auto &ray  : logical.raySources)
 	{
 		rays.push_back(LightRay(render->LoadTexture("textures/pixel.png"), ray.rect, ray.angle));
+	}
+
+	Resource::Texture mirror = render->LoadTexture("textures/level/mirror.png");
+	for(const auto &tilter : logical.tilters)
+	{
+		Resource::Texture baseTexture;
+		glm::vec4 baseOffset;
+		visual.getTilesetTexAndOffset(tilter.tile, &baseTexture, &baseOffset);
+		tilters.push_back(Tilter(Sprite(baseTexture, tilter.rect, 1.0f), baseOffset, Sprite(mirror, glm::vec4(0), 5.0f), tilter.pivot, tilter.initialAngle));
 	}
 }
 
 
-void Level::Update(glm::vec4 cameraRect, Timer &timer)
+void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls)
 {
 	visual.Update(cameraRect, timer, &activeColliders);
+	for(auto &tilter : tilters)
+	{
+		tilter.Update(cameraRect, controls);
+	}
 	for(auto &ray : rays)
 	{
-		ray.Update(logical.mirrors, logical.colliders, cameraRect);
+		ray.Update(logical.mirrors, logical.colliders, tilters, cameraRect);
 	}
 }
 
@@ -35,5 +48,9 @@ void Level::Draw(Render *render)
 	for(auto &ray : rays)
 	{
 		ray.Draw(render);
+	}
+	for(auto& tilter : tilters)
+	{
+		tilter.Draw(render);
 	}
 }

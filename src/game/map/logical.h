@@ -31,6 +31,7 @@ struct Logical
     }
     glm::vec4 rect;
     glm::vec2 pivot;
+    float  initialAngle;
     int tile;
   };
 

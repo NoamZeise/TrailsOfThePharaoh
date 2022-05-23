@@ -20,6 +20,7 @@ namespace Map
   Visual(tiled::Map map, Render* render, Resource::Font mapFont);
   void Update(glm::vec4 cameraRect, Timer &timer, std::vector<glm::vec4> *activeColliders);
   void Draw(Render *render);
+  void getTilesetTexAndOffset(int tileID, Resource::Texture *tilesetTexture, glm::vec4 *texOffset);
 
   private:
 

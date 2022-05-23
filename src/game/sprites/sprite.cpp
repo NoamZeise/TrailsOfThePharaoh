@@ -13,7 +13,7 @@ void Sprite::Update(glm::vec4 camRect)
   if(changed)
   {
     changed = false;
-    model = glmhelper::getModelMatrix(drawRect, depth, rotation);
+    model = glmhelper::getModelMatrix(drawRect, rotation, depth);
   }
 }
 
@@ -21,6 +21,6 @@ void Sprite::Draw(Render *render)
 {
   if(toDraw)
   {
-    render->DrawQuad(texture, model, colour);
+    render->DrawQuad(texture, model, colour, texOffset);
   }
 }

@@ -78,6 +78,11 @@ inline glm::vec4 calcTexOffset(glm::vec2 texDim, glm::vec4 section)
 	return glm::vec4(section.x / texDim.x, section.y / texDim.y, section.z / texDim.x, section.w /  texDim.y);
 }
 
+inline glm::vec2 getVectorFromAngle(float angle)
+{
+	return  glm::vec2(cos(glm::radians(angle)), sin(glm::radians(angle)));
+}
+
 }//namespace end
 
 #endif

@@ -93,4 +93,10 @@ void Visual::Draw(Render *render)
 	}
 }
 
+void Visual::getTilesetTexAndOffset(int tileID, Resource::Texture *tilesetTexture, glm::vec4 *texOffset)
+{
+  *tilesetTexture = tiles[tileID].texture;
+  *texOffset = tiles[tileID].tileRect;
+}
+
 }

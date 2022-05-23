@@ -90,18 +90,12 @@ void Logical::getTileData(tiled::Map &map)
 
 void Logical::setTilterAngles()
 {
-  int minTile = 0;
-  for(const auto &tilter: tilters)
-  {
-    if(minTile == 0 || tilter.tile < minTile)
-    {
-      minTile = tilter.tile;
-    }
-  }
+  int minTile = 6; //TODO: get without hardcoding?
   //assuming tilter tilemap order -> 0:Up, 1:Right, 2:Down, 3:Left
   for(auto &tilter : tilters)
   {
     int direction  = tilter.tile - minTile;
+    tilter.initialAngle = direction * 90.0f;
     switch(direction)
     {
       case 0:
