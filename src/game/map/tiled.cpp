@@ -284,11 +284,10 @@ Map::Map(std::string filename)
 
 			auto w = objectInfo->first_attribute("width");
 			auto h = objectInfo->first_attribute("height");
-			if(w != nullptr && h != nullptr)
-			{
+			if(w != nullptr)
 				fillObj->w = std::atof(w->value());
+			if(h != nullptr)
 				fillObj->h = std::atof(h->value());
-			}
 
 		}
 	}

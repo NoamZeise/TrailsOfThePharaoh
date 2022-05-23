@@ -114,8 +114,8 @@ public:
 
 	unsigned int width;
 	unsigned int height;
-	unsigned int tileWidth;
-	unsigned int tileHeight;
+	unsigned int tileWidth = 0;
+	unsigned int tileHeight = 0;
 	unsigned int totalTiles;
 
 	std::vector<Tileset> tilesets;

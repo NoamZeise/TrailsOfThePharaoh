@@ -12,11 +12,6 @@ void Logical::SetPropsWithTiledMap(tiled::Map &map)
   getTileData(map);
 
   setTilterAngles();
-
-  colliders.push_back(glm::vec4(-100, -100, 100, mapRect.w + 100));
-  colliders.push_back(glm::vec4(0, -100, mapRect.z, 90));
-  colliders.push_back(glm::vec4(0, mapRect.w, mapRect.z, 100));
-  colliders.push_back(glm::vec4(mapRect.z, -100, 100, mapRect.w + 100));
 }
 
 void Logical::getObjGroupData(tiled::Map &map)

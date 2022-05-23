@@ -15,18 +15,39 @@
 class LightRay
 {
 public:
-  LightRay(Resource::Texture pixel, glm::vec4 source, float angle);
-  void Update(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> &colliders, std::vector<Tilter> &tilters, glm::vec4 cameraRect);
+
+  struct LightElements
+  {
+    LightElements(glm::vec2 p1, glm::vec2 p2, float thickness, bool reflective);
+    void Update(glm::vec2 p1, glm::vec2 p2);
+    void correctNormal();
+    glm::vec2 p1;
+    glm::vec2 p2;
+    float normal;
+    float thickness;
+    bool changed;
+    bool reflective;
+  };
+
+  LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int staticLinesOffset);
+  void Update(std::vector<LightElements> &lightElems);
   void Draw(Render *render);
 
 private:
-
-  void calcPath(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> &colliders, std::vector<Tilter> &tilters);
-  void addRay(glm::vec2 sourceVec, glm::vec2 currentPos, float currentAngle);
+  struct Ray
+  {
+    Ray(int p1I, int p2I) { this->p1Index = p1I; this->p2Index = p2I; }
+    int p1Index = 0;
+    int p2Index = 0;
+  };
+  void calcPath(std::vector<LightElements> &lightElems);
+  void addRay(glm::vec2 sourceVec, glm::vec2 currentPos, float currentAngle, int p1I, int p2I);
   Resource::Texture pixel;
   glm::vec4 source;
   float angle;
   std::vector<glm::mat4> lightRayModels;
+  std::vector<Ray> lightRayInfo;
+  int staticLinesOffset = 0;
 };
 
 

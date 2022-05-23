@@ -43,6 +43,8 @@ private:
 	std::vector<LightRay> rays;
 	std::vector<Tilter> tilters;
 
+	int staticLinesOffset = 0;
+	std::vector<LightRay::LightElements> lines;
 };
 
 
