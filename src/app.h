@@ -80,7 +80,7 @@ private:
 
   Camera::RoomFollow2D camera;
   glm::vec2 target = glm::vec2(0, 0);
-  float scale  = 1.0f;
+  float scale  = 2.0f;
 
   Resource::Font testFont;
   Level testMap;

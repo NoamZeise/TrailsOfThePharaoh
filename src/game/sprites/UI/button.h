@@ -11,11 +11,11 @@ class Button
 public:
   Button() {}
   Button(Sprite sprite, bool isStatic) { this->sprite = sprite; this->initialRect = sprite.getDrawRect(); this->isStatic = isStatic; }
-  void Update(glm::vec4 camRect, Input::Controls &input, float scale);
-  void Draw(Render *render) { sprite.Draw(render); }
+  virtual  void Update(glm::vec4 camRect, Input::Controls &input, float scale);
+  virtual void Draw(Render *render) { sprite.Draw(render); }
   bool Clicked()  { return !prevClicked && clicked; }
 
-private:
+protected:
   Sprite sprite;
   bool prevClicked = false;
   bool clicked = false;

@@ -1,15 +1,20 @@
 #include "sprite.h"
 
-Sprite::Sprite(Resource::Texture texture, glm::vec4 drawRect)
+Sprite::Sprite(Resource::Texture texture, glm::vec4 drawRect, float depth)
 {
   this->texture = texture;
   this->drawRect = drawRect;
+  this->depth = depth;
 }
 
 void Sprite::Update(glm::vec4 camRect)
 {
-  toDraw = gh::colliding(camRect,  drawRect);
-  model = glmhelper::getModelMatrix(drawRect, 0.0f, 0.0f);
+  toDraw = gh::colliding(camRect, drawRect);
+  if(changed)
+  {
+    changed = false;
+    model = glmhelper::getModelMatrix(drawRect, depth, rotation);
+  }
 }
 
 void Sprite::Draw(Render *render)

@@ -168,7 +168,7 @@ void Render::EndDraw(std::atomic<bool>& submit)
   int drawCount = 0;
   for(unsigned int i = 0; i < current2DDraw; i++)
   {
-    if((currentTexture.ID != draw2DCalls[i].tex.ID || currentColour != draw2DCalls[i].colour) && drawCount > 0)
+    if(drawCount >= MAX_2D_BATCH || ((currentTexture.ID != draw2DCalls[i].tex.ID || currentColour != draw2DCalls[i].colour) && drawCount > 0))
     {
       draw2DBatch(drawCount, currentTexture, currentColour);
       drawCount = 0;
@@ -270,6 +270,10 @@ void Render::DrawQuad(Resource::Texture texture, glm::mat4 modelMatrix, glm::vec
   if(current2DDraw < MAX_2D_DRAWS)
   {
     draw2DCalls[current2DDraw++] = Draw2D(texture, modelMatrix, colour, texOffset);
+  }
+  else
+  {
+    std::cerr << "No more 2D draws available"  << std::endl;
   }
 }
 

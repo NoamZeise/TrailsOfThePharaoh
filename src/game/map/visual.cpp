@@ -73,7 +73,7 @@ void Visual::Update(glm::vec4 cameraRect, Timer &timer, std::vector<glm::vec4> *
 					{
 						activeColliders->push_back(tileRects[tile]);
 					}
-					break; //only draw top layer tile of each tileRect
+					//break; //only draw top layer tile of each tileRect
 				}
 }
 

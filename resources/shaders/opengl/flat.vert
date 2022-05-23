@@ -5,7 +5,7 @@ layout (location = 1) in vec2 inTexCoords;
 out vec2 TexCoords;
 flat out int instanceID;
 
-const int MAX_2D_INSTANCE = 450;
+const int MAX_2D_INSTANCE = 100;
 
 layout (std430, binding = 4) buffer perInstanceModelData
 {

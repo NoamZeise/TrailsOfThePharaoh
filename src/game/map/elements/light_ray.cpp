@@ -7,12 +7,8 @@ LightRay::LightRay(Resource::Texture pixel, glm::vec4 source, float angle)
   this->angle = angle;
 }
 
-void LightRay::Update(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> &colliders, glm::vec4 cameraRect, Input::Controls &controls)
+void LightRay::Update(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> &colliders, glm::vec4 cameraRect)
 {
-  if(controls.Up())
-    angle += 0.05f;
-  if(controls.Down())
-    angle -= 0.05f;
   calcPath(mirrors, colliders);
 }
 

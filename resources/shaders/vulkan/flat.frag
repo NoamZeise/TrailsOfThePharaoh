@@ -15,7 +15,7 @@ layout(set = 3, binding = 0) readonly buffer PerInstanceBuffer {
     vec4 colour;
     vec4 texOffset;
     uint texID;
-} pib[450];
+} pib[2000];
 
 layout(location = 0) in vec3 inTexCoord;
 layout(location = 1) in vec3 inVertPos;

@@ -8,6 +8,7 @@
 
 #include "../../renderer-include.h"
 #include  "../../glm-include.h"
+#include "../sprites/sprite.h"
 #include "tiled.h"
 #include <timer.h>
 #include <input.h>
@@ -15,6 +16,7 @@
 #include "logical.h"
 #include "visual.h"
 #include "elements/light_ray.h"
+#include "elements/tilter.h"
 
 #include <glmhelper.h>
 #include <gamehelper.h>
@@ -26,7 +28,7 @@ class Level
 public:
 Level() {}
 Level(std::string filename, Render* render, Resource::Font mapFont);
-void Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls);
+void Update(glm::vec4 cameraRect, Timer &timer);
 void Draw(Render *render);
 
 glm::vec4 getMapRect() { return logical.mapRect; }
@@ -39,8 +41,8 @@ private:
 	std::vector<glm::vec4> activeColliders;
 	std::vector<glm::vec4> mirrors;
 	std::vector<LightRay> rays;
+	std::vector<Tilter> tilters;
 
-	glm::vec4 lastCamRect;
 };
 
 

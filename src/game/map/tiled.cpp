@@ -73,6 +73,24 @@ Properties fillPropStruct(rapidxml::xml_node<> *propertiesNode)
 		{
 			props.angle = std::stof(value);
 		}
+		else if(name == "goal")
+		{
+			if(value == "true")
+				props.goal = true;
+			else if(value == "false")
+				props.goal = false;
+			else
+				std::cout << "WARNING: property " << name << " did not have true or false value!" << std::endl;
+		}
+		else if(name == "tilter")
+		{
+			if(value == "true")
+				props.tilter = true;
+			else if(value == "false")
+				props.tilter = false;
+			else
+				std::cout << "WARNING: property " << name << " did not have true or false value!" << std::endl;
+		}
 
 		//INSERT CUSTOM PROEPRTIES HERE
 
@@ -103,8 +121,6 @@ Tileset::Tileset(std::string filename)
 	if(tilesetInfo == nullptr)
 		throw std::runtime_error("tileset at " + filename + " has no tileset node");
 
-
-std::cout << "here" << std::endl;
 	this->name = tilesetInfo->first_attribute("name")->value();
 	this->tileWidth = std::atoi(tilesetInfo->first_attribute("tilewidth")->value());
 	this->tileHeight = std::atoi(tilesetInfo->first_attribute("tileheight")->value());

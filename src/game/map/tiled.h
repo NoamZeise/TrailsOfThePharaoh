@@ -30,6 +30,8 @@ struct Properties
 	bool target = false;
 	bool lightSource = false;
 	float angle = 0;
+	bool goal = false;
+	bool tilter = false;
 };
 
 //change this function defined in tiled.cpp to match the properties you added

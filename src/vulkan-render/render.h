@@ -30,7 +30,7 @@
 #include "vkinit.h"
 
 const size_t MAX_3D_INSTANCE = 100;
-const size_t MAX_2D_INSTANCE = 450;
+const size_t MAX_2D_INSTANCE = 2000;
 
 class Render {
 public:

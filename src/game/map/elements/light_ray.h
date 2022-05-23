@@ -14,7 +14,7 @@ class LightRay
 {
 public:
   LightRay(Resource::Texture pixel, glm::vec4 source, float angle);
-  void Update(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> &colliders, glm::vec4 cameraRect, Input::Controls &controls);
+  void Update(std::vector<glm::vec4> &mirrors, std::vector<glm::vec4> &colliders, glm::vec4 cameraRect);
   void Draw(Render *render);
 
 private:
