@@ -38,7 +38,7 @@ void Logical::getObjGroupData(tiled::Map &map)
         playerSpawn = glm::vec4(obj.x, obj.y, obj.w, obj.h);
 
       if(obj.props.goal ||  objGroup.props.goal)
-        raySources.push_back(glm::vec4(obj.x, obj.y, obj.w, obj.h));
+        goal = glm::vec4(obj.x, obj.y, obj.w, obj.h);
     }
   }
 }

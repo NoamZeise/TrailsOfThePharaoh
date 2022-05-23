@@ -43,6 +43,7 @@ struct Logical
   std::vector<glm::vec4> goals;
 	glm::vec4  playerSpawn;
   glm::vec4  mapRect;
+  glm::vec4 goal;
 
 private:
   void getObjGroupData(tiled::Map &map);
