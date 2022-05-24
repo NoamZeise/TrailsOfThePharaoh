@@ -87,6 +87,7 @@ private:
   Sprite cursor;
   Button testButton;
 
+  bool won = false;
 };
 
 #endif

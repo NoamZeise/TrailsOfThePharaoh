@@ -38,9 +38,9 @@ glm::vec4 getMapRect() { return logical.mapRect; }
 bool complete() { return goal.isOn(); }
 
 private:
-	void setLineObjects(Render *render);
+	void setLineObjects(Render *render, Sprite rayBoxOn, Sprite rayBoxOff);
 	void tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls);
-	void rayDependantUpdate();
+	void rayDependantUpdate(glm::vec4 cameraRect);
 
 	void addRectLine(glm::vec4 rect, bool reflective);
 

@@ -1,15 +1,24 @@
 #include "light_ray.h"
 
-LightRay::LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int staticLinesOffset)
+LightRay::LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int staticLinesOffset, Sprite rayBoxOn, Sprite rayBoxOff)
 {
   this->pixel = pixel;
   this->source = source;
   this->angle = angle;
   this->staticLinesOffset = staticLinesOffset;
+
+  this->rayBoxOn = rayBoxOn;
+  this->rayBoxOn.setRect(source);
+  this->rayBoxOn.setRotation(angle);
+  this->rayBoxOff = rayBoxOff;
+  this->rayBoxOff.setRect(source);
+  this->rayBoxOff.setRotation(angle);
 }
 
-void LightRay::Update(std::vector<LightElements> &lightElems)
+void LightRay::Update(std::vector<LightElements> &lightElems, glm::vec4 camRect)
 {
+  rayBoxOff.Update(camRect);
+  rayBoxOn.Update(camRect);
   if(!on)
   {
     wasOff = true;
@@ -28,6 +37,11 @@ void LightRay::Draw(Render *render)
   {
     render->DrawQuad(pixel, ray, glm::vec4(1.0f, 1.0f, 0.2f, 2.0f));
   }
+
+  if(on)
+    rayBoxOn.Draw(render);
+  else
+    rayBoxOff.Draw(render);
 }
 
 void LightRay::calcPath(std::vector<LightElements> &lightElems)

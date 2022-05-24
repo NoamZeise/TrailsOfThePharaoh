@@ -47,6 +47,7 @@ App::App()
     glfwSetWindowAspectRatio(mWindow, width, height);
 
   loadAssets();
+  target = glm::vec2(testMap.getMapRect().x + testMap.getMapRect().z/2, testMap.getMapRect().y + testMap.getMapRect().w/2);
   camera.setCameraMapRect(testMap.getMapRect());
 
   finishedDrawSubmit = true;
@@ -144,11 +145,11 @@ void App::update()
   cursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
   cursor.Update(camera.getCameraArea());
 
-  /*if(testMap.complete())
-    std::cout << "complete" << std::endl;
+  if(testMap.complete())
+    won = true;
   else
-    std::cout << "incomplete" << std::endl;
-*/
+    won = false;
+
   postUpdate();
 
 #ifdef TIME_APP_DRAW_UPDATE
@@ -189,6 +190,9 @@ void App::draw()
   testMap.Draw(mRender);
 
   cursor.Draw(mRender);
+
+if(won)
+  mRender->DrawString(testFont, "LEVEL COMPLETE", glm::vec2(500, 500), 200.0f, 3.0f, glm::vec4(1.0f));
 
 #ifdef GFX_ENV_VULKAN
   submitDraw =

@@ -1,22 +1,21 @@
 #ifndef RAY_SWITCH_H
 #define RAY_SWITCH_H
 
-#include "light_ray.h"
+#include "light_switch.h"
 
-class RaySwitch
+class RaySwitch : public LightSwitch
 {
 public:
-  RaySwitch(LightRay ray, bool on, int switchLineIndex)
+  RaySwitch(LightRay ray, bool on, int switchLineIndex, glm::vec4 rect, Sprite onSprite, Sprite offSprite)
+    : LightSwitch(on, switchLineIndex, 4, rect, onSprite, offSprite)
   {
     this->lightRay = ray;
-    this->naturalOn = on;
     this->lightRay.setOn(on);
-    this->switchLineIndex = switchLineIndex;
   }
 
-  void Update(std::vector<LightRay::LightElements> &lightElems)
+  void Update(std::vector<LightRay::LightElements> &lightElems, glm::vec4 camRect) override
   {
-    lightRay.Update(lightElems);
+    lightRay.Update(lightElems, camRect);
     bool hit = false;
     for(int i = switchLineIndex; i < switchLineIndex + 4; i++)
       if(lightElems[i].lightHit)
@@ -27,20 +26,23 @@ public:
       }
 
     if(hit)
-      lightRay.setOn(!naturalOn);
+      on = !naturalOn;
     else
-      lightRay.setOn(naturalOn);
+      on = naturalOn;
+
+    lightRay.setOn(on);
+
+    UpdateSprites(camRect);
   }
 
-  void Draw(Render *render)
+  void Draw(Render *render) override
   {
     lightRay.Draw(render);
+    LightSwitch::Draw(render);
   }
 
 private:
   LightRay lightRay;
-  bool naturalOn;
-  int switchLineIndex;
 };
 
 

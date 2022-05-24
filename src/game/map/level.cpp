@@ -20,11 +20,20 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 		}
 	}
 
-	setLineObjects(render);
+	auto rayBoxOn = Sprite(
+									render->LoadTexture("textures/level/rayStationOn.png"),
+									glm::vec4(1.0f),
+									1.1f);
+	auto rayBoxOff = Sprite(
+									render->LoadTexture("textures/level/rayStationOff.png"),
+									glm::vec4(1.0f),
+									1.1f);
+
+	setLineObjects(render, rayBoxOn, rayBoxOff);
 
 	for(const auto &ray  : logical.raySources)
 	{
-		rays.push_back(LightRay(render->LoadTexture("textures/pixel.png"), ray.rect, ray.angle, staticLinesOffset));
+		rays.push_back(LightRay(render->LoadTexture("textures/pixel.png"), ray.rect, ray.angle, staticLinesOffset, rayBoxOn, rayBoxOff));
 	}
 }
 
@@ -36,7 +45,7 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls
 	tilterUpdate(cameraRect, controls);
 
 	if(updatesSinceNotChanged < 2)
-		rayDependantUpdate();
+		rayDependantUpdate(cameraRect);
 
 	//only recalculate rays on change
 	if(!linesChanged)
@@ -85,7 +94,7 @@ void Level::tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls)
 	}
 }
 
-void Level::rayDependantUpdate()
+void Level::rayDependantUpdate(glm::vec4 cameraRect)
 {
 	for(auto &l: lines)
 	{
@@ -95,12 +104,12 @@ void Level::rayDependantUpdate()
 	}
 
 	for(auto &ray : rays)
-		ray.Update(lines);
+		ray.Update(lines, cameraRect);
 
 	for(auto& raySwitch : raySwitches)
-		raySwitch.Update(lines);
+		raySwitch.Update(lines, cameraRect);
 
-	goal.Update(lines);
+	goal.Update(lines, cameraRect);
 }
 
 void Level::Draw(Render *render)
@@ -130,10 +139,12 @@ void Level::Draw(Render *render)
 			render->DrawQuad(mirrorTex, LightRay::GetLineTransform(l.p1, l.p2, 8.0f, l.normal + 90.0f), glm::vec4(0.5f, 0.8f, 0.3f, 1.0f));
 	}
 
+	goal.Draw(render);
+
 }
 
 
-void Level::setLineObjects(Render *render)
+void Level::setLineObjects(Render *render, Sprite rayBoxOn, Sprite rayBoxOff)
 {
 		//set Lines
 
@@ -164,18 +175,30 @@ void Level::setLineObjects(Render *render)
 				toDrawLines.push_back(lines.back());
 			}
 
+		auto onSprite = Sprite(
+										render->LoadTexture("textures/level/lightBoxOn.png"),
+										glm::vec4(1.0f),
+										1.1f);
+		auto offSprite = Sprite(
+										render->LoadTexture("textures/level/lightBoxOff.png"),
+										glm::vec4(1.0f),
+										1.1f);
+
 		int prevIndex = lines.size();
 		addRectLine(logical.goal, false);
-		goal = LightSwitch(false, prevIndex, 4);
+		goal = LightSwitch(false, prevIndex, 4, logical.goal, onSprite, offSprite);
 
 		for(const auto &switches: logical.switchRays)
 		{
 			int prevIndex = lines.size();
 			addRectLine(switches.box, false);
 			raySwitches.push_back(RaySwitch(
-					LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size()),
+					LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size(), rayBoxOn, rayBoxOff),
 					switches.on,
-					prevIndex
+					prevIndex,
+					switches.box,
+					onSprite,
+					offSprite
 				)
 			);
 		}
