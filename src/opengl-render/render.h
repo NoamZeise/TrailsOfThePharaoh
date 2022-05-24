@@ -26,7 +26,7 @@
 const int MAX_2D_DRAWS = 2000;
 const int MAX_3D_DRAWS = 100;
 
-const int MAX_2D_BATCH = 200;
+const int MAX_2D_BATCH = 1000;
 const int MAX_3D_BATCH = 100;
 
 class Render
