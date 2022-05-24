@@ -37,8 +37,6 @@ glm::vec4 getMapRect() { return logical.mapRect; }
 
 private:
 
-	void setRectLines(glm::vec4 rect);
-
 	Map::Logical logical;
 	Map::Visual visual;
 
@@ -53,6 +51,9 @@ private:
 	std::vector<LightRay::LightElements> toDrawLines;
 
 	Resource::Texture mirrorTex;
+
+	bool linesChanged = true;
+	int updatesSinceNotChanged = 0;
 };
 
 

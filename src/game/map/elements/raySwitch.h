@@ -6,23 +6,23 @@
 class RaySwitch
 {
 public:
-  RaySwitch(LightRay ray, glm::vec4 rect, bool on, std::vector<LightRay::LightElements*> switchLines)
+  RaySwitch(LightRay ray, glm::vec4 rect, bool on, int switchLineIndex)
   {
     this->lightRay = ray;
     this->naturalOn = on;
     this->lightRay.setOn(on);
-    this->switchLines = switchLines;
+    this->switchLineIndex = switchLineIndex;
   }
 
   void Update(std::vector<LightRay::LightElements> &lightElems)
   {
     lightRay.Update(lightElems);
     bool hit = false;
-    for(auto &line: switchLines)
-      if(line->lightHit)
+    for(int i = switchLineIndex; i < switchLineIndex + 4; i++)
+      if(lightElems[i].lightHit)
       {
-        for(int i = 0;  i  < line->hitSource.size(); i++)
-          if(!lightRay.hasRay(line->hitSource[i], line->hitDest[i]))
+        for(int j = 0;  j  < lightElems[i].hitSource.size(); j++)
+          if(!lightRay.hasRay(lightElems[i].hitSource[j], lightElems[i].hitDest[j]))
             hit = true;
       }
 
@@ -40,7 +40,7 @@ public:
 private:
   LightRay lightRay;
   bool naturalOn;
-  std::vector<LightRay::LightElements*> switchLines;
+  int switchLineIndex;
 };
 
 

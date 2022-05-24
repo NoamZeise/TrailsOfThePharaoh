@@ -51,24 +51,73 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 
 	for(const auto &switches: logical.switchRays)
 	{
-		setRectLines(switches.box);
-		std::vector<LightRay::LightElements*> switchElems;
-		for (int i = 1; i < 5; i++)
-		{
-			lines[lines.size() - i].isTarget = true;
-			switchElems.push_back(&lines[lines.size() - 1]);
-		}
+		int prevIndex = lines.size();
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					switches.box.x,
+					switches.box.y
+				),
+				glm::vec2(
+					switches.box.x + switches.box.z,
+					switches.box.y
+				),
+				0.0f,
+				false
+			)
+		);
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					switches.box.x,
+					switches.box.y
+				),
+				glm::vec2(
+					switches.box.x,
+					switches.box.y + switches.box.w
+				),
+				0.0f,
+				false
+			)
+		);
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					switches.box.x + switches.box.z,
+					switches.box.y + switches.box.w
+				),
+				glm::vec2(
+					switches.box.x + switches.box.z,
+					switches.box.y
+				),
+				0.0f,
+				false
+			)
+		);
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					switches.box.x + switches.box.z,
+					switches.box.y + switches.box.w
+				),
+				glm::vec2(
+					switches.box.x,
+					switches.box.y + switches.box.w
+				),
+				0.0f,
+				false
+			)
+		);
 		raySwitches.push_back(RaySwitch(
 				LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size()),
 				switches.box,
 				switches.on,
-				switchElems
+				prevIndex
 			)
 		);
 	}
 
 	staticLinesOffset = lines.size();
-
 
 	for(auto &tilterGroup: tilters)
 	{
@@ -122,14 +171,7 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls
 				}
 			}
 	}
-
-	bool changed = false;
-	for(auto &l: lines)
-	{
-		if(l.changed)
-			changed = true;
-	}
-	if(changed)
+	if(updatesSinceNotChanged < 2)
 	{
 		for(auto &l: lines)
 		{
@@ -145,6 +187,16 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls
 		{
 			raySwitch.Update(lines);
 		}
+	}
+	if(!linesChanged)
+		updatesSinceNotChanged++;
+	else
+		updatesSinceNotChanged = 0;
+	linesChanged = false;
+	for(auto &l: lines)
+	{
+		if(l.changed)
+			linesChanged = true;
 	}
 }
 
@@ -177,65 +229,4 @@ void Level::Draw(Render *render)
 			render->DrawQuad(mirrorTex, LightRay::GetLineTransform(l.p1, l.p2, 8.0f, l.normal + 90.0f), glm::vec4(0.5f, 0.8f, 0.3f, 1.0f));
 	}
 
-}
-
-
-void Level::setRectLines(glm::vec4 rect)
-{
-	lines.push_back(
-		LightRay::LightElements(
-			glm::vec2(
-				rect.x,
-				rect.y
-			),
-			glm::vec2(
-				rect.x + rect.z,
-				rect.y
-			),
-			0.0f,
-			false
-		)
-	);
-	lines.push_back(
-		LightRay::LightElements(
-			glm::vec2(
-				rect.x,
-				rect.y
-			),
-			glm::vec2(
-				rect.x,
-				rect.y + rect.w
-			),
-			0.0f,
-			false
-		)
-	);
-	lines.push_back(
-		LightRay::LightElements(
-			glm::vec2(
-				rect.x + rect.z,
-				rect.y + rect.w
-			),
-			glm::vec2(
-				rect.x + rect.z,
-				rect.y
-			),
-			0.0f,
-			false
-		)
-	);
-	lines.push_back(
-		LightRay::LightElements(
-			glm::vec2(
-				rect.x + rect.z,
-				rect.y + rect.w
-			),
-			glm::vec2(
-				rect.x,
-				rect.y + rect.w
-			),
-			0.0f,
-			false
-		)
-	);
 }

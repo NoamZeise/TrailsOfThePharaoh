@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="10" nextobjectid="21">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="10" nextobjectid="22">
  <tileset firstgid="1" source="tempTileset.tsx"/>
  <layer id="1" name="bg" width="30" height="30">
   <data encoding="csv">
@@ -146,7 +146,7 @@
    <property name="collidable" type="bool" value="true"/>
   </properties>
   <object id="6" x="448" y="640">
-   <polygon points="0,0 576,-384 960,-320 576,320"/>
+   <polygon points="384.848,-239.394 960.848,-623.394 960,-320 1185.09,-176.97"/>
   </object>
   <object id="11" x="128" y="1024" width="192"/>
   <object id="12" x="320" y="1024" height="256"/>
@@ -163,6 +163,9 @@
   </properties>
   <object id="7" x="1088" y="1280">
    <polyline points="0,0 576,-448"/>
+  </object>
+  <object id="21" x="1664" y="832">
+   <polyline points="0,0 -267.03,-289.576"/>
   </object>
  </objectgroup>
 </map>
