@@ -43,10 +43,15 @@ public:
     sprite.setColour(colour);
   }
 private:
+
+  float getMouseAngle(Input::Controls &controls);
+
   Sprite mirror;
   glm::vec2 pivot;
   float angle;
   glm::vec2 initialAngleVector;
+
+  float prevMouseAngle;
 
   bool calculatedThisFrame = false;
   glm::vec4 mirrorPoints;

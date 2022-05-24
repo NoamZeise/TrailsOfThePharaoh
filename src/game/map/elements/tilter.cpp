@@ -30,6 +30,7 @@ Tilter::Tilter(Sprite base, glm::vec4 texOffset, Sprite mirror, glm::vec2 pivot,
       else if(!prevClicked)
       {
         selected = true;
+        prevMouseAngle = getMouseAngle(input);
       }
     }
 
@@ -41,9 +42,17 @@ Tilter::Tilter(Sprite base, glm::vec4 texOffset, Sprite mirror, glm::vec2 pivot,
       }
       else
       {
-        auto pos = glm::normalize(input.MousePos() - pivot);
-        auto newAngle  = glm::degrees(atan2(pos.y, pos.x)) + 90.0f;
-        changedAngle = newAngle - angle;
+        auto mouseAngle = getMouseAngle(input);
+        if(abs(mouseAngle - prevMouseAngle) > 330)
+        {
+          if(mouseAngle > prevMouseAngle)
+            prevMouseAngle += 360.0f;
+          else
+            prevMouseAngle -= 360.0f;
+        }
+
+        changedAngle = (mouseAngle - prevMouseAngle) * 0.1f; //slow rotation
+        prevMouseAngle = mouseAngle;
         offsetAngle(changedAngle);
       }
     }
@@ -76,4 +85,10 @@ glm::vec4 Tilter::getMirrorPoints()
   }
 
   return mirrorPoints;
+}
+
+float Tilter::getMouseAngle(Input::Controls &controls)
+{
+  auto pos = glm::normalize(controls.MousePos() - pivot);
+  return glm::degrees(atan2(pos.y, pos.x));
 }
