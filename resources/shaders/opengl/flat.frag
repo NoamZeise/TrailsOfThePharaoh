@@ -4,7 +4,7 @@ in vec2 TexCoords;
 flat in int instanceID;
 out vec4 colour;
 
-const int MAX_2D_INSTANCE = 200;
+const int MAX_2D_INSTANCE = 1000;
 
 layout (std430, binding = 5) buffer perInstanceTexOffsetData
 {
