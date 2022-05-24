@@ -20,115 +20,7 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 		}
 	}
 
-	//set Lines
-
-	for(const auto &rect: logical.colliders)
-	{
-		if(rect.z == 0)
-			lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.x, rect.y + rect.w), 0.0f, false));
-		if(rect.w == 0)
-			lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.x + rect.z, rect.y), 0.0f, false));
-	}
-	for(const auto &rect: logical.mirrors)
-	{
-		if(rect.z  == 0)
-			lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.x, rect.y + rect.w), 0.0f, true));
-		if(rect.w == 0)
-			lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.x + rect.z, rect.y), 0.0f, true));
-	}
-	for(const auto &points: logical.polyColliders)
-		for(int i = 1; i < points.size(); i++)
-		{
-			lines.push_back(LightRay::LightElements(points[i-1], points[i], 0.0f, false));
-			toDrawLines.push_back(lines.back());
-		}
-	for(const auto &points: logical.polyMirrors)
-		for(int i = 1; i < points.size(); i++)
-		{
-			lines.push_back(LightRay::LightElements(points[i-1], points[i], 0.0f, true));
-			toDrawLines.push_back(lines.back());
-		}
-
-	for(const auto &switches: logical.switchRays)
-	{
-		int prevIndex = lines.size();
-		lines.push_back(
-			LightRay::LightElements(
-				glm::vec2(
-					switches.box.x,
-					switches.box.y
-				),
-				glm::vec2(
-					switches.box.x + switches.box.z,
-					switches.box.y
-				),
-				0.0f,
-				false
-			)
-		);
-		lines.push_back(
-			LightRay::LightElements(
-				glm::vec2(
-					switches.box.x,
-					switches.box.y
-				),
-				glm::vec2(
-					switches.box.x,
-					switches.box.y + switches.box.w
-				),
-				0.0f,
-				false
-			)
-		);
-		lines.push_back(
-			LightRay::LightElements(
-				glm::vec2(
-					switches.box.x + switches.box.z,
-					switches.box.y + switches.box.w
-				),
-				glm::vec2(
-					switches.box.x + switches.box.z,
-					switches.box.y
-				),
-				0.0f,
-				false
-			)
-		);
-		lines.push_back(
-			LightRay::LightElements(
-				glm::vec2(
-					switches.box.x + switches.box.z,
-					switches.box.y + switches.box.w
-				),
-				glm::vec2(
-					switches.box.x,
-					switches.box.y + switches.box.w
-				),
-				0.0f,
-				false
-			)
-		);
-		raySwitches.push_back(RaySwitch(
-				LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size()),
-				switches.box,
-				switches.on,
-				prevIndex
-			)
-		);
-	}
-
-	staticLinesOffset = lines.size();
-
-	for(auto &tilterGroup: tilters)
-	{
-		for(auto &tilter:  tilterGroup)
-		{
-			auto rect = tilter.getMirrorPoints();
-			lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.z, rect.w), tilter.getThickness(), true));
-		}
-	}
-
-	//set light sources
+	setLineObjects(render);
 
 	for(const auto &ray  : logical.raySources)
 	{
@@ -141,6 +33,26 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls
 {
 	visual.Update(cameraRect, timer, &activeColliders);
 
+	tilterUpdate(cameraRect, controls);
+
+	if(updatesSinceNotChanged < 2)
+		rayDependantUpdate();
+
+	//only recalculate rays on change
+	if(!linesChanged)
+		updatesSinceNotChanged++;
+	else
+		updatesSinceNotChanged = 0;
+	linesChanged = false;
+	for(auto &l: lines)
+	{
+		if(l.changed)
+			linesChanged = true;
+	}
+}
+
+void Level::tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls)
+{
 	int lineOffsetIndex = 0;
 	for(auto &tilterGroup: tilters)
 	{
@@ -171,32 +83,23 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls
 				}
 			}
 	}
-	if(updatesSinceNotChanged < 2)
-	{
-		for(auto &l: lines)
-		{
-			l.hitSource.clear();
-			l.hitDest.clear();
-			l.lightHit = false;
-		}
-		for(auto &ray : rays)
-		{
-			ray.Update(lines);
-		}
-		for(auto& raySwitch : raySwitches)
-		{
-			raySwitch.Update(lines);
-		}
-	}
-	if(!linesChanged)
-		updatesSinceNotChanged++;
-	else
-		updatesSinceNotChanged = 0;
-	linesChanged = false;
+}
+
+void Level::rayDependantUpdate()
+{
 	for(auto &l: lines)
 	{
-		if(l.changed)
-			linesChanged = true;
+		l.hitSource.clear();
+		l.hitDest.clear();
+		l.lightHit = false;
+	}
+	for(auto &ray : rays)
+	{
+		ray.Update(lines);
+	}
+	for(auto& raySwitch : raySwitches)
+	{
+		raySwitch.Update(lines);
 	}
 }
 
@@ -230,3 +133,115 @@ void Level::Draw(Render *render)
 	}
 
 }
+
+
+	void Level::setLineObjects(Render *render)
+	{
+		//set Lines
+
+		for(const auto &rect: logical.colliders)
+		{
+			if(rect.z == 0)
+				lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.x, rect.y + rect.w), 0.0f, false));
+			if(rect.w == 0)
+				lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.x + rect.z, rect.y), 0.0f, false));
+		}
+		for(const auto &rect: logical.mirrors)
+		{
+			if(rect.z  == 0)
+				lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.x, rect.y + rect.w), 0.0f, true));
+			if(rect.w == 0)
+				lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.x + rect.z, rect.y), 0.0f, true));
+		}
+		for(const auto &points: logical.polyColliders)
+			for(int i = 1; i < points.size(); i++)
+			{
+				lines.push_back(LightRay::LightElements(points[i-1], points[i], 0.0f, false));
+				toDrawLines.push_back(lines.back());
+			}
+		for(const auto &points: logical.polyMirrors)
+			for(int i = 1; i < points.size(); i++)
+			{
+				lines.push_back(LightRay::LightElements(points[i-1], points[i], 0.0f, true));
+				toDrawLines.push_back(lines.back());
+			}
+
+		for(const auto &switches: logical.switchRays)
+		{
+			int prevIndex = lines.size();
+			lines.push_back(
+				LightRay::LightElements(
+					glm::vec2(
+						switches.box.x,
+						switches.box.y
+					),
+					glm::vec2(
+						switches.box.x + switches.box.z,
+						switches.box.y
+					),
+					0.0f,
+					false
+				)
+			);
+			lines.push_back(
+				LightRay::LightElements(
+					glm::vec2(
+						switches.box.x,
+						switches.box.y
+					),
+					glm::vec2(
+						switches.box.x,
+						switches.box.y + switches.box.w
+					),
+					0.0f,
+					false
+				)
+			);
+			lines.push_back(
+				LightRay::LightElements(
+					glm::vec2(
+						switches.box.x + switches.box.z,
+						switches.box.y + switches.box.w
+					),
+					glm::vec2(
+						switches.box.x + switches.box.z,
+						switches.box.y
+					),
+					0.0f,
+					false
+				)
+			);
+			lines.push_back(
+				LightRay::LightElements(
+					glm::vec2(
+						switches.box.x + switches.box.z,
+						switches.box.y + switches.box.w
+					),
+					glm::vec2(
+						switches.box.x,
+						switches.box.y + switches.box.w
+					),
+					0.0f,
+					false
+				)
+			);
+			raySwitches.push_back(RaySwitch(
+					LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size()),
+					switches.box,
+					switches.on,
+					prevIndex
+				)
+			);
+		}
+
+		staticLinesOffset = lines.size();
+
+		for(auto &tilterGroup: tilters)
+		{
+			for(auto &tilter:  tilterGroup)
+			{
+				auto rect = tilter.getMirrorPoints();
+				lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.z, rect.w), tilter.getThickness(), true));
+			}
+		}
+	}

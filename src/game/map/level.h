@@ -36,6 +36,9 @@ glm::vec4 getMapRect() { return logical.mapRect; }
 
 
 private:
+	void setLineObjects(Render *render);
+	void tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls);
+	void rayDependantUpdate();
 
 	Map::Logical logical;
 	Map::Visual visual;
