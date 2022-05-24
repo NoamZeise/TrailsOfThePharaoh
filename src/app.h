@@ -58,10 +58,13 @@ public:
 
 private:
   void loadAssets();
+  void loadMaps();
+
   void preUpdate();
   void update();
   void postUpdate();
   void draw();
+  void nextMap();
 
   glm::vec2 correctedPos(glm::vec2 pos);
   glm::vec2 correctedMouse();
@@ -82,12 +85,13 @@ private:
   glm::vec2 target = glm::vec2(0, 0);
   float scale  = 2.0f;
 
-  Resource::Font testFont;
-  Level testMap;
+  Resource::Font gameFont;
   Sprite cursor;
-  Button testButton;
 
-  bool won = false;
+  std::vector<Level> levels;
+  int currentLevel;
+
+  bool allLevelsComplete = false;
 };
 
 #endif

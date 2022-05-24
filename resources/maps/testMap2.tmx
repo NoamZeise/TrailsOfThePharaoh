@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="11" nextobjectid="27">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="45">
  <tileset firstgid="1" source="tempTileset.tsx"/>
  <layer id="1" name="bg" width="30" height="30">
   <data encoding="csv">
@@ -19,10 +19,10 @@
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
@@ -57,8 +57,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -92,7 +92,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -113,29 +113,63 @@
   <properties>
    <property name="switchLayer" type="bool" value="true"/>
   </properties>
-  <object id="1" x="192" y="256" width="64" height="64">
+  <object id="1" x="255.636" y="1089.33" width="64" height="64">
    <properties>
     <property name="On" type="bool" value="false"/>
     <property name="angle" type="float" value="90"/>
     <property name="lightSource" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="2" x="1280" y="832" width="64" height="64">
+  <object id="2" x="1086.06" y="1092.61" width="64" height="64">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="11" name="Copy of off ray">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="38" x="1000" y="960" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="90"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="39" x="1216.15" y="960" width="64" height="64">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="12" name="Copy of Copy of off ray">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="43" x="1000" y="960" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="270"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="44" x="1216.15" y="960" width="64" height="64">
    <properties>
     <property name="switch" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="7" name="startray">
-  <object id="19" x="1088" y="1536" width="64" height="64">
+  <object id="19" x="191.03" y="254.182" width="64" height="64">
    <properties>
-    <property name="angle" type="float" value="212.5"/>
+    <property name="angle" type="float" value="0"/>
     <property name="lightSource" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="8" name="goal">
-  <object id="20" x="621.091" y="180.242" width="64" height="64">
+  <object id="20" x="248.364" y="1592.36" width="64" height="64">
    <properties>
     <property name="goal" type="bool" value="true"/>
    </properties>
@@ -145,24 +179,29 @@
   <properties>
    <property name="collidable" type="bool" value="true"/>
   </properties>
-  <object id="6" x="448" y="640">
-   <polygon points="-18.1818,27.2727 576,-384 960,-320 391.152,413.939"/>
-  </object>
-  <object id="11" x="128" y="1024" width="192"/>
-  <object id="12" x="320" y="1024" height="256"/>
-  <object id="13" x="128" y="1280" width="192"/>
-  <object id="14" x="128" y="1024" height="256"/>
   <object id="15" x="64" y="64" width="1792"/>
   <object id="16" x="1856" y="64" height="1792"/>
   <object id="17" x="64" y="1856" width="1792"/>
   <object id="18" x="64" y="64" height="1792"/>
+  <object id="27" x="64" y="512">
+   <polyline points="0,0 1344,0 1344,384 0,384"/>
+  </object>
+  <object id="31" x="1472" y="1216">
+   <polyline points="384,0 0,0 0,640"/>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="mirrrors">
   <properties>
    <property name="mirror" type="bool" value="true"/>
   </properties>
-  <object id="7" x="1088" y="1280">
-   <polyline points="0,0 576,-448"/>
+  <object id="30" x="1472" y="128">
+   <polyline points="0,0 256,256"/>
+  </object>
+  <object id="32" x="896" y="896">
+   <polyline points="0,0 0,960"/>
+  </object>
+  <object id="40" x="256" y="1280">
+   <polyline points="0,0 384,384"/>
   </object>
  </objectgroup>
 </map>

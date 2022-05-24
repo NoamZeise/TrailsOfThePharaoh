@@ -47,8 +47,7 @@ App::App()
     glfwSetWindowAspectRatio(mWindow, width, height);
 
   loadAssets();
-  target = glm::vec2(testMap.getMapRect().x + testMap.getMapRect().z/2, testMap.getMapRect().y + testMap.getMapRect().w/2);
-  camera.setCameraMapRect(testMap.getMapRect());
+  nextMap();
 
   finishedDrawSubmit = true;
 }
@@ -63,12 +62,18 @@ App::~App()
 
 void App::loadAssets()
 {
-  testFont = mRender->LoadFont("textures/Roboto-Black.ttf");
-  testMap = Level("maps/testMap.tmx", mRender, testFont);
+  gameFont = mRender->LoadFont("textures/Roboto-Black.ttf");
   cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.0f);
-  testButton = Button(Sprite(mRender->LoadTexture("textures/error.png"), glm::vec4(100, 100, 400, 150), 5.0f), false);
-
+  loadMaps();
   mRender->EndResourceLoad();
+}
+
+void App::loadMaps()
+{
+  //1 less than desired level
+  currentLevel = 0;
+  levels.push_back(Level("maps/testMap.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/testMap2.tmx", mRender, gameFont));
 }
 
 void App::run()
@@ -139,16 +144,15 @@ void App::update()
 
   camera.setScale(scale);
   camera.Target(target, timer);
-  testMap.Update(camera.getCameraArea(), timer, controls);
+
+  levels[currentLevel].Update(camera.getCameraArea(), timer, controls);
+
+  if(levels[currentLevel].complete())
+    nextMap();
 
   auto cursorRect = cursor.getDrawRect();
   cursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
   cursor.Update(camera.getCameraArea());
-
-  if(testMap.complete())
-    won = true;
-  else
-    won = false;
 
   postUpdate();
 
@@ -170,6 +174,19 @@ void App::postUpdate()
   timer.Update();
 }
 
+void App::nextMap()
+{
+  currentLevel++;
+  if(currentLevel >= levels.size())
+  {
+    currentLevel--;
+    allLevelsComplete = true;
+  }
+  auto rect = levels[currentLevel].getMapRect();
+  target = glm::vec2(rect.x + rect.z/2, rect.y +  rect.w/2);
+  camera.setCameraMapRect(rect);
+}
+
 void App::draw()
 {
 #ifdef TIME_APP_DRAW_UPDATE
@@ -187,12 +204,12 @@ void App::draw()
 
   mRender->Begin2DDraw();
 
-  testMap.Draw(mRender);
+  levels[currentLevel].Draw(mRender);
 
   cursor.Draw(mRender);
 
-if(won)
-  mRender->DrawString(testFont, "LEVEL COMPLETE", glm::vec2(500, 500), 200.0f, 3.0f, glm::vec4(1.0f));
+  if(allLevelsComplete)
+    mRender->DrawString(gameFont, "GAME COMPLETE", glm::vec2(500, 500), 200.0f, 3.0f, glm::vec4(1.0f));
 
 #ifdef GFX_ENV_VULKAN
   submitDraw =
