@@ -93,23 +93,21 @@ void Level::rayDependantUpdate()
 		l.hitDest.clear();
 		l.lightHit = false;
 	}
+
 	for(auto &ray : rays)
-	{
 		ray.Update(lines);
-	}
+
 	for(auto& raySwitch : raySwitches)
-	{
 		raySwitch.Update(lines);
-	}
+
+	goal.Update(lines);
 }
 
 void Level::Draw(Render *render)
 {
 	#ifdef SEE_COLLIDERS
 	for(const auto &rect: logical.colliders)
-	{
 		render->DrawQuad(Resource::Texture(), glmhelper::calcMatFromRect(glm::vec4(rect.x, rect.y, rect.z + 10, rect.w + 10), 0, 5.0f), glm::vec4(1.0f));
-	}
 	#endif
 
 	visual.Draw(render);
@@ -135,8 +133,8 @@ void Level::Draw(Render *render)
 }
 
 
-	void Level::setLineObjects(Render *render)
-	{
+void Level::setLineObjects(Render *render)
+{
 		//set Lines
 
 		for(const auto &rect: logical.colliders)
@@ -166,68 +164,16 @@ void Level::Draw(Render *render)
 				toDrawLines.push_back(lines.back());
 			}
 
+		int prevIndex = lines.size();
+		addRectLine(logical.goal, false);
+		goal = LightSwitch(false, prevIndex, 4);
+
 		for(const auto &switches: logical.switchRays)
 		{
 			int prevIndex = lines.size();
-			lines.push_back(
-				LightRay::LightElements(
-					glm::vec2(
-						switches.box.x,
-						switches.box.y
-					),
-					glm::vec2(
-						switches.box.x + switches.box.z,
-						switches.box.y
-					),
-					0.0f,
-					false
-				)
-			);
-			lines.push_back(
-				LightRay::LightElements(
-					glm::vec2(
-						switches.box.x,
-						switches.box.y
-					),
-					glm::vec2(
-						switches.box.x,
-						switches.box.y + switches.box.w
-					),
-					0.0f,
-					false
-				)
-			);
-			lines.push_back(
-				LightRay::LightElements(
-					glm::vec2(
-						switches.box.x + switches.box.z,
-						switches.box.y + switches.box.w
-					),
-					glm::vec2(
-						switches.box.x + switches.box.z,
-						switches.box.y
-					),
-					0.0f,
-					false
-				)
-			);
-			lines.push_back(
-				LightRay::LightElements(
-					glm::vec2(
-						switches.box.x + switches.box.z,
-						switches.box.y + switches.box.w
-					),
-					glm::vec2(
-						switches.box.x,
-						switches.box.y + switches.box.w
-					),
-					0.0f,
-					false
-				)
-			);
+			addRectLine(switches.box, false);
 			raySwitches.push_back(RaySwitch(
 					LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size()),
-					switches.box,
 					switches.on,
 					prevIndex
 				)
@@ -244,4 +190,64 @@ void Level::Draw(Render *render)
 				lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.z, rect.w), tilter.getThickness(), true));
 			}
 		}
-	}
+}
+
+void Level::addRectLine(glm::vec4 rect, bool reflective)
+{
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					rect.x,
+					rect.y
+				),
+				glm::vec2(
+					rect.x + rect.z,
+					rect.y
+				),
+				0.0f,
+				reflective
+			)
+		);
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					rect.x,
+					rect.y
+				),
+				glm::vec2(
+					rect.x,
+					rect.y + rect.w
+				),
+				0.0f,
+				reflective
+			)
+		);
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					rect.x + rect.z,
+					rect.y + rect.w
+				),
+				glm::vec2(
+					rect.x + rect.z,
+					rect.y
+				),
+				0.0f,
+				reflective
+			)
+		);
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					rect.x + rect.z,
+					rect.y + rect.w
+				),
+				glm::vec2(
+					rect.x,
+					rect.y + rect.w
+				),
+				0.0f,
+				reflective
+			)
+		);
+}

@@ -6,7 +6,7 @@
 class RaySwitch
 {
 public:
-  RaySwitch(LightRay ray, glm::vec4 rect, bool on, int switchLineIndex)
+  RaySwitch(LightRay ray, bool on, int switchLineIndex)
   {
     this->lightRay = ray;
     this->naturalOn = on;

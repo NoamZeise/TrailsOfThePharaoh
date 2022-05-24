@@ -17,7 +17,8 @@
 #include "visual.h"
 #include "elements/light_ray.h"
 #include "elements/tilter.h"
-#include "elements/raySwitch.h"
+#include "elements/ray_switch.h"
+#include "elements/light_switch.h"
 
 #include <glmhelper.h>
 #include <gamehelper.h>
@@ -34,11 +35,14 @@ void Draw(Render *render);
 
 glm::vec4 getMapRect() { return logical.mapRect; }
 
+bool complete() { return goal.isOn(); }
 
 private:
 	void setLineObjects(Render *render);
 	void tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls);
 	void rayDependantUpdate();
+
+	void addRectLine(glm::vec4 rect, bool reflective);
 
 	Map::Logical logical;
 	Map::Visual visual;
@@ -54,6 +58,8 @@ private:
 	std::vector<LightRay::LightElements> toDrawLines;
 
 	Resource::Texture mirrorTex;
+
+	LightSwitch goal;
 
 	bool linesChanged = true;
 	int updatesSinceNotChanged = 0;

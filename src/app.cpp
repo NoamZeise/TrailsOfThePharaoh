@@ -144,7 +144,11 @@ void App::update()
   cursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
   cursor.Update(camera.getCameraArea());
 
-
+  /*if(testMap.complete())
+    std::cout << "complete" << std::endl;
+  else
+    std::cout << "incomplete" << std::endl;
+*/
   postUpdate();
 
 #ifdef TIME_APP_DRAW_UPDATE
