@@ -17,6 +17,7 @@
 #include "visual.h"
 #include "elements/light_ray.h"
 #include "elements/tilter.h"
+#include "elements/raySwitch.h"
 
 #include <glmhelper.h>
 #include <gamehelper.h>
@@ -33,7 +34,10 @@ void Draw(Render *render);
 
 glm::vec4 getMapRect() { return logical.mapRect; }
 
+
 private:
+
+	void setRectLines(glm::vec4 rect);
 
 	Map::Logical logical;
 	Map::Visual visual;
@@ -41,10 +45,14 @@ private:
 	std::vector<glm::vec4> activeColliders;
 	std::vector<glm::vec4> mirrors;
 	std::vector<LightRay> rays;
-	std::vector<Tilter> tilters;
+	std::vector<std::vector<Tilter>> tilters;
+	std::vector<RaySwitch> raySwitches;
 
 	int staticLinesOffset = 0;
 	std::vector<LightRay::LightElements> lines;
+	std::vector<LightRay::LightElements> toDrawLines;
+
+	Resource::Texture mirrorTex;
 };
 
 

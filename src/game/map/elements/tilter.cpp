@@ -18,13 +18,14 @@ Tilter::Tilter(Sprite base, glm::vec4 texOffset, Sprite mirror, glm::vec2 pivot,
   {
     prevClicked = clicked;
     clicked = input.LeftMouse();
-    sprite.setColour(glm::vec4(1));
+    changed = false;
+    colour = glm::vec4(1.0f);
 
     if(gh::contains(input.MousePos(), sprite.getDrawRect()) && !selected)
     {
       if(!clicked)
       {
-        sprite.setColour(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
+        colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
       }
       else if(!prevClicked)
       {
@@ -40,14 +41,13 @@ Tilter::Tilter(Sprite base, glm::vec4 texOffset, Sprite mirror, glm::vec2 pivot,
       }
       else
       {
-        sprite.setColour(glm::vec4(0.8f, 0.8f, 0.2f, 1.0f));
         auto pos = glm::normalize(input.MousePos() - pivot);
-        angle = glm::degrees(atan2(pos.y, pos.x)) + 90.0f;
-        changed = true;
-        calculatedThisFrame = false;
-        this->mirror.setRotation(angle);
+        auto newAngle  = glm::degrees(atan2(pos.y, pos.x)) + 90.0f;
+        changedAngle = newAngle - angle;
+        offsetAngle(changedAngle);
       }
     }
+    sprite.setColour(colour);
     mirror.Update(camRect);
     sprite.Update(camRect);
   }

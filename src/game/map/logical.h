@@ -12,6 +12,7 @@ struct Logical
 {
   struct RaySource
   {
+    RaySource() {}
     RaySource(glm::vec4 rect, float angle)
     {
       this->rect = rect;
@@ -20,6 +21,15 @@ struct Logical
     glm::vec4 rect;
     float angle;
   };
+
+  struct RayWithBox
+  {
+
+    bool on;
+    RaySource ray;
+    glm::vec4 box;
+  };
+
 
   struct Tilter
   {
@@ -38,13 +48,15 @@ struct Logical
   void SetPropsWithTiledMap(tiled::Map &map);
 
 	std::vector<glm::vec4> colliders;
+  std::vector<std::vector<glm::vec2>> polyColliders;
 	std::vector<glm::vec4> mirrors;
+  std::vector<std::vector<glm::vec2>> polyMirrors;
   std::vector<RaySource> raySources;
-  std::vector<Tilter> tilters;
-  std::vector<glm::vec4> goals;
+  std::vector<std::vector<Tilter>> tilters;
+  std::vector<RayWithBox> switchRays;
+  glm::vec4 goal;
 	glm::vec4  playerSpawn;
   glm::vec4  mapRect;
-  glm::vec4 goal;
 
 private:
   void getObjGroupData(tiled::Map &map);

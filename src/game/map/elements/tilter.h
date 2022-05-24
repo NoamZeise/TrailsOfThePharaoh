@@ -20,6 +20,28 @@ public:
   bool wasChanged() { return changed; }
   float getAngle() {  return  angle; }
   float getThickness() { return mirror.getTextureDim().y;  }
+  float getChanged() {
+    auto temp = changedAngle;
+    changedAngle = 0.0f;
+    return temp;  }
+  void offsetAngle(float offset)
+  {
+    colour = glm::vec4(0.8f, 0.8f, 0.2f, 1.0f);
+    sprite.setColour(colour);
+    angle += offset;
+    changed = true;
+    calculatedThisFrame = false;
+    this->mirror.setRotation(angle);
+  }
+  glm::vec4 getColour()
+  {
+    return colour;
+  }
+  void setColour(glm::vec4 colour)
+  {
+    this->colour = colour;
+    sprite.setColour(colour);
+  }
 private:
   Sprite mirror;
   glm::vec2 pivot;
@@ -28,9 +50,11 @@ private:
 
   bool calculatedThisFrame = false;
   glm::vec4 mirrorPoints;
-  
+  glm::vec4 colour  =  glm::vec4(1.0f);
+
   bool selected = false;
   bool changed = false;
+  float changedAngle = 0.0f;
 };
 
 

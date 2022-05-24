@@ -32,6 +32,9 @@ struct Properties
 	float angle = 0;
 	bool goal = false;
 	bool tilter = false;
+	bool raySwitch = false;
+	bool switchLayer = false;
+	bool on = false;
 };
 
 //change this function defined in tiled.cpp to match the properties you added
@@ -54,10 +57,25 @@ struct Object
 	double h = 0;
 };
 
+struct Point
+{
+	Point(double x, double y) { this->x = x; this->y = y; }
+	double x;
+	double y;
+};
+
+struct PolygonObject //obj coords is an offset for each of the points
+{
+	bool closed  = true;
+	Object obj;
+	std::vector<Point> points;
+};
+
 struct ObjectGroup
 {
 	Properties props;
 	std::vector<Object> objs;
+	std::vector<PolygonObject>  polys;
 };
 
 struct ImageLayer
@@ -102,7 +120,7 @@ struct Text
 	Object obj;
 	Colour colour;
 	std::string text;
-	int pixelSize;
+	int pixelSize = 16;
 	int wrap;
 };
 

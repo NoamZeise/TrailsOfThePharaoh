@@ -10,16 +10,14 @@ LightRay::LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int s
 
 void LightRay::Update(std::vector<LightElements> &lightElems)
 {
-  bool updated = false;
-  for(int  i = 0; i < lightElems.size(); i++)
+  if(!on)
   {
-    if(lightElems[i].changed)
-    {
-      updated = true;
-      break;
-    }
+    wasOff = true;
+    lightRayModels.clear();
+    lightRayInfo.clear();
+    return;
   }
-  if(updated)
+  else
     calcPath(lightElems);
 }
 
@@ -48,7 +46,7 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
 
   while(true)
   {
-    if(reflections > 10)
+    if(reflections > 50)
       break;
     currentPos += deltaStep;
     steps++;
@@ -72,6 +70,9 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
       glm::vec2 p2 = lightElems[i].p2 + correction;
       if(gh::linesCross(sourceVec, currentPos, p1, p2))
       {
+        lightElems[i].lightHit = true;
+        lightElems[i].hitSource.push_back(sourceVec);
+        lightElems[i].hitDest.push_back(currentPos);
         addRay(sourceVec, currentPos, currentAngle, prevIndex, i);
         prevIndex = i;
         if(lightElems[i].reflective)
@@ -90,7 +91,6 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
         {
           struck = true;
         }
-        break;
       }
     }
     if(struck)
@@ -98,17 +98,14 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
   }
 }
 
+
+
 void LightRay::addRay(glm::vec2 sourceVec, glm::vec2 currentPos, float currentAngle, int p1I, int p2I)
 {
-  const float THICKNESS = 4.0f;
-  glm::vec2 correction = glmhelper::getVectorFromAngle(currentAngle - 90.0f) * THICKNESS/2.0f;
-  //std::cout << "correction: x:" << correction.x << "   y: " << correction.y << std::endl;
-  lightRayModels.push_back(
-    glmhelper::calcMatFromRect(
-      glm::vec4(sourceVec.x + correction.x, sourceVec.y + correction.y, gh::distance(sourceVec, currentPos), THICKNESS),
-      currentAngle, 1.0f, false));
-  lightRayInfo.push_back(Ray(p1I, p2I));
+  lightRayModels.push_back(GetLineTransform(sourceVec, currentPos, 4.0f, currentAngle));
+  lightRayInfo.push_back(Ray(p1I, p2I, sourceVec, currentPos));
 }
+
 
 LightRay::LightElements::LightElements(glm::vec2 p1, glm::vec2 p2, float thickness, bool reflective)
 {
@@ -118,6 +115,11 @@ LightRay::LightElements::LightElements(glm::vec2 p1, glm::vec2 p2, float thickne
   this->changed = true;
   this->reflective = reflective;
   correctNormal();
+  const float EXTRA_MARGIN = 1.0f;
+  auto angle = glm::radians(normal - 90.0f);
+  glm::vec2 unitVec = glm::vec2(cos(angle), sin(angle));
+  this->p1 += unitVec * EXTRA_MARGIN;
+  this->p2 -= unitVec * EXTRA_MARGIN;
 }
 void LightRay::LightElements::Update(glm::vec2 p1, glm::vec2 p2)
 {
