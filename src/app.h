@@ -36,6 +36,7 @@
 #include "game/map/level.h"
 #include "game/sprites/sprite.h"
 #include "game/sprites/UI/button.h"
+#include "game/sprites/UI/text_button.h"
 
 //#define TIME_APP_DRAW_UPDATE
 //#define MULTI_UPDATE_ON_SLOW_DRAW
@@ -85,11 +86,14 @@ private:
   glm::vec2 target = glm::vec2(0, 0);
   float scale  = 2.0f;
 
+  bool inGame = true;
+
   Resource::Font gameFont;
   Sprite cursor;
-
   std::vector<Level> levels;
-  int currentLevel;
+  int currentLevelIndex;
+  Level currentLevel;
+  TextButton retryButton;
 
   bool allLevelsComplete = false;
 };

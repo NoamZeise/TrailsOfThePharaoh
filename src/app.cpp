@@ -64,19 +64,34 @@ void App::loadAssets()
 {
   gameFont = mRender->LoadFont("textures/Roboto-Black.ttf");
   cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.0f);
+
+  auto btnSprite = Sprite(mRender->LoadTexture("textures/UI/button.png"),glm::vec4(0),1.0f);
+
+  btnSprite.setDepth(2.0f);
+  btnSprite.setRect(
+    glm::vec4(
+      settings::TARGET_WIDTH - 210,
+      settings::TARGET_HEIGHT - 105,
+      200, 100)
+  );
+  retryButton = TextButton(
+    btnSprite,
+    true,
+    "Retry",
+    gameFont
+  );
   loadMaps();
   mRender->EndResourceLoad();
 }
 
 void App::loadMaps()
 {
-  //1 less than desired level
-  currentLevel = -1;
   levels.push_back(Level("maps/testMap.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap2.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap3.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap4.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap5.tmx", mRender, gameFont));
+  currentLevelIndex = -1;
 }
 
 void App::run()
@@ -148,10 +163,21 @@ void App::update()
   camera.setScale(scale);
   camera.Target(target, timer);
 
-  levels[currentLevel].Update(camera.getCameraArea(), timer, controls);
+  if(inGame)
+  {
+    currentLevel.Update(camera.getCameraArea(), timer, controls);
 
-  if(levels[currentLevel].complete())
-    nextMap();
+    if(currentLevel.complete())
+      nextMap();
+
+    retryButton.Update(camera.getCameraArea(), controls, scale);
+
+    if(retryButton.Clicked())
+    {
+      currentLevelIndex--;
+      nextMap();
+    }
+  }
 
   auto cursorRect = cursor.getDrawRect();
   cursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
@@ -179,13 +205,17 @@ void App::postUpdate()
 
 void App::nextMap()
 {
-  currentLevel++;
-  if(currentLevel >= levels.size())
+  currentLevelIndex++;
+  if(currentLevelIndex >= levels.size())
   {
-    currentLevel--;
+    currentLevelIndex--;
     allLevelsComplete = true;
   }
-  auto rect = levels[currentLevel].getMapRect();
+  else
+  {
+    currentLevel = levels[currentLevelIndex];
+  }
+  auto rect = currentLevel.getMapRect();
   target = glm::vec2(rect.x + rect.z/2, rect.y +  rect.w/2);
   camera.setCameraMapRect(rect);
   scale = rect.z / settings::TARGET_WIDTH;
@@ -210,9 +240,11 @@ void App::draw()
 
   mRender->Begin2DDraw();
 
-  levels[currentLevel].Draw(mRender);
+  currentLevel.Draw(mRender);
 
   cursor.Draw(mRender);
+
+  retryButton.Draw(mRender);
 
   if(allLevelsComplete)
     mRender->DrawString(gameFont, "GAME COMPLETE", glm::vec2(500, 500), 200.0f, 3.0f, glm::vec4(1.0f));

@@ -191,6 +191,18 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 				toDrawLines.push_back(lines.back());
 			}
 
+
+
+		int prevIndex = lines.size();
+		addRectLine(logical.goal, false);
+		goal = LightSwitch(false, prevIndex, 4, logical.goal,
+			Sprite(
+				render->LoadTexture("textures/level/goalOn.png"),
+				glm::vec4(1.0f), 1.1f),
+				Sprite(render->LoadTexture("textures/level/goalOff.png"),
+				glm::vec4(1.0f), 1.1f)
+		);
+
 		auto onSprite = Sprite(
 										render->LoadTexture("textures/level/lightBoxOn.png"),
 										glm::vec4(1.0f),
@@ -199,10 +211,6 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 										render->LoadTexture("textures/level/lightBoxOff.png"),
 										glm::vec4(1.0f),
 										1.1f);
-
-		int prevIndex = lines.size();
-		addRectLine(logical.goal, false);
-		goal = LightSwitch(false, prevIndex, 4, logical.goal, onSprite, offSprite);
 
 		for(const auto &switches: logical.switchRays)
 		{
@@ -234,6 +242,10 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 		render->LoadTexture("textures/level/door.png"),
 		glm::vec4(0.0f), 1.2f);
 
+	Sprite doorOffSprite = Sprite(
+		render->LoadTexture("textures/level/doorOff.png"),
+		glm::vec4(0.0f), 1.2f);
+
 	for(auto &doorSwitch: logical.doorBox)
 	{
 		int prevIndexSwitch = lines.size();
@@ -241,7 +253,7 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 		int prevIndexDoor = lines.size();
 		addRectLine(doorSwitch.doorRect, false);
 		doorSwitches.push_back(DoorSwitch(
-					doorSprite, doorSwitch.doorRect, prevIndexDoor, doorSwitch.on,
+					doorSprite, doorOffSprite, doorSwitch.doorRect, prevIndexDoor, doorSwitch.on,
 					prevIndexSwitch, doorSwitch.box, onSprite, offSprite));
 	}
 

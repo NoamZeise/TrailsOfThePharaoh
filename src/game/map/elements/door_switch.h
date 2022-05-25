@@ -6,12 +6,14 @@
 class DoorSwitch : public LightSwitch
 {
 public:
-  DoorSwitch(Sprite door, glm::vec4 doorRect, int doorLineIndex, bool on, int switchLineIndex, glm::vec4 switchRect, Sprite onSprite, Sprite offSprite)
+  DoorSwitch(Sprite door, Sprite doorOff, glm::vec4 doorRect, int doorLineIndex, bool on, int switchLineIndex, glm::vec4 switchRect, Sprite onSprite, Sprite offSprite)
     : LightSwitch(on, switchLineIndex, 4, switchRect, onSprite, offSprite)
   {
     this->door = door;
+    this->doorOff = doorOff;
     this->doorRect = doorRect;
     this->door.setRect(doorRect);
+    this->doorOff.setRect(doorRect);
     this->doorLineIndex = doorLineIndex;
   }
 
@@ -24,6 +26,7 @@ public:
         onElements.push_back(lightElems[i]);
     }
     door.Update(camRect);
+    doorOff.Update(camRect);
     for(int i = doorLineIndex; i < doorLineIndex + 4; i++)
     {
       if(!this->on)
@@ -38,6 +41,8 @@ public:
   {
     if(!this->on)
       door.Draw(render);
+    else
+      doorOff.Draw(render);
     LightSwitch::Draw(render);
   }
 
@@ -45,6 +50,7 @@ public:
 
 private:
   Sprite door;
+  Sprite doorOff;
   glm::vec4 doorRect;
   int doorLineIndex;
   bool firstUpdate = true;

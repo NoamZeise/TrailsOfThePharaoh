@@ -27,19 +27,20 @@ public:
     this->rotation = rotation;
     changed = true;
   }
-  void setModel(glm::mat4 model)
+  void setDepth(float depth)
   {
-    this->model = model;
+    this->depth = depth;
+    changed = true;
   }
 
-  void setTexOffset(glm::vec4 texOffset)
-  {
-    this->texOffset = texOffset;
-  }
-  glm::vec2 getTextureDim()
-  {
-    return texture.dim;
-  }
+  void setModel(glm::mat4 model) { this->model = model; }
+
+  void setTexOffset(glm::vec4 texOffset){ this->texOffset = texOffset; }
+
+  glm::vec2 getTextureDim() { return texture.dim; }
+
+  float getDepth() { return depth; }
+
 
 private:
   Resource::Texture texture;
