@@ -90,14 +90,14 @@ namespace Resource
 
 	Texture TextureLoader::LoadTexture(std::string path)
 	{
-		for(auto &tex: textures)
+		for(int i = 0; i < textures.size(); i++)
 		{
-			if(tex->path == path)
+			if(textures[i]->path == path)
 			{
 				#ifndef NDEBUG
 						std::cout << "texture at " << path  << " was already loaded" << std::endl;
 				#endif
-				return Texture(tex->ID, glm::vec2(tex->width, tex->height), path);
+				return Texture(i, glm::vec2(textures[i]->width, textures[i]->height), path);
 			}
 		}
 		textures.push_back(new LoadedTex(path));
