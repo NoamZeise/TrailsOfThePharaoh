@@ -50,7 +50,7 @@ Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) 
             prevMouseAngle -= 360.0f;
         }
 
-        changedAngle = (mouseAngle - prevMouseAngle) * 0.1f; //slow rotation
+        changedAngle = (mouseAngle - prevMouseAngle) * 0.2f; //slow rotation
         prevMouseAngle = mouseAngle;
         offsetAngle(changedAngle);
       }

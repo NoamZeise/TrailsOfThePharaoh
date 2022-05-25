@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="20" height="18" tilewidth="64" tileheight="64" infinite="0" nextlayerid="27" nextobjectid="120">
+ <tileset firstgid="1" source="tempTileset.tsx"/>
+ <layer id="1" name="bg" width="20" height="18">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="7" name="startray">
+  <object id="68" x="64" y="512" width="64" height="64">
+   <properties>
+    <property name="angle" type="float" value="0"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="19" name="tilter">
+  <properties>
+   <property name="tilter" type="bool" value="true"/>
+  </properties>
+  <object id="111" x="577.333" y="321.333" width="64" height="64">
+   <properties>
+    <property name="angle" type="float" value="90"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="26" name="Copy of tilter">
+  <properties>
+   <property name="tilter" type="bool" value="true"/>
+  </properties>
+  <object id="112" x="830" y="960" width="64" height="64">
+   <properties>
+    <property name="angle" type="float" value="10"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="goal">
+  <object id="78" x="1152" y="704" width="62" height="62">
+   <properties>
+    <property name="goal" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="21" name="onRay">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="93" x="256" y="512" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="90"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="96" x="275" y="531" width="26" height="26">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="23" name="Copy of onRay">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="103" x="256" y="512" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="270"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="104" x="275" y="531" width="26" height="26">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="24" name="Copy of Copy of onRay">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+ </objectgroup>
+ <objectgroup id="25" name="Copy of Copy of Copy of onRay">
+  <object id="108" x="573.333" y="836" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="true"/>
+    <property name="angle" type="float" value="90"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="22" name="door">
+  <properties>
+   <property name="door" type="bool" value="true"/>
+  </properties>
+  <object id="91" x="758" y="576" width="202" height="265.333">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="92" x="705.333" y="189.333" width="64" height="64">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="18" name="mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="72" x="418.667" y="389.333" width="129.333" height="482.667">
+   <properties>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="74" x="494.167" y="77.0544">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="-12.8333,402.946 -12.8333,248.279"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="colliders">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
+  <object id="105" x="960" y="1088">
+   <polyline points="0,0 0,-320 256,-320"/>
+  </object>
+  <object id="110" x="1216" y="640">
+   <polyline points="0,0 -256,0 -256,-128 0,-128"/>
+  </object>
+  <object id="115" x="64" y="64" width="1158"/>
+  <object id="117" x="64" y="1088" width="1170"/>
+  <object id="119" x="1216" y="64" height="1024"/>
+ </objectgroup>
+ <objectgroup id="3" name="mirrrors">
+  <properties>
+   <property name="mirror" type="bool" value="true"/>
+  </properties>
+  <object id="76" x="128" y="384">
+   <polyline points="128,0 192,-64"/>
+  </object>
+  <object id="77" x="320" y="704">
+   <polyline points="-64,0 0,64"/>
+  </object>
+  <object id="90" x="584.238" y="1119.62">
+   <polyline points="-20.2377,-171.079 56.4289,-94.9458"/>
+  </object>
+ </objectgroup>
+</map>

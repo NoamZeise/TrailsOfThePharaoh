@@ -111,6 +111,9 @@ void Level::rayDependantUpdate(glm::vec4 cameraRect)
 		ray.Update(lines, cameraRect);
 
 	for(auto& raySwitch : raySwitches)
+		raySwitch.rayUpdate(lines, cameraRect);
+
+	for(auto& raySwitch : raySwitches)
 		raySwitch.Update(lines, cameraRect);
 
 	for(auto &dS : doorSwitches)

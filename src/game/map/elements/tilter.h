@@ -32,6 +32,7 @@ public:
     changed = true;
     calculatedThisFrame = false;
     this->mirror.setRotation(angle);
+    this->sprite.setRotation(angle);
   }
   glm::vec4 getColour()
   {

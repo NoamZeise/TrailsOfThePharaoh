@@ -74,6 +74,9 @@ void App::loadMaps()
   currentLevel = -1;
   levels.push_back(Level("maps/testMap.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap2.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/testMap3.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/testMap4.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/testMap5.tmx", mRender, gameFont));
 }
 
 void App::run()
@@ -185,6 +188,9 @@ void App::nextMap()
   auto rect = levels[currentLevel].getMapRect();
   target = glm::vec2(rect.x + rect.z/2, rect.y +  rect.w/2);
   camera.setCameraMapRect(rect);
+  scale = rect.z / settings::TARGET_WIDTH;
+  if(rect.w / settings::TARGET_HEIGHT > scale)
+    scale = rect.w / settings::TARGET_HEIGHT;
 }
 
 void App::draw()

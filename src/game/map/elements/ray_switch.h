@@ -13,14 +13,18 @@ public:
     this->lightRay.setOn(on);
   }
 
-  void Update(std::vector<LightRay::LightElements> &lightElems, glm::vec4 camRect) override
+  void rayUpdate(std::vector<LightRay::LightElements> &lightElems, glm::vec4 camRect)
   {
     lightRay.Update(lightElems, camRect);
+  }
+
+  void Update(std::vector<LightRay::LightElements> &lightElems, glm::vec4 camRect) override
+  {
     bool hit = false;
     for(int i = switchLineIndex; i < switchLineIndex + 4; i++)
       if(lightElems[i].lightHit)
       {
-        for(int j = 0;  j  < lightElems[i].hitSource.size(); j++)
+        for(int j = 0; j <lightElems[i].hitSource.size(); j++)
           if(!lightRay.hasRay(lightElems[i].hitSource[j], lightElems[i].hitDest[j]))
             hit = true;
       }

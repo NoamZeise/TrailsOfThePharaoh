@@ -76,7 +76,11 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, float scale)
 
       auto mouseChanged = input.MousePos() - prevMouse;
       auto changeUnit = unitLine * mouseChanged;
-      float changed = -1.0f * changeUnit.x + changeUnit.y;
+      float changed = changeUnit.x + changeUnit.y;
+      if(changed > 10)
+        changed = 10;
+      if(changed < -10)
+        changed = -10;
       currentDistance += changed;
       currentDistance = currentDistance > maxDistance ? maxDistance : currentDistance < 0.0f ? 0.0f : currentDistance;
 
