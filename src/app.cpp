@@ -71,7 +71,7 @@ void App::loadAssets()
 void App::loadMaps()
 {
   //1 less than desired level
-  currentLevel = 0;
+  currentLevel = -1;
   levels.push_back(Level("maps/testMap.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap2.tmx", mRender, gameFont));
 }

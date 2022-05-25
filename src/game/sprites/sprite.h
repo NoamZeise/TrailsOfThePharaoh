@@ -27,6 +27,11 @@ public:
     this->rotation = rotation;
     changed = true;
   }
+  void setModel(glm::mat4 model)
+  {
+    this->model = model;
+  }
+
   void setTexOffset(glm::vec4 texOffset)
   {
     this->texOffset = texOffset;
@@ -44,7 +49,7 @@ private:
   glm::vec4 colour = glm::vec4(1.0f);
   glm::mat4 model;
   glm::vec4 texOffset = glm::vec4(0, 0, 1, 1);
-  bool toDraw = false;
+  bool toDraw = true;
   bool changed = true;
 };
 

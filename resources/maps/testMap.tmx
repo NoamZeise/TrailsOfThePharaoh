@@ -44,7 +44,7 @@
   </object>
  </objectgroup>
  <objectgroup id="8" name="goal">
-  <object id="20" x="192.364" y="1092.36" width="64" height="64">
+  <object id="20" x="198.364" y="1016.36" width="64" height="64">
    <properties>
     <property name="goal" type="bool" value="true"/>
    </properties>
@@ -56,6 +56,7 @@
   </properties>
   <object id="66" x="728" y="1046" width="168" height="168">
    <properties>
+    <property name="mirror" type="bool" value="true"/>
     <property name="mover" type="bool" value="true"/>
    </properties>
   </object>
@@ -63,7 +64,7 @@
    <properties>
     <property name="track" type="bool" value="true"/>
    </properties>
-   <polyline points="0,0 0,-128"/>
+   <polyline points="0,0 0,-192"/>
   </object>
  </objectgroup>
  <objectgroup id="2" name="colliders">
@@ -86,7 +87,7 @@
    <property name="mirror" type="bool" value="true"/>
   </properties>
   <object id="64" x="1408" y="384">
-   <polyline points="0,0 448,448 64,960 -1344,960"/>
+   <polyline points="0,0 448,448 0,896 -1344,896"/>
   </object>
  </objectgroup>
 </map>

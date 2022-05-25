@@ -42,6 +42,7 @@ struct Logical
     glm::vec2 trackStart;
     glm::vec2 trackEnd;
     glm::vec4 rect;
+    bool reflective;
   };
 
   struct Tilter

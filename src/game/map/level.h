@@ -20,6 +20,7 @@
 #include "elements/ray_switch.h"
 #include "elements/light_switch.h"
 #include "elements/door_switch.h"
+#include "elements/mover.h"
 
 #include <glmhelper.h>
 #include <gamehelper.h>
@@ -54,6 +55,7 @@ private:
 	std::vector<DoorSwitch> doorSwitches;
 	std::vector<std::vector<Tilter>> tilters;
 	std::vector<RaySwitch> raySwitches;
+  std::vector<Mover> movers;
 
 	int staticLinesOffset = 0;
 	std::vector<LightRay::LightElements> lines;

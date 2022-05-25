@@ -46,6 +46,9 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls
 
 	tilterUpdate(cameraRect, controls);
 
+	for(auto& mover: movers)
+		mover.Update(cameraRect, controls, lines);
+
 	if(updatesSinceNotChanged < 2)
 		rayDependantUpdate(cameraRect);
 
@@ -137,6 +140,9 @@ void Level::Draw(Render *render)
 	for(auto& tilterGroup : tilters)
 		for(auto& tilter: tilterGroup)
 			tilter.Draw(render);
+
+	for(auto& mover: movers)
+		mover.Draw(render);
 
 	for(auto& l: toDrawLines)
 	{
@@ -234,6 +240,23 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 		doorSwitches.push_back(DoorSwitch(
 					doorSprite, doorSwitch.doorRect, prevIndexDoor, doorSwitch.on,
 					prevIndexSwitch, doorSwitch.box, onSprite, offSprite));
+	}
+
+	Sprite moverColliderSprite = Sprite(render->LoadTexture("textures/level/solidBox.png"), glm::vec4(0.0f), 1.2f);
+	Sprite moverMirrorSprite = Sprite(render->LoadTexture("textures/level/mirrorBox.png"), glm::vec4(0.0f), 1.2f);
+	Sprite moverLineSprite = Sprite(render->LoadTexture("textures/level/lineMover.png"), glm::vec4(0.0f), 1.2f);
+	for(auto& mover : logical.movers)
+	{
+		int prevIndex = lines.size();
+		addRectLine(mover.rect, mover.reflective);
+		movers.push_back(
+			Mover(
+				moverLineSprite,
+				mover.reflective ? moverMirrorSprite : moverColliderSprite,
+				mover.rect,
+				mover.trackStart,
+				mover.trackEnd,
+				prevIndex));
 	}
 }
 

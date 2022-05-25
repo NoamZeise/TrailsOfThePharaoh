@@ -26,7 +26,7 @@ void Logical::getObjGroupData(tiled::Map &map)
       movers.push_back(Mover());
     for(const auto &obj: objGroup.objs)
     {
-      if(obj.props.mirror || objGroup.props.mirror)
+      if( objGroup.props.mirror)
         mirrors.push_back(glm::vec4(obj.x, obj.y, obj.w, obj.h));
 
       if(obj.props.collidable || objGroup.props.collidable)
@@ -66,7 +66,10 @@ void Logical::getObjGroupData(tiled::Map &map)
         tilters.back().push_back(Tilter(glm::vec4(obj.x, obj.y, obj.w, obj.h), glm::vec2(obj.x + obj.w/2, obj.y + obj.h/2), obj.props.angle));
 
       if(obj.props.mover && objGroup.props.mover)
+      {
         movers.back().rect = glm::vec4(obj.x, obj.y, obj.w, obj.h);
+        movers.back().reflective = obj.props.mirror;
+      }
     }
     for(const auto &poly: objGroup.polys)
     {
