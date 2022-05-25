@@ -45,9 +45,9 @@ Texture TextureLoader::LoadTexture(std::string path)
 	{
 		if(texToLoad[i].path == path)
 		{
-			#ifndef NDEBUG
-				std::cout << "texture at " << path << " has already been set to load" << std::endl;
-			#endif
+		//	#ifndef NDEBUG
+		//		std::cout << "texture at " << path << " has already been set to load" << std::endl;
+		//	#endif
 			return Texture(i, glm::vec2(texToLoad[i].width, texToLoad[i].height), path);
 		}
 	}

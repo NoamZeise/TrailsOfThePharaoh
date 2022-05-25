@@ -11,9 +11,10 @@ Properties fillPropStruct(rapidxml::xml_node<> *propertiesNode)
 	{
 		std::string name = propertyInfo->first_attribute("name")->value();
 		std::string value = propertyInfo->first_attribute("value")->value();
+	#ifndef NDEBUG
 		if(value == "false")
 			std::cout << "WARNING: false value from bool on property " << name << ", is this intentional?\n";
-
+	#endif
 		//EXAMPLE PROPERTIES
 		if(name == "collidable")
 		{

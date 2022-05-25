@@ -94,9 +94,9 @@ namespace Resource
 		{
 			if(textures[i]->path == path)
 			{
-				#ifndef NDEBUG
-						std::cout << "texture at " << path  << " was already loaded" << std::endl;
-				#endif
+			//	#ifndef NDEBUG
+			//			std::cout << "texture at " << path  << " was already loaded" << std::endl;
+			//	#endif
 				return Texture(i, glm::vec2(textures[i]->width, textures[i]->height), path);
 			}
 		}
