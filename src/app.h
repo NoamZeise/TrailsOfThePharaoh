@@ -88,6 +88,7 @@ private:
 
   bool inGame = true;
 
+  Resource::Texture pixelTex;
   Resource::Font gameFont;
   Sprite cursor;
   std::vector<Level> levels;

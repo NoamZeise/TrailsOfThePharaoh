@@ -64,6 +64,7 @@ void App::loadAssets()
 {
   gameFont = mRender->LoadFont("textures/Roboto-Black.ttf");
   cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.0f);
+  pixelTex = mRender->LoadTexture("textures/pixel.png");
 
   auto btnSprite = Sprite(mRender->LoadTexture("textures/UI/button.png"),glm::vec4(0),1.0f);
 
@@ -81,6 +82,7 @@ void App::loadAssets()
     gameFont
   );
 
+  btnSprite.setDepth(3.0f);
   btnSprite.setRect(
     glm::vec4(
       settings::TARGET_WIDTH/2 - 320/2,
@@ -100,7 +102,7 @@ void App::loadAssets()
 
 void App::loadMaps()
 {
-  levels.push_back(Level("maps/testMap.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap2.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap3.tmx", mRender, gameFont));
   levels.push_back(Level("maps/testMap4.tmx", mRender, gameFont));
@@ -279,6 +281,7 @@ void App::draw()
 
   if(lvlShowContinue)
   {
+    mRender->DrawQuad(pixelTex, glmhelper::calcMatFromRect(glm::vec4(0, 0, settings::TARGET_WIDTH*scale, settings::TARGET_HEIGHT*scale), 0.0f, 2.5f), glm::vec4(0.0f, 0.0f, 0.0f, 0.5f));
     continueButton.Draw(mRender);
     mRender->DrawString(gameFont, "Level Complete!",
       glm::vec2(

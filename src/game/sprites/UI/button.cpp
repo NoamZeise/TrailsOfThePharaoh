@@ -3,15 +3,15 @@
 void Button::Update(glm::vec4 camRect, Input::Controls &input, float scale)
 {
   prevClicked = clicked;
-
+  clicked = input.LeftMouse();
   if(gh::contains(input.MousePos(), sprite.getDrawRect()))
   {
-    clicked = input.LeftMouse();
+    onSprite = true;
     sprite.setColour(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
   }
   else
   {
-    clicked = false;
+    onSprite = false;
     sprite.setColour(glm::vec4(1.0f));
   }
 
