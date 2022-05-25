@@ -118,6 +118,27 @@ Properties fillPropStruct(rapidxml::xml_node<> *propertiesNode)
 			else
 				std::cout << "WARNING: property " << name << " did not have true or false value!" << std::endl;
 		}
+
+		else if(name == "mover")
+		{
+			if(value == "true")
+				props.mover = true;
+			else if(value == "false")
+				props.mover = false;
+			else
+				std::cout << "WARNING: property " << name << " did not have true or false value!" << std::endl;
+		}
+
+		else if(name == "track")
+		{
+			if(value == "true")
+				props.track = true;
+			else if(value == "false")
+				props.track = false;
+			else
+				std::cout << "WARNING: property " << name << " did not have true or false value!" << std::endl;
+		}
+
 		//INSERT CUSTOM PROEPRTIES HERE
 
 		else

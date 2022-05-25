@@ -35,6 +35,8 @@ struct Properties
 	bool raySwitch = false;
 	bool switchLayer = false;
 	bool on = false;
+  bool mover = false;
+	bool track = false;
 };
 
 //change this function defined in tiled.cpp to match the properties you added

@@ -22,6 +22,8 @@ void Logical::getObjGroupData(tiled::Map &map)
       tilters.push_back(std::vector<Tilter>());
     if(objGroup.props.door)
       doorBox.push_back(DoorWithBox());
+    if(objGroup.props.mover)
+      movers.push_back(Mover());
     for(const auto &obj: objGroup.objs)
     {
       if(obj.props.mirror || objGroup.props.mirror)
@@ -62,6 +64,9 @@ void Logical::getObjGroupData(tiled::Map &map)
 
       if(objGroup.props.tilter)
         tilters.back().push_back(Tilter(glm::vec4(obj.x, obj.y, obj.w, obj.h), glm::vec2(obj.x + obj.w/2, obj.y + obj.h/2), obj.props.angle));
+
+      if(obj.props.mover && objGroup.props.mover)
+        movers.back().rect = glm::vec4(obj.x, obj.y, obj.w, obj.h);
     }
     for(const auto &poly: objGroup.polys)
     {
@@ -77,6 +82,14 @@ void Logical::getObjGroupData(tiled::Map &map)
 
       else if(poly.obj.props.collidable || objGroup.props.collidable)
         polyColliders.push_back(points);
+
+      if(poly.obj.props.track && objGroup.props.mover)
+      {
+        if(points.size() != 2)
+          throw std::runtime_error("track points was not equal to two");
+        movers.back().trackStart = points[0];
+        movers.back().trackEnd = points[1];
+      }
     }
   }
 }

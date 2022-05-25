@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="11" nextobjectid="27">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="19" nextobjectid="68">
  <tileset firstgid="1" source="tempTileset.tsx"/>
  <layer id="1" name="bg" width="30" height="30">
   <data encoding="csv">
@@ -19,10 +19,10 @@
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
@@ -35,60 +35,58 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <objectgroup id="6" name="off ray">
-  <properties>
-   <property name="switchLayer" type="bool" value="true"/>
-  </properties>
-  <object id="1" x="192" y="256" width="64" height="64">
-   <properties>
-    <property name="On" type="bool" value="false"/>
-    <property name="angle" type="float" value="90"/>
-    <property name="lightSource" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="2" x="1280" y="832" width="64" height="64">
-   <properties>
-    <property name="switch" type="bool" value="true"/>
-   </properties>
-  </object>
- </objectgroup>
  <objectgroup id="7" name="startray">
-  <object id="19" x="1088" y="1536" width="64" height="64">
+  <object id="19" x="191.03" y="578.182" width="64" height="64">
    <properties>
-    <property name="angle" type="float" value="212.5"/>
+    <property name="angle" type="float" value="0"/>
     <property name="lightSource" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="8" name="goal">
-  <object id="20" x="621.091" y="180.242" width="64" height="64">
+  <object id="20" x="192.364" y="1092.36" width="64" height="64">
    <properties>
     <property name="goal" type="bool" value="true"/>
    </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="18" name="mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="66" x="728" y="1046" width="168" height="168">
+   <properties>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="67" x="768" y="1152">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="0,0 0,-128"/>
   </object>
  </objectgroup>
  <objectgroup id="2" name="colliders">
   <properties>
    <property name="collidable" type="bool" value="true"/>
   </properties>
-  <object id="6" x="448" y="640">
-   <polygon points="-18.1818,27.2727 576,-384 960,-320 391.152,413.939"/>
-  </object>
-  <object id="11" x="128" y="1024" width="192"/>
-  <object id="12" x="320" y="1024" height="256"/>
-  <object id="13" x="128" y="1280" width="192"/>
-  <object id="14" x="128" y="1024" height="256"/>
   <object id="15" x="64" y="64" width="1792"/>
   <object id="16" x="1856" y="64" height="1792"/>
   <object id="17" x="64" y="1856" width="1792"/>
   <object id="18" x="64" y="64" height="1792"/>
+  <object id="62" x="192" y="832">
+   <polyline points="0,0 1216,0"/>
+  </object>
+  <object id="63" x="192" y="384">
+   <polyline points="0,0 1664,0"/>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="mirrrors">
   <properties>
    <property name="mirror" type="bool" value="true"/>
   </properties>
-  <object id="7" x="1088" y="1280">
-   <polyline points="0,0 576,-448"/>
+  <object id="64" x="1408" y="384">
+   <polyline points="0,0 448,448 64,960 -1344,960"/>
   </object>
  </objectgroup>
 </map>

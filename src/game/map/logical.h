@@ -37,7 +37,12 @@ struct Logical
     glm::vec4 box;
   };
 
-
+  struct Mover
+  {
+    glm::vec2 trackStart;
+    glm::vec2 trackEnd;
+    glm::vec4 rect;
+  };
 
   struct Tilter
   {
@@ -62,6 +67,7 @@ struct Logical
   std::vector<std::vector<Tilter>> tilters;
   std::vector<RayWithBox> switchRays;
   std::vector<DoorWithBox> doorBox;
+  std::vector<Mover> movers;
   glm::vec4 goal;
 	glm::vec4  playerSpawn;
   glm::vec4  mapRect;
