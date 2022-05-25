@@ -1,6 +1,6 @@
 #include "tilter.h"
 
-Tilter::Tilter(Sprite base, glm::vec4 texOffset, Sprite mirror, glm::vec2 pivot, float initialAngle) : Button(base, false)
+Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) : Button(base, false)
 {
   this->mirror = mirror;
   this->pivot = pivot;
@@ -8,8 +8,7 @@ Tilter::Tilter(Sprite base, glm::vec4 texOffset, Sprite mirror, glm::vec2 pivot,
   this->initialAngleVector = glmhelper::getVectorFromAngle(initialAngle);
 
   this->angle = initialAngle;
-  this->sprite.setTexOffset(texOffset);
-  glm::vec2 dim = mirror.getTextureDim();
+  glm::vec2 dim = glm::vec2(base.getDrawRect().z, mirror.getTextureDim().y);
   this->mirror.setRect(glm::vec4(pivot.x - dim.x/2, pivot.y - dim.y/2, dim.x, dim.y));
   this->mirror.setRotation(initialAngle);
 }
@@ -80,8 +79,9 @@ glm::vec4 Tilter::getMirrorPoints()
   {
     calculatedThisFrame = true;
     glm::vec2 angleVec  = glmhelper::getVectorFromAngle(angle);
-    mirrorPoints =  glm::vec4(pivot.x + angleVec.x*mirror.getTextureDim().x/2, pivot.y + angleVec.y*mirror.getTextureDim().x/2,
-                   pivot.x - angleVec.x*mirror.getTextureDim().x/2, pivot.y - angleVec.y*mirror.getTextureDim().x/2);
+    glm::vec2 dim = glm::vec2(sprite.getDrawRect().z, mirror.getTextureDim().y);
+    mirrorPoints =  glm::vec4(pivot.x + angleVec.x*dim.x/2, pivot.y + angleVec.y*dim.x/2,
+                   pivot.x - angleVec.x*dim.x/2, pivot.y - angleVec.y*dim.x/2);
   }
 
   return mirrorPoints;

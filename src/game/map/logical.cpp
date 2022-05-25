@@ -10,8 +10,6 @@ void Logical::SetPropsWithTiledMap(tiled::Map &map)
   getObjGroupData(map);
 
   getTileData(map);
-
-  setTilterAngles();
 }
 
 void Logical::getObjGroupData(tiled::Map &map)
@@ -20,6 +18,10 @@ void Logical::getObjGroupData(tiled::Map &map)
   {
     if(objGroup.props.switchLayer)
       switchRays.push_back(RayWithBox());
+    if(objGroup.props.tilter)
+      tilters.push_back(std::vector<Tilter>());
+    if(objGroup.props.door)
+      doorBox.push_back(DoorWithBox());
     for(const auto &obj: objGroup.objs)
     {
       if(obj.props.mirror || objGroup.props.mirror)
@@ -38,17 +40,28 @@ void Logical::getObjGroupData(tiled::Map &map)
         else
           raySources.push_back(RaySource(glm::vec4(obj.x, obj.y, obj.w, obj.h),  obj.props.angle));
       }
-      if(obj.props.raySwitch)
+      if(obj.props.raySwitch && objGroup.props.switchLayer)
       {
         switchRays.back().box = glm::vec4(obj.x, obj.y, obj.w, obj.h);
       }
-
+      if(obj.props.raySwitch && objGroup.props.door)
+      {
+        doorBox.back().box = glm::vec4(obj.x, obj.y, obj.w, obj.h);
+      }
+      if(obj.props.door && objGroup.props.door)
+      {
+        doorBox.back().doorRect = glm::vec4(obj.x, obj.y, obj.w, obj.h);
+        doorBox.back().on = obj.props.on;
+      }
       if(obj.props.playerSpawn)
         playerSpawn = glm::vec4(obj.x, obj.y, obj.w, obj.h);
 
 
       if(obj.props.goal ||  objGroup.props.goal)
         goal = glm::vec4(obj.x, obj.y, obj.w, obj.h);
+
+      if(objGroup.props.tilter)
+        tilters.back().push_back(Tilter(glm::vec4(obj.x, obj.y, obj.w, obj.h), glm::vec2(obj.x + obj.w/2, obj.y + obj.h/2), obj.props.angle));
     }
     for(const auto &poly: objGroup.polys)
     {
@@ -98,50 +111,9 @@ void Logical::getTileData(tiled::Map &map)
           i++;
         }
     }
-
-    if(layer.props.tilter)
-    {
-      tilters.push_back(std::vector<Tilter>());
-      size_t i = 0;
-      for(unsigned int y = 0; y < map.height; y++)
-        for(unsigned int x = 0; x < map.width; x++)
-        {
-          if(layer.data[i] != 0)
-            tilters.back().push_back(Tilter(glm::vec4(x * map.tileWidth, y * map.tileHeight, map.tileWidth, map.tileHeight), glm::vec2(0), layer.data[i]));
-          i++;
-        }
-    }
   }
 }
 
-void Logical::setTilterAngles()
-{
-  int minTile = 6; //TODO: get without hardcoding?
-  //assuming tilter tilemap order -> 0:Up, 1:Right, 2:Down, 3:Left
-  for(auto &tilterGroup : tilters)
-  {
-    for(auto& tilter  : tilterGroup)
-    {
-      int direction  = tilter.tile - minTile;
-      tilter.initialAngle = direction * 90.0f;
-      switch(direction)
-      {
-        case 0:
-          tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z/2, tilter.rect.y + tilter.rect.w/5);
-          break;
-        case 1:
-          tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z - tilter.rect.z/5, tilter.rect.y + tilter.rect.w/2);
-          break;
-        case 2:
-          tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z/2, tilter.rect.y + tilter.rect.w - + tilter.rect.w/5);
-          break;
-        case 3:
-          tilter.pivot = glm::vec2(tilter.rect.x + tilter.rect.z/5, tilter.rect.y + tilter.rect.w/2);
-          break;
-      }
-    }
-  }
-}
 
 
 }

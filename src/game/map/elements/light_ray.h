@@ -33,7 +33,7 @@ public:
     std::vector<glm::vec2> hitDest;
   };
   LightRay()  {}
-  LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int staticLinesOffset, Sprite rayBoxOn, Sprite rayBoxOff);
+  LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int staticLinesOffset, Sprite rayBox, Sprite rayBoxOn, Sprite rayBoxOff);
   void Update(std::vector<LightElements> &lightElems, glm::vec4 camRect);
   void Draw(Render *render);
   void setOn(bool on)
@@ -69,6 +69,8 @@ private:
   };
   void calcPath(std::vector<LightElements> &lightElems);
   void addRay(glm::vec2 sourceVec, glm::vec2 currentPos, float currentAngle, int p1I, int p2I);
+  void setSprites();
+
   Resource::Texture pixel;
   glm::vec4 source;
   float angle;
@@ -78,6 +80,7 @@ private:
   bool on = true;
   bool wasOff = false;
 
+  Sprite rayBox;
   Sprite rayBoxOn;
   Sprite rayBoxOff;
 };

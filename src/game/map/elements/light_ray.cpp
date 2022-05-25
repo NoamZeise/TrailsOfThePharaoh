@@ -1,6 +1,6 @@
 #include "light_ray.h"
 
-LightRay::LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int staticLinesOffset, Sprite rayBoxOn, Sprite rayBoxOff)
+LightRay::LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int staticLinesOffset, Sprite rayBox,  Sprite rayBoxOn, Sprite rayBoxOff)
 {
   this->pixel = pixel;
   this->source = source;
@@ -8,15 +8,14 @@ LightRay::LightRay(Resource::Texture pixel, glm::vec4 source, float angle, int s
   this->staticLinesOffset = staticLinesOffset;
 
   this->rayBoxOn = rayBoxOn;
-  this->rayBoxOn.setRect(source);
-  this->rayBoxOn.setRotation(angle);
   this->rayBoxOff = rayBoxOff;
-  this->rayBoxOff.setRect(source);
-  this->rayBoxOff.setRotation(angle);
+  this->rayBox = rayBox;
+  setSprites();
 }
 
 void LightRay::Update(std::vector<LightElements> &lightElems, glm::vec4 camRect)
 {
+  rayBox.Update(camRect);
   rayBoxOff.Update(camRect);
   rayBoxOn.Update(camRect);
   if(!on)
@@ -38,6 +37,7 @@ void LightRay::Draw(Render *render)
     render->DrawQuad(pixel, ray, glm::vec4(1.0f, 1.0f, 0.2f, 2.0f));
   }
 
+  rayBox.Draw(render);
   if(on)
     rayBoxOn.Draw(render);
   else
@@ -48,15 +48,16 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
 {
   lightRayModels.clear();
   lightRayInfo.clear();
-  glm::vec2 sourceVec = glm::vec2(this->source.x + this->source.z/2, this->source.y + this->source.w/2);
-  glm::vec2 currentPos = sourceVec;
-  float currentAngle = angle;
 
   const float STEP_SIZE = 1.0f;
-  glm::vec2 deltaStep = glmhelper::getVectorFromAngle(currentAngle) * STEP_SIZE;
+  glm::vec2 deltaStep = glmhelper::getVectorFromAngle(angle) * STEP_SIZE;
   int reflections = 0;
   int steps = 0;
   int  prevIndex = -1;
+
+  glm::vec2 sourceVec = glm::vec2(this->source.x + this->source.z/2, this->source.y + this->source.w/2) + deltaStep*32.0f;
+  glm::vec2 currentPos = sourceVec;
+  float currentAngle = angle;
 
   while(true)
   {
@@ -112,6 +113,15 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
   }
 }
 
+void LightRay::setSprites()
+{
+  this->rayBox.setRect(source);
+  //this->rayBox.setRotation(angle);
+  this->rayBoxOn.setRect(source);
+  this->rayBoxOn.setRotation(angle);
+  this->rayBoxOff.setRect(source);
+  this->rayBoxOff.setRotation(angle);
+}
 
 
 void LightRay::addRay(glm::vec2 sourceVec, glm::vec2 currentPos, float currentAngle, int p1I, int p2I)

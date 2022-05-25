@@ -8,32 +8,34 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 	visual = Map::Visual(map, render, mapFont);
 
 	Resource::Texture mirror = render->LoadTexture("textures/level/mirror.png");
+	Resource::Texture tilterBase = render->LoadTexture("textures/level/tilterBase.png");
+
 	for(const auto &tilterGroup : logical.tilters)
 	{
 		tilters.push_back(std::vector<Tilter>());
 		for(const auto& tilter:  tilterGroup)
-		{
-			Resource::Texture baseTexture;
-			glm::vec4 baseOffset;
-			visual.getTilesetTexAndOffset(tilter.tile, &baseTexture, &baseOffset);
-			tilters.back().push_back(Tilter(Sprite(baseTexture, tilter.rect, 1.0f), baseOffset, Sprite(mirror, glm::vec4(0), 5.0f), tilter.pivot, tilter.initialAngle));
-		}
+			tilters.back().push_back(Tilter(Sprite(tilterBase, tilter.rect, 0.5f), Sprite(mirror, glm::vec4(0), 1.1f), tilter.pivot, tilter.initialAngle));
 	}
+
+	auto rayBox = Sprite(
+								render->LoadTexture("textures/level/rayStationBase.png"),
+								glm::vec4(1.0f),
+								0.5f);
 
 	auto rayBoxOn = Sprite(
 									render->LoadTexture("textures/level/rayStationOn.png"),
 									glm::vec4(1.0f),
-									1.1f);
+									1.0f);
 	auto rayBoxOff = Sprite(
 									render->LoadTexture("textures/level/rayStationOff.png"),
 									glm::vec4(1.0f),
-									1.1f);
+									1.0f);
 
-	setLineObjects(render, rayBoxOn, rayBoxOff);
+	setLineObjects(render, rayBox, rayBoxOn, rayBoxOff);
 
 	for(const auto &ray  : logical.raySources)
 	{
-		rays.push_back(LightRay(render->LoadTexture("textures/pixel.png"), ray.rect, ray.angle, staticLinesOffset, rayBoxOn, rayBoxOff));
+		rays.push_back(LightRay(render->LoadTexture("textures/pixel.png"), ray.rect, ray.angle, staticLinesOffset, rayBox, rayBoxOn, rayBoxOff));
 	}
 }
 
@@ -54,10 +56,9 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls
 		updatesSinceNotChanged = 0;
 	linesChanged = false;
 	for(auto &l: lines)
-	{
 		if(l.changed)
 			linesChanged = true;
-	}
+
 }
 
 void Level::tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls)
@@ -109,6 +110,9 @@ void Level::rayDependantUpdate(glm::vec4 cameraRect)
 	for(auto& raySwitch : raySwitches)
 		raySwitch.Update(lines, cameraRect);
 
+	for(auto &dS : doorSwitches)
+		dS.Update(lines, cameraRect);
+
 	goal.Update(lines, cameraRect);
 }
 
@@ -123,6 +127,9 @@ void Level::Draw(Render *render)
 
 	for(auto &ray : rays)
 		ray.Draw(render);
+
+	for(auto &dS : doorSwitches)
+		dS.Draw(render);
 
 	for(auto &raySwitch:  raySwitches)
 		raySwitch.Draw(render);
@@ -144,7 +151,7 @@ void Level::Draw(Render *render)
 }
 
 
-void Level::setLineObjects(Render *render, Sprite rayBoxOn, Sprite rayBoxOff)
+void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprite rayBoxOff)
 {
 		//set Lines
 
@@ -193,7 +200,7 @@ void Level::setLineObjects(Render *render, Sprite rayBoxOn, Sprite rayBoxOff)
 			int prevIndex = lines.size();
 			addRectLine(switches.box, false);
 			raySwitches.push_back(RaySwitch(
-					LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size(), rayBoxOn, rayBoxOff),
+					LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size(), rayBox, rayBoxOn, rayBoxOff),
 					switches.on,
 					prevIndex,
 					switches.box,
@@ -213,6 +220,21 @@ void Level::setLineObjects(Render *render, Sprite rayBoxOn, Sprite rayBoxOff)
 				lines.push_back(LightRay::LightElements(glm::vec2(rect.x, rect.y), glm::vec2(rect.z, rect.w), tilter.getThickness(), true));
 			}
 		}
+
+	Sprite doorSprite = Sprite(
+		render->LoadTexture("textures/level/door.png"),
+		glm::vec4(0.0f), 1.2f);
+
+	for(auto &doorSwitch: logical.doorBox)
+	{
+		int prevIndexSwitch = lines.size();
+		addRectLine(doorSwitch.box, false);
+		int prevIndexDoor = lines.size();
+		addRectLine(doorSwitch.doorRect, false);
+		doorSwitches.push_back(DoorSwitch(
+					doorSprite, doorSwitch.doorRect, prevIndexDoor, doorSwitch.on,
+					prevIndexSwitch, doorSwitch.box, onSprite, offSprite));
+	}
 }
 
 void Level::addRectLine(glm::vec4 rect, bool reflective)

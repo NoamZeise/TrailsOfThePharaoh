@@ -12,7 +12,7 @@
 class Tilter : public Button
 {
 public:
-  Tilter(Sprite base, glm::vec4 texOffset, Sprite mirror, glm::vec2 pivot, float initialAngle);
+  Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle);
   void Update(glm::vec4 camRect, Input::Controls &input) { Update(camRect, input, 1.0f); }
   void Update(glm::vec4 camRect, Input::Controls &input, float scale) override;
   void Draw(Render *render) override;
@@ -47,6 +47,7 @@ private:
   float getMouseAngle(Input::Controls &controls);
 
   Sprite mirror;
+
   glm::vec2 pivot;
   float angle;
   glm::vec2 initialAngleVector;

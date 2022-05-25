@@ -19,6 +19,7 @@
 #include "elements/tilter.h"
 #include "elements/ray_switch.h"
 #include "elements/light_switch.h"
+#include "elements/door_switch.h"
 
 #include <glmhelper.h>
 #include <gamehelper.h>
@@ -38,7 +39,7 @@ glm::vec4 getMapRect() { return logical.mapRect; }
 bool complete() { return goal.isOn(); }
 
 private:
-	void setLineObjects(Render *render, Sprite rayBoxOn, Sprite rayBoxOff);
+	void setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprite rayBoxOff);
 	void tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls);
 	void rayDependantUpdate(glm::vec4 cameraRect);
 
@@ -50,6 +51,7 @@ private:
 	std::vector<glm::vec4> activeColliders;
 	std::vector<glm::vec4> mirrors;
 	std::vector<LightRay> rays;
+	std::vector<DoorSwitch> doorSwitches;
 	std::vector<std::vector<Tilter>> tilters;
 	std::vector<RaySwitch> raySwitches;
 

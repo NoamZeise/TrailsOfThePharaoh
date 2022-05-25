@@ -118,7 +118,6 @@ Properties fillPropStruct(rapidxml::xml_node<> *propertiesNode)
 			else
 				std::cout << "WARNING: property " << name << " did not have true or false value!" << std::endl;
 		}
-
 		//INSERT CUSTOM PROEPRTIES HERE
 
 		else

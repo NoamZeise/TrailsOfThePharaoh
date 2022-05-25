@@ -30,19 +30,26 @@ struct Logical
     glm::vec4 box;
   };
 
+  struct DoorWithBox
+  {
+    bool on;
+    glm::vec4 doorRect;
+    glm::vec4 box;
+  };
+
+
 
   struct Tilter
   {
-    Tilter(glm::vec4 rect, glm::vec2 pivot, int tile)
+    Tilter(glm::vec4 rect, glm::vec2 pivot, int initialAngle)
     {
       this->rect = rect;
       this->pivot = pivot;
-      this->tile = tile;
+      this->initialAngle = initialAngle;
     }
     glm::vec4 rect;
     glm::vec2 pivot;
     float  initialAngle;
-    int tile;
   };
 
   void SetPropsWithTiledMap(tiled::Map &map);
@@ -54,6 +61,7 @@ struct Logical
   std::vector<RaySource> raySources;
   std::vector<std::vector<Tilter>> tilters;
   std::vector<RayWithBox> switchRays;
+  std::vector<DoorWithBox> doorBox;
   glm::vec4 goal;
 	glm::vec4  playerSpawn;
   glm::vec4  mapRect;
@@ -61,7 +69,6 @@ struct Logical
 private:
   void getObjGroupData(tiled::Map &map);
   void getTileData(tiled::Map &map);
-  void setTilterAngles();
 };
 
 }
