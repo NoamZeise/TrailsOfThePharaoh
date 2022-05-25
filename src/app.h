@@ -94,6 +94,8 @@ private:
   int currentLevelIndex;
   Level currentLevel;
   TextButton retryButton;
+  bool lvlShowContinue = false;
+  TextButton continueButton;
 
   bool allLevelsComplete = false;
 };

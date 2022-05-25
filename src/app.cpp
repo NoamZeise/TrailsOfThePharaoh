@@ -80,6 +80,20 @@ void App::loadAssets()
     "Retry",
     gameFont
   );
+
+  btnSprite.setRect(
+    glm::vec4(
+      settings::TARGET_WIDTH/2 - 320/2,
+      settings::TARGET_HEIGHT/2 - 100/2,
+      320, 100)
+  );
+  continueButton = TextButton(
+    btnSprite,
+    true,
+    "Continue",
+    gameFont
+  );
+
   loadMaps();
   mRender->EndResourceLoad();
 }
@@ -168,7 +182,10 @@ void App::update()
     currentLevel.Update(camera.getCameraArea(), timer, controls);
 
     if(currentLevel.complete())
-      nextMap();
+    {
+      lvlShowContinue = true;
+      inGame = false;
+    }
 
     retryButton.Update(camera.getCameraArea(), controls, scale);
 
@@ -176,6 +193,20 @@ void App::update()
     {
       currentLevelIndex--;
       nextMap();
+    }
+  }
+  else
+  {
+    if(lvlShowContinue)
+    {
+      continueButton.Update(camera.getCameraArea(), controls, scale);
+
+      if(continueButton.Clicked())
+      {
+        lvlShowContinue = false;
+        inGame = true;
+        nextMap();
+      }
     }
   }
 
@@ -245,6 +276,16 @@ void App::draw()
   cursor.Draw(mRender);
 
   retryButton.Draw(mRender);
+
+  if(lvlShowContinue)
+  {
+    continueButton.Draw(mRender);
+    mRender->DrawString(gameFont, "Level Complete!",
+      glm::vec2(
+        (settings::TARGET_WIDTH/2.0f - 180.0f)*scale + camera.getCameraArea().x,
+        (settings::TARGET_HEIGHT/2.0f - 300.0f)*scale + camera.getCameraArea().y),
+      50.0f*scale, 3.0f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+  }
 
   if(allLevelsComplete)
     mRender->DrawString(gameFont, "GAME COMPLETE", glm::vec2(500, 500), 200.0f, 3.0f, glm::vec4(1.0f));

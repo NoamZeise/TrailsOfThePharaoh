@@ -34,7 +34,7 @@ public:
 private:
   void setTextProps(glm::vec4 bgRect)
   {
-    this->size = bgRect.z / 3.0f;
+    this->size = bgRect.w / 1.5f;
     this->pos = glm::vec2(
       bgRect.x + bgRect.z/10.0f,
       bgRect.y + bgRect.w/1.5f
