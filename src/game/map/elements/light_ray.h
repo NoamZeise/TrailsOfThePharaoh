@@ -42,9 +42,9 @@ public:
   }
   bool hasRay(glm::vec2 source, glm::vec2 dest)
   {
-    for(const auto& ray: lightRayInfo)
+    for(const auto& ray: rays)
     {
-      if(ray.source == source && ray.dest == dest)
+      if(ray.p1 == source && ray.p2 == dest)
         return true;
     }
     return false;
@@ -58,24 +58,16 @@ public:
       angle, 0.9f, false);
   }
 
+  std::vector<DS::ShaderStructs::ray2D> rays;
+
 private:
-  struct Ray
-  {
-    Ray(int p1I, int p2I, glm::vec2 source, glm::vec2 dest) { this->p1Index = p1I; this->p2Index = p2I; this->source = source; this->dest = dest; }
-    int p1Index = 0;
-    int p2Index = 0;
-    glm::vec2 source;
-    glm::vec2 dest;
-  };
   void calcPath(std::vector<LightElements> &lightElems);
-  void addRay(glm::vec2 sourceVec, glm::vec2 currentPos, float currentAngle, int p1I, int p2I);
+  void addRay(glm::vec2 sourceVec, glm::vec2 currentPos);
   void setSprites();
 
   Resource::Texture pixel;
   glm::vec4 source;
   float angle;
-  std::vector<glm::mat4> lightRayModels;
-  std::vector<Ray> lightRayInfo;
   int staticLinesOffset = 0;
   bool on = true;
   bool wasOff = false;

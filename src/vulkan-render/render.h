@@ -32,6 +32,8 @@
 const size_t MAX_3D_INSTANCE = 100;
 const size_t MAX_2D_INSTANCE = 2000;
 
+const size_t MAX_2D_RAYS = 100;
+
 class Render {
 public:
   Render(GLFWwindow *window);
@@ -42,6 +44,22 @@ public:
   }
   void set3DViewMatrixAndFov(glm::mat4 view, float fov);
   void set2DViewMatrixAndScale(glm::mat4 view, float scale);
+  void set2DRayData(std::vector<DS::ShaderStructs::ray2D> &setRays) {
+    int range = setRays.size();
+    if(setRays.size() > m2DRays.data.size())
+    {
+      range = m2DRays.data.size();
+      std::cerr << ("sent rays larger than capacity!") << std::endl;
+    }
+    for(int i = 0; i < range; i++)
+      m2DRays.data[i] = setRays[i];
+
+    if(range < m2DRays.data.size())
+    {
+      m2DRays.data[range].p1 = glm::vec2(-1);
+      m2DRays.data[range].magnitude = 0.0f;
+    }
+  }
   void restartResourceLoad();
   Resource::Texture LoadTexture(std::string filepath);
   Resource::Font LoadFont(std::string filepath);
@@ -91,6 +109,7 @@ private:
   DS::DescriptorSet mLightingds;
   DS::DescriptorSet mTexturesds;
   DS::DescriptorSet mPer2Dfragds;
+  DS::DescriptorSet m2DRaysds;
   DS::DescriptorSet mOffscreends;
 
   DS::BindingAndData<DS::ShaderStructs::viewProjection> mVP3D;
@@ -100,6 +119,7 @@ private:
   DS::BindingAndData<bool> mTextureViews;
   DS::BindingAndData<bool> mTextureSampler;
   DS::BindingAndData<DS::ShaderStructs::Per2DFrag> mPer2Dfrag;
+  DS::BindingAndData<DS::ShaderStructs::ray2D> m2DRays;
   DS::BindingAndData<DS::ShaderStructs::lighting> mLighting;
   DS::BindingAndData<bool> mOffscreenSampler;
   DS::BindingAndData<bool> mOffscreenView;

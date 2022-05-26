@@ -40,7 +40,7 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 }
 
 
-void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls)
+void Level::Update(glm::vec4 cameraRect, float scale, Timer &timer, Input::Controls &controls)
 {
 	beingMoved = false;
 	beingRotated = false;
@@ -61,7 +61,7 @@ void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls
 	}
 
 	if(updatesSinceNotChanged < 2)
-		rayDependantUpdate(cameraRect);
+		rayDependantUpdate(cameraRect, scale);
 
 	if(goal.isOn())
 	{
@@ -122,7 +122,7 @@ void Level::tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls)
 	}
 }
 
-void Level::rayDependantUpdate(glm::vec4 cameraRect)
+void Level::rayDependantUpdate(glm::vec4 cameraRect, float scale)
 {
 	for(auto &l: lines)
 	{
@@ -130,16 +130,25 @@ void Level::rayDependantUpdate(glm::vec4 cameraRect)
 		l.hitDest.clear();
 		l.lightHit = false;
 	}
-
+	shaderRays.clear();
+	raysChanged = true;
 	for(auto &ray : rays)
+	{
 		ray.Update(lines, cameraRect);
+		for(auto& shaderRay : ray.rays)
+			shaderRays.push_back(shaderRay);
+	}
 
 	for(auto& raySwitch : raySwitches)
+	{
 		raySwitch.rayUpdate(lines, cameraRect);
+		for(auto& shaderRay : raySwitch.lightRay.rays)
+			shaderRays.push_back(shaderRay);
+	}
 
 	for(auto &dS : doorSwitches)
 		dS.Update(lines, cameraRect);
-		
+
 	for(auto& raySwitch : raySwitches)
 		raySwitch.Update(lines, cameraRect);
 

@@ -45,7 +45,6 @@ public:
     LightSwitch::Draw(render);
   }
 
-private:
   LightRay lightRay;
 };
 

@@ -124,6 +124,12 @@ void Render::_initFrameResources() {
                                      {&mPer2Dfrag.binding},
                                      VK_SHADER_STAGE_FRAGMENT_BIT, frameCount);
 
+  m2DRays.setBufferProps(frameCount, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+                                &m2DRaysds,MAX_2D_RAYS);
+  initVulkan::DescriptorSetAndLayout(mBase.device, m2DRaysds,
+                                    {&m2DRays.binding},
+                                    VK_SHADER_STAGE_FRAGMENT_BIT, frameCount);
+
   // temp, move somewhere else later
 
   VkPhysicalDeviceProperties deviceProps{};
@@ -167,7 +173,7 @@ void Render::_initFrameResources() {
       mBase,
       {&mVP3D.binding, &mVP2D.binding, &mPerInstance.binding,
        &mPer2Dvert.binding, &mLighting.binding, &mTextureSampler.binding,
-       &mTextureViews.binding, &mPer2Dfrag.binding, &mOffscreenSampler.binding,
+       &mTextureViews.binding, &mPer2Dfrag.binding, &m2DRays.binding, &mOffscreenSampler.binding,
        &mOffscreenView.binding},
       &mShaderBuffer, &mShaderMemory);
 
@@ -181,7 +187,7 @@ void Render::_initFrameResources() {
 
   initVulkan::GraphicsPipeline(
       mBase.device, &mPipeline2D, mSwapchain, mRenderPass,
-      {&mVP2Dds, &mPer2DVertds, &mTexturesds, &mPer2Dfragds},
+      {&mVP2Dds, &mPer2DVertds, &mTexturesds, &mPer2Dfragds, &m2DRaysds},
       {{VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(vectPushConstants)},
        {VK_SHADER_STAGE_FRAGMENT_BIT, sizeof(vectPushConstants),
         sizeof(fragPushConstants)}},
@@ -203,6 +209,12 @@ void Render::_initFrameResources() {
     mPer2Dfrag.data[i].texOffset = glm::vec4(0, 0, 1, 1);
     mPer2Dfrag.data[i].texID = 0;
   }
+
+  for(size_t i = 0; i < MAX_2D_RAYS; i++) {
+    m2DRays.data[i].p1 = glm::vec2(-1, -1);
+    m2DRays.data[i].p2 = glm::vec2(-1, -1);
+    m2DRays.data[i].magnitude = 0;
+  }
 }
 
 void Render::_destroyFrameResources() {
@@ -218,6 +230,7 @@ void Render::_destroyFrameResources() {
   mLightingds.destroySet(mBase.device);
   mTexturesds.destroySet(mBase.device);
   mPer2Dfragds.destroySet(mBase.device);
+  m2DRaysds.destroySet(mBase.device);
   mOffscreends.destroySet(mBase.device);
 
   vkDestroyFramebuffer(mBase.device, mSwapchain.offscreenFramebuffer, nullptr);
@@ -527,6 +540,12 @@ void Render::EndDraw(std::atomic<bool> &submit) {
     mPer2Dfrag.storeData(mImg, i);
   }
   current2DInstanceIndex = 0;
+
+  for (size_t i = 0; i < m2DRays.data.size(); i++) {
+    m2DRays.storeData(mImg, i);
+    if(m2DRays.data[i].magnitude == 0 && m2DRays.data[i].p1 == glm::vec2(-1))
+      break;
+  }
 
   // end render pass
   vkCmdEndRenderPass(mSwapchain.frameData[mImg].commandBuffer);

@@ -58,6 +58,12 @@ struct lighting {
   alignas(16) glm::vec4 direction;
 };
 
+struct ray2D {
+  alignas(8) glm::vec2 p1;
+  alignas(8) glm::vec2 p2;
+  alignas(4) float magnitude;
+};
+
 } // namespace ShaderStructs
 
 struct DescriptorSet {

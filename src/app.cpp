@@ -104,7 +104,7 @@ void App::loadAssets()
 
 void App::loadMaps()
 {
-  currentLevelIndex = 6;  //1 less than desired index
+  currentLevelIndex = -1;  //1 less than desired index
   levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont));
   levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont));
   levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont));
@@ -184,10 +184,23 @@ void App::update()
   camera.setScale(scale);
   camera.Target(target, timer);
 
+  std::vector<DS::ShaderStructs::ray2D> rays;
   currentCursor = cursor;
   if(inGame)
   {
-    currentLevel.Update(camera.getCameraArea(), timer, controls);
+    currentLevel.Update(camera.getCameraArea(), scale, timer, controls);
+
+    for(auto &mapRay : currentLevel.shaderRays)
+    {
+      DS::ShaderStructs::ray2D ray = mapRay;
+      ray.p1.x = ray.p1.x - camera.getCameraArea().x;
+      ray.p1.y = ray.p1.y - camera.getCameraArea().y;
+      ray.p1 = appToScreen(ray.p1);
+      ray.p2.x = ray.p2.x - camera.getCameraArea().x;
+      ray.p2.y = ray.p2.y - camera.getCameraArea().y;
+      ray.p2 = appToScreen(ray.p2);
+      rays.push_back(ray);
+    }
 
     if(currentLevel.complete())
     {
@@ -233,6 +246,7 @@ void App::update()
       }
     }
   }
+    mRender->set2DRayData(rays);
 
   auto cursorRect = cursor.getDrawRect();
   currentCursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
@@ -294,7 +308,7 @@ void App::draw()
     submitDraw.join();
 
   mRender->Begin2DDraw();
-
+mRender->DrawQuad(pixelTex, glmhelper::calcMatFromRect(glm::vec4(0, 0, currentLevel.getMapRect().z, currentLevel.getMapRect().w), 0.0f, -1.0f), glm::vec4(0.3f, 0.3f, 0.1f, 1.0f));
   currentLevel.Draw(mRender);
 
   currentCursor.Draw(mRender);
@@ -342,6 +356,17 @@ glm::vec2 App::correctedPos(glm::vec2 pos)
         pos.y * ((float)settings::TARGET_HEIGHT*scale / (float)mWindowHeight));
 
   return glm::vec2(pos.x, pos.y);
+}
+
+glm::vec2 App::appToScreen(glm::vec2 pos)
+{
+  #ifdef OGL_RENDER_H
+	return glm::vec2(pos.x * ((float)mWindowWidth / (float)settings::TARGET_WIDTH) / scale,
+	          settings::TARGET_HEIGHT - pos.y * ((float)mWindowHeight / (float)settings::TARGET_HEIGHT) / scale );
+  #else
+	return glm::vec2(pos.x * ((float)mWindowWidth / (float)settings::TARGET_WIDTH) / scale,
+	          pos.y * ((float)mWindowHeight / (float)settings::TARGET_HEIGHT) / scale );
+  #endif
 }
 
 glm::vec2 App::correctedMouse()

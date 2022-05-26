@@ -61,6 +61,21 @@ Render::Render(GLFWwindow *window, glm::vec2 target)
   glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(perInstance2DTexOffset), &perInstance2DTexOffset, GL_DYNAMIC_DRAW);
   glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
 
+  glGenBuffers(1, &rayp1SSBO);
+  glBindBuffer(GL_SHADER_STORAGE_BUFFER, rayp1SSBO);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(rayp1Data), &rayp1Data, GL_DYNAMIC_DRAW);
+  glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
+
+  glGenBuffers(1, &rayp2SSBO);
+  glBindBuffer(GL_SHADER_STORAGE_BUFFER, rayp2SSBO);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(rayp2Data), &rayp2Data, GL_DYNAMIC_DRAW);
+  glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
+
+  glGenBuffers(1, &raydistSSBO);
+  glBindBuffer(GL_SHADER_STORAGE_BUFFER, raydistSSBO);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(raydistData), &raydistData, GL_DYNAMIC_DRAW);
+  glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
+
   textureLoader = new Resource::TextureLoader();
   fontLoader = new  Resource::FontLoader();
   modelLoader = new Resource::ModelLoader();
@@ -157,6 +172,22 @@ void Render::EndDraw(std::atomic<bool>& submit)
 //Draw 2D
 
   flatShader->Use();
+
+  glBindBuffer(GL_SHADER_STORAGE_BUFFER, rayp1SSBO);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(rayp1Data), rayp1Data, GL_DYNAMIC_DRAW);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 6, rayp1SSBO);
+  glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
+
+  glBindBuffer(GL_SHADER_STORAGE_BUFFER, rayp2SSBO);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(rayp2Data), rayp2Data, GL_DYNAMIC_DRAW);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 7, rayp2SSBO);
+  glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
+
+  glBindBuffer(GL_SHADER_STORAGE_BUFFER, raydistSSBO);
+  glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(raydistData), raydistData, GL_DYNAMIC_DRAW);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, raydistSSBO);
+  glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
+
 
   glUniformMatrix4fv(flatShader->Location("projection"), 1, GL_FALSE, &proj2D[0][0]);
   glUniformMatrix4fv(flatShader->Location("view"), 1, GL_FALSE, &view2D[0][0]);

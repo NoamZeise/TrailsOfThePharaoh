@@ -17,10 +17,18 @@ layout(set = 3, binding = 0) readonly buffer PerInstanceBuffer {
     uint texID;
 } pib[2000];
 
+const int RAY_COUNT = 100;
+layout(set = 4, binding = 0) readonly buffer PerFrameLightPoints{
+  vec2 p1;
+  vec2 p2;
+  float distance;
+} rays[RAY_COUNT];
+
 layout(location = 0) in vec3 inTexCoord;
 layout(location = 1) in vec3 inVertPos;
 
 layout(location = 0) out vec4 outColour;
+
 
 vec4 calcColour(vec4 texOffset, vec4 colour, uint texID)
 {
@@ -31,6 +39,32 @@ vec4 calcColour(vec4 texOffset, vec4 colour, uint texID)
     coord.y += texOffset.y;
 
     vec4 col = texture(sampler2D(textures[texID], texSamp), coord) * colour;
+
+    float attenuation = 0.0f;
+    for(int i = 0; i < RAY_COUNT; i++)
+    {
+
+      if(rays[i].distance == 0)
+        break;
+
+      float dist = 0.0f;
+
+      vec2 lineVec = (rays[i].p2 - rays[i].p1);
+      float l2 = (lineVec.x* lineVec.x) + (lineVec.y*lineVec.y);
+
+      if(l2 == 0.0f)
+        dist = distance(rays[i].p1, gl_FragCoord.xy);
+      else
+      {
+        float t = max(0, min(1, dot(gl_FragCoord.xy - rays[i].p1, rays[i].p2 - rays[i].p1) / l2));
+        vec2 projection = rays[i].p1 + (rays[i].p2 - rays[i].p1)*t;
+        dist = distance(gl_FragCoord.xy, projection);
+      }
+
+      attenuation += 1.0f / (1.0f + 0.5f * dist + 0.1f * dist * dist);
+    }
+
+    col += vec4(1.0f, 1.0f, 0.0f, 0.0f) * attenuation;
 
     if(col.w == 0)
         discard;

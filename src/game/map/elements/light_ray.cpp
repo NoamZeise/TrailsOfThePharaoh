@@ -21,8 +21,7 @@ void LightRay::Update(std::vector<LightElements> &lightElems, glm::vec4 camRect)
   if(!on)
   {
     wasOff = true;
-    lightRayModels.clear();
-    lightRayInfo.clear();
+    rays.clear();
     return;
   }
   else
@@ -32,10 +31,6 @@ void LightRay::Update(std::vector<LightElements> &lightElems, glm::vec4 camRect)
 void LightRay::Draw(Render *render)
 {
   //render->DrawQuad(pixel, glmhelper::calcMatFromRect(struc, 0.0f, 1.0f), glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-  for(const auto& ray : lightRayModels)
-  {
-    render->DrawQuad(pixel, ray, glm::vec4(1.0f, 1.0f, 0.2f, 2.0f));
-  }
 
   rayBox.Draw(render);
   if(on)
@@ -46,14 +41,12 @@ void LightRay::Draw(Render *render)
 
 void LightRay::calcPath(std::vector<LightElements> &lightElems)
 {
-  lightRayModels.clear();
-  lightRayInfo.clear();
+  rays.clear();
 
   const float STEP_SIZE = 1.0f;
   glm::vec2 deltaStep = glmhelper::getVectorFromAngle(angle) * STEP_SIZE;
   int reflections = 0;
   int steps = 0;
-  int  prevIndex = -1;
 
   glm::vec2 sourceVec = glm::vec2(this->source.x + this->source.z/2, this->source.y + this->source.w/2) + deltaStep*32.0f;
   glm::vec2 currentPos = sourceVec;
@@ -61,13 +54,13 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
 
   while(true)
   {
-    if(reflections > 7)
+    if(reflections > 10)
       break;
     currentPos += deltaStep;
     steps++;
     if(steps > 2000 / STEP_SIZE)
     {
-      addRay(sourceVec, currentPos, currentAngle, prevIndex,  -1);
+      addRay(sourceVec, currentPos);
       break;
     }
     bool struck = false;
@@ -88,8 +81,7 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
         lightElems[i].lightHit = true;
         lightElems[i].hitSource.push_back(sourceVec);
         lightElems[i].hitDest.push_back(currentPos);
-        addRay(sourceVec, currentPos, currentAngle, prevIndex, i);
-        prevIndex = i;
+        addRay(sourceVec, currentPos);
         if(lightElems[i].reflective)
         {
           float incidence = (currentAngle) - normal;
@@ -124,10 +116,13 @@ void LightRay::setSprites()
 }
 
 
-void LightRay::addRay(glm::vec2 sourceVec, glm::vec2 currentPos, float currentAngle, int p1I, int p2I)
+void LightRay::addRay(glm::vec2 sourceVec, glm::vec2 currentPos)
 {
-  lightRayModels.push_back(GetLineTransform(sourceVec, currentPos, 4.0f, currentAngle));
-  lightRayInfo.push_back(Ray(p1I, p2I, sourceVec, currentPos));
+  DS::ShaderStructs::ray2D ray;
+  ray.p1 = sourceVec;
+  ray.p2 = currentPos;
+  ray.magnitude = glm::distance(sourceVec, currentPos);
+  rays.push_back(ray);
 }
 
 

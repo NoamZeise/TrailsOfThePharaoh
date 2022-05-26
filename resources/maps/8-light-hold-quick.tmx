@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="20" height="18" tilewidth="64" tileheight="64" infinite="0" nextlayerid="41" nextobjectid="175">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="20" height="18" tilewidth="64" tileheight="64" infinite="0" nextlayerid="42" nextobjectid="178">
  <tileset firstgid="1" source="tempTileset.tsx"/>
- <objectgroup id="28" name="Copy of onRay">
-  <object id="128" x="256" y="384" width="64" height="64">
-   <properties>
-    <property name="On" type="bool" value="true"/>
-    <property name="angle" type="float" value="0"/>
-    <property name="lightSource" type="bool" value="true"/>
-   </properties>
-  </object>
- </objectgroup>
  <objectgroup id="29" name="Copy of Copy of onRay">
   <properties>
    <property name="switchLayer" type="bool" value="true"/>
@@ -124,13 +115,13 @@
   <properties>
    <property name="door" type="bool" value="true"/>
   </properties>
-  <object id="91" x="513.333" y="261.333" width="150" height="452">
+  <object id="91" x="512" y="258.667" width="255.333" height="377.333">
    <properties>
     <property name="On" type="bool" value="false"/>
     <property name="door" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="92" x="562.667" y="185.333" width="64" height="64">
+  <object id="92" x="608" y="188" width="64" height="64">
    <properties>
     <property name="switch" type="bool" value="true"/>
    </properties>
@@ -156,17 +147,6 @@
   <properties>
    <property name="door" type="bool" value="true"/>
   </properties>
-  <object id="169" x="357.333" y="261.333" width="155.333" height="454.666">
-   <properties>
-    <property name="On" type="bool" value="false"/>
-    <property name="door" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="170" x="412" y="190.667" width="64" height="64">
-   <properties>
-    <property name="switch" type="bool" value="true"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="18" name="mover">
   <properties>
@@ -218,11 +198,11 @@
   <object id="153" x="1088" y="960" height="128"/>
   <object id="154" x="1088" y="1088" width="128"/>
   <object id="155" x="1216" y="64" height="1024"/>
-  <object id="158" x="320" y="256">
-   <polyline points="0,0 384,0"/>
+  <object id="158" x="341.333" y="260">
+   <polyline points="234.667,-4 362.667,-4"/>
   </object>
   <object id="172" x="512" y="896">
-   <polyline points="0,0 128,0"/>
+   <polyline points="0,0 153.333,0"/>
   </object>
   <object id="174" x="64" y="64" height="1024"/>
  </objectgroup>
@@ -230,14 +210,14 @@
   <properties>
    <property name="mirror" type="bool" value="true"/>
   </properties>
-  <object id="132" x="192" y="256">
-   <polyline points="0,0 64,-64"/>
-  </object>
   <object id="133" x="256" y="960">
    <polyline points="0,0 -64,-64"/>
   </object>
   <object id="143" x="768" y="192">
    <polyline points="0,0 80,78.6667"/>
+  </object>
+  <object id="177" x="192" y="448">
+   <polyline points="0,0 64,-64"/>
   </object>
  </objectgroup>
 </map>

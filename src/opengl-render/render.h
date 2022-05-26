@@ -29,6 +29,21 @@ const int MAX_3D_DRAWS = 100;
 const int MAX_2D_BATCH = 1000;
 const int MAX_3D_BATCH = 100;
 
+const int MAX_2D_RAYS = 100;
+
+namespace DS
+{
+	namespace ShaderStructs
+	{
+		struct ray2D
+		{
+			glm::vec2 p1;
+			glm::vec2 p2;
+			float magnitude;
+		};
+	}
+}
+
 class Render
 {
 public:
@@ -57,6 +72,26 @@ public:
 	void DrawString(Resource::Font font, std::string text, glm::vec2 position, float size, float depth, glm::vec4 colour, float rotate);
 	void DrawString(Resource::Font font, std::string text, glm::vec2 position, float size, float depth, glm::vec4 colour);
   void EndDraw(std::atomic<bool>& submit);
+
+	  void set2DRayData(std::vector<DS::ShaderStructs::ray2D> &setRays) {
+	    int range = setRays.size();
+	    if(setRays.size() > MAX_2D_RAYS)
+	    {
+	      range = MAX_2D_RAYS;
+	      std::cerr << ("sent rays larger than capacity!") << std::endl;
+	    }
+	    for(int i = 0; i < range; i++)
+			{
+			  rayp1Data[i] = setRays[i].p1;
+			  rayp2Data[i] = setRays[i].p2;
+			  raydistData[i] = setRays[i].magnitude;
+			}
+	    if(range < MAX_2D_RAYS)
+	    {
+	      rayp1Data[range] = glm::vec2(-1);
+	      raydistData[range] = 0.0f;
+	    }
+	  }
 
 	void FramebufferResize();
 
@@ -137,6 +172,13 @@ private:
 	glm::mat4 perInstance3DNormal[MAX_3D_BATCH];
 	GLuint model3DSSBO;
 	GLuint normal3DSSBO;
+
+	glm::vec2 rayp1Data[MAX_2D_RAYS];
+	glm::vec2 rayp2Data[MAX_2D_RAYS];
+	float raydistData[MAX_2D_RAYS];
+	GLuint rayp1SSBO;
+	GLuint rayp2SSBO;
+	GLuint raydistSSBO;
 };
 
 

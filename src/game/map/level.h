@@ -32,7 +32,7 @@ class Level
 public:
 Level() {}
 Level(std::string filename, Render* render, Resource::Font mapFont);
-void Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls);
+void Update(glm::vec4 cameraRect, float scale, Timer &timer, Input::Controls &controls);
 void Draw(Render *render);
 
 glm::vec4 getMapRect() { return logical.mapRect; }
@@ -44,10 +44,14 @@ bool moved() { return beingMoved; }
 bool rotatedSel() { return rotateSelected; }
 bool movedSel() { return moveSelected; }
 
+std::vector<DS::ShaderStructs::ray2D> shaderRays;
+
+bool raysChanged = false;
+
 private:
 	void setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprite rayBoxOff);
 	void tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls);
-	void rayDependantUpdate(glm::vec4 cameraRect);
+	void rayDependantUpdate(glm::vec4 cameraRect, float scale);
 
 	void addRectLine(glm::vec4 rect, bool reflective);
 
