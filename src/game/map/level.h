@@ -37,7 +37,12 @@ void Draw(Render *render);
 
 glm::vec4 getMapRect() { return logical.mapRect; }
 
-bool complete() { return goal.isOn(); }
+bool complete() { return winTimer > winDelay; }
+
+bool rotated() { return beingRotated; }
+bool moved() { return beingMoved; }
+bool rotatedSel() { return rotateSelected; }
+bool movedSel() { return moveSelected; }
 
 private:
 	void setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprite rayBoxOff);
@@ -64,9 +69,15 @@ private:
 	Resource::Texture mirrorTex;
 
 	LightSwitch goal;
-
+	bool beingRotated = false;
+	bool rotateSelected = false;
+	bool beingMoved = false;
+	bool moveSelected = false;
 	bool linesChanged = true;
 	int updatesSinceNotChanged = 0;
+
+	float winDelay  = 1000.0f;
+	float winTimer = 0.0f;
 };
 
 

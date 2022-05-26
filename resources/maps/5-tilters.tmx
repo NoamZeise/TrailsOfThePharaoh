@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="12" height="18" tilewidth="64" tileheight="64" infinite="0" nextlayerid="22" nextobjectid="98">
+ <tileset firstgid="1" source="tempTileset.tsx"/>
+ <layer id="1" name="bg" width="12" height="18">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="7" name="startray">
+  <object id="68" x="258" y="196" width="64" height="64">
+   <properties>
+    <property name="angle" type="float" value="90"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="19" name="tilter">
+  <properties>
+   <property name="tilter" type="bool" value="true"/>
+  </properties>
+  <object id="69" x="256" y="384" width="64" height="64">
+   <properties>
+    <property name="angle" type="float" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="goal">
+  <object id="78" x="578" y="380" width="62" height="62">
+   <properties>
+    <property name="goal" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="21" name="onRay">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="83" x="128" y="896" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="310"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="84" x="148.5" y="918" width="22" height="22">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="18" name="mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="72" x="192" y="512" width="257" height="192">
+   <properties>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="74" x="320" y="576">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="-64,0 -192,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="colliders">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
+  <object id="71" x="192" y="512">
+   <polyline points="0,0 192,0"/>
+  </object>
+  <object id="91" x="-128" y="64" width="1024"/>
+  <object id="93" x="-128" y="1088" width="1024"/>
+  <object id="95" x="64" y="64" height="1024"/>
+  <object id="96" x="704" y="64" height="1024"/>
+ </objectgroup>
+ <objectgroup id="3" name="mirrrors">
+  <properties>
+   <property name="mirror" type="bool" value="true"/>
+  </properties>
+  <object id="76" x="0" y="448">
+   <polyline points="128,0 192,-64"/>
+  </object>
+  <object id="77" x="448" y="384">
+   <polyline points="-64,0 0,64"/>
+  </object>
+  <object id="90" x="448" y="1024">
+   <polyline points="-64,-64 0.6667,-128.333"/>
+  </object>
+ </objectgroup>
+</map>

@@ -90,7 +90,10 @@ private:
 
   Resource::Texture pixelTex;
   Resource::Font gameFont;
+  Sprite currentCursor;
   Sprite cursor;
+  Sprite rotateCursor;
+  Sprite moveCursor;
   std::vector<Level> levels;
   int currentLevelIndex;
   Level currentLevel;

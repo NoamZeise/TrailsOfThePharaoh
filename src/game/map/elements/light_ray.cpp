@@ -61,7 +61,7 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
 
   while(true)
   {
-    if(reflections > 50)
+    if(reflections > 7)
       break;
     currentPos += deltaStep;
     steps++;

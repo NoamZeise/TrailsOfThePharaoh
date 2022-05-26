@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="26" tilewidth="64" tileheight="64" infinite="0" nextlayerid="22" nextobjectid="87">
+ <tileset firstgid="1" source="tempTileset.tsx"/>
+ <layer id="1" name="bg" width="30" height="26">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="7" name="startray">
+  <object id="19" x="192" y="128" width="64" height="64">
+   <properties>
+    <property name="angle" type="float" value="45"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="goal">
+  <object id="20" x="66.364" y="130.36" width="64" height="64">
+   <properties>
+    <property name="goal" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="18" name="mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="66" x="1246" y="406" width="168" height="168">
+   <properties>
+    <property name="mirror" type="bool" value="true"/>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="67" x="1326" y="496">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="0,0 -234,-134"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="21" name="Copy of mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="74" x="1636" y="524" width="168" height="168">
+   <properties>
+    <property name="mirror" type="bool" value="true"/>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="75" x="1464" y="798">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="232,-156 -84,20"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="20" name="Copy of mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="68" x="218" y="254" width="296" height="296">
+   <properties>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="72" x="284" y="492">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="0,0 -132,130"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="colliders">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
+  <object id="82" x="64" y="64" height="256"/>
+  <object id="83" x="64" y="64" width="1792"/>
+  <object id="84" x="1856" y="64" height="1536"/>
+  <object id="85" x="64" y="1600" width="1792"/>
+  <object id="86" x="64" y="640" height="960"/>
+ </objectgroup>
+ <objectgroup id="3" name="mirrrors">
+  <properties>
+   <property name="mirror" type="bool" value="true"/>
+  </properties>
+  <object id="70" x="384" y="704">
+   <polyline points="256,0 576,64"/>
+  </object>
+  <object id="76" x="140" y="1062">
+   <polyline points="-76,-44 248,148"/>
+  </object>
+  <object id="79" x="64" y="320">
+   <polyline points="0,0 0,320"/>
+  </object>
+  <object id="80" x="1600" y="384">
+   <polyline points="0,0 256,128 254,440"/>
+  </object>
+  <object id="81" x="1472" y="1408">
+   <polyline points="80,62 366,-16"/>
+  </object>
+ </objectgroup>
+</map>

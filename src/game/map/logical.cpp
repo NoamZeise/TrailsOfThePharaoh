@@ -54,6 +54,7 @@ void Logical::getObjGroupData(tiled::Map &map)
       {
         doorBox.back().doorRect = glm::vec4(obj.x, obj.y, obj.w, obj.h);
         doorBox.back().on = obj.props.on;
+        doorBox.back().reflective = obj.props.mirror;
       }
       if(obj.props.playerSpawn)
         playerSpawn = glm::vec4(obj.x, obj.y, obj.w, obj.h);

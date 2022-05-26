@@ -43,16 +43,16 @@
   <properties>
    <property name="mover" type="bool" value="true"/>
   </properties>
-  <object id="66" x="704" y="768" width="168" height="168">
+  <object id="66" x="704" y="720" width="168" height="168">
    <properties>
     <property name="mover" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="67" x="780" y="862">
+  <object id="67" x="780" y="814">
    <properties>
     <property name="track" type="bool" value="true"/>
    </properties>
-   <polyline points="0,0 0,-192"/>
+   <polyline points="2,-68 0,-190"/>
   </object>
  </objectgroup>
  <objectgroup id="20" name="Copy of mover">
@@ -68,7 +68,7 @@
    <properties>
     <property name="track" type="bool" value="true"/>
    </properties>
-   <polyline points="24,-362 24,-170"/>
+   <polyline points="26,-290 24,-170"/>
   </object>
  </objectgroup>
  <objectgroup id="2" name="colliders">

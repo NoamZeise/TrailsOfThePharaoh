@@ -32,9 +32,10 @@ struct Logical
 
   struct DoorWithBox
   {
-    bool on;
+    bool on = false;
     glm::vec4 doorRect;
     glm::vec4 box;
+    bool reflective = false;
   };
 
   struct Mover

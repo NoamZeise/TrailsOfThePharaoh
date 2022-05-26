@@ -50,11 +50,14 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, float scale)
   clicked = input.LeftMouse();
   glm::vec4 colour = glm::vec4(1.0f);
   changedThisFrame = false;
+  beingControlled = false;
+  hovering = false;
 
   if(gh::contains(input.MousePos(), sprite.getDrawRect()))
   {
     if(!clicked)
     {
+      hovering = true;
       colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     }
     else if(!prevClicked)
@@ -72,8 +75,8 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, float scale)
     }
     else
     {
+      beingControlled = true;
       colour = glm::vec4(0.5f, 0.0f, 0.0f, 1.0f);
-
       auto mouseChanged = input.MousePos() - prevMouse;
       auto changeUnit = unitLine * mouseChanged;
       float changed = changeUnit.x + changeUnit.y;

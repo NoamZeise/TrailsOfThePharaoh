@@ -42,15 +42,35 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 
 void Level::Update(glm::vec4 cameraRect, Timer &timer, Input::Controls &controls)
 {
+	beingMoved = false;
+	beingRotated = false;
+	moveSelected = false;
+	rotateSelected = false;
+
 	visual.Update(cameraRect, timer, &activeColliders);
 
 	tilterUpdate(cameraRect, controls);
 
 	for(auto& mover: movers)
+	{
+		if(mover.isMoving())
+			beingMoved = true;
+		if(mover.isHovered())
+		 	moveSelected = true;
 		mover.Update(cameraRect, controls, lines);
+	}
 
 	if(updatesSinceNotChanged < 2)
 		rayDependantUpdate(cameraRect);
+
+	if(goal.isOn())
+	{
+		winTimer += timer.FrameElapsed();
+	}
+	else
+	{
+		winTimer = 0.0f;
+	}
 
 	//only recalculate rays on change
 	if(!linesChanged)
@@ -94,6 +114,10 @@ void Level::tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls)
 				{
 					tilterGroup[i].offsetAngle(change);
 				}
+				if(tilterGroup[i].isControlled())
+					beingRotated = true;
+				if(tilterGroup[i].isHovered())
+					rotateSelected = true;
 			}
 	}
 }
@@ -113,11 +137,11 @@ void Level::rayDependantUpdate(glm::vec4 cameraRect)
 	for(auto& raySwitch : raySwitches)
 		raySwitch.rayUpdate(lines, cameraRect);
 
-	for(auto& raySwitch : raySwitches)
-		raySwitch.Update(lines, cameraRect);
-
 	for(auto &dS : doorSwitches)
 		dS.Update(lines, cameraRect);
+		
+	for(auto& raySwitch : raySwitches)
+		raySwitch.Update(lines, cameraRect);
 
 	goal.Update(lines, cameraRect);
 }
@@ -242,6 +266,10 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 		render->LoadTexture("textures/level/door.png"),
 		glm::vec4(0.0f), 1.2f);
 
+	Sprite doorReflectiveSprite = Sprite(
+		render->LoadTexture("textures/level/doorReflective.png"),
+		glm::vec4(0.0f), 1.2f);
+
 	Sprite doorOffSprite = Sprite(
 		render->LoadTexture("textures/level/doorOff.png"),
 		glm::vec4(0.0f), 1.2f);
@@ -251,10 +279,12 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 		int prevIndexSwitch = lines.size();
 		addRectLine(doorSwitch.box, false);
 		int prevIndexDoor = lines.size();
-		addRectLine(doorSwitch.doorRect, false);
+		addRectLine(doorSwitch.doorRect, doorSwitch.reflective);
 		doorSwitches.push_back(DoorSwitch(
-					doorSprite, doorOffSprite, doorSwitch.doorRect, prevIndexDoor, doorSwitch.on,
-					prevIndexSwitch, doorSwitch.box, onSprite, offSprite));
+			doorSwitch.reflective ? doorReflectiveSprite : doorSprite,
+			doorOffSprite, doorSwitch.doorRect, prevIndexDoor, doorSwitch.on,
+			prevIndexSwitch, doorSwitch.box, onSprite, offSprite)
+		);
 	}
 
 	Sprite moverColliderSprite = Sprite(render->LoadTexture("textures/level/solidBox.png"), glm::vec4(0.0f), 1.2f);

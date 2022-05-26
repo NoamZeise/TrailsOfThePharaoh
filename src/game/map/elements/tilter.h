@@ -26,7 +26,7 @@ public:
     return temp;  }
   void offsetAngle(float offset)
   {
-    colour = glm::vec4(0.8f, 0.8f, 0.2f, 1.0f);
+    colour = glm::vec4(0.3f, 0.8f, 0.2f, 1.0f);
     sprite.setColour(colour);
     angle += offset;
     changed = true;
@@ -43,6 +43,9 @@ public:
     this->colour = colour;
     sprite.setColour(colour);
   }
+
+  bool isControlled() { return beingControlled; }
+  bool isHovered() { return hovering; }
 private:
 
   float getMouseAngle(Input::Controls &controls);
@@ -59,6 +62,8 @@ private:
   glm::vec4 mirrorPoints;
   glm::vec4 colour  =  glm::vec4(1.0f);
 
+  bool beingControlled = false;
+  bool hovering = false;
   bool selected = false;
   bool changed = false;
   float changedAngle = 0.0f;

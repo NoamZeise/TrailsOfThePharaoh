@@ -12,10 +12,15 @@ public:
   void Update(glm::vec4 camRect, Input::Controls &input, float scale) override;
   void Draw(Render *render) override;
 
+  bool isMoving() { return beingControlled; }
+  bool isHovered() { return hovering; }
+
 private:
   Sprite lineSprite;
   glm::vec4 InitialRect;
 
+  bool beingControlled = false;
+  bool hovering;
   bool selected = false;
   glm::vec2 prevMouse;
 

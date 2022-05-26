@@ -64,6 +64,8 @@ void App::loadAssets()
 {
   gameFont = mRender->LoadFont("textures/Roboto-Black.ttf");
   cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.0f);
+  moveCursor = Sprite(mRender->LoadTexture("textures/ui/moveCursor.png"), 4.0f);
+  rotateCursor = Sprite(mRender->LoadTexture("textures/ui/rotateCursor.png"), 4.0f);
   pixelTex = mRender->LoadTexture("textures/pixel.png");
 
   auto btnSprite = Sprite(mRender->LoadTexture("textures/UI/button.png"),glm::vec4(0),1.0f);
@@ -102,12 +104,15 @@ void App::loadAssets()
 
 void App::loadMaps()
 {
+  currentLevelIndex = 6;  //1 less than desired index
   levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/testMap2.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/testMap3.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/testMap4.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/testMap5.tmx", mRender, gameFont));
-  currentLevelIndex = -1;
+  levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/4-split-two.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/5-tilters.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/6-more-tilters.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/7-light-hold-intro.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/8-light-hold-quick.tmx", mRender, gameFont));
 }
 
 void App::run()
@@ -179,6 +184,7 @@ void App::update()
   camera.setScale(scale);
   camera.Target(target, timer);
 
+  currentCursor = cursor;
   if(inGame)
   {
     currentLevel.Update(camera.getCameraArea(), timer, controls);
@@ -195,6 +201,22 @@ void App::update()
     {
       currentLevelIndex--;
       nextMap();
+    }
+
+    if(currentLevel.movedSel())
+      currentCursor = moveCursor;
+    if(currentLevel.rotatedSel())
+      currentCursor = rotateCursor;
+
+    if(currentLevel.moved())
+    {
+      currentCursor = moveCursor;
+      currentCursor.setColour(glm::vec4(0.2f, 1.0f, 0.2f, 1.0f));
+    }
+    if(currentLevel.rotated())
+    {
+      currentCursor = rotateCursor;
+      currentCursor.setColour(glm::vec4(0.2f, 1.0f, 0.2f, 1.0f));
     }
   }
   else
@@ -213,8 +235,8 @@ void App::update()
   }
 
   auto cursorRect = cursor.getDrawRect();
-  cursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
-  cursor.Update(camera.getCameraArea());
+  currentCursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
+  currentCursor.Update(camera.getCameraArea());
 
   postUpdate();
 
@@ -275,7 +297,7 @@ void App::draw()
 
   currentLevel.Draw(mRender);
 
-  cursor.Draw(mRender);
+  currentCursor.Draw(mRender);
 
   retryButton.Draw(mRender);
 

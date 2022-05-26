@@ -18,12 +18,15 @@ Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) 
     prevClicked = clicked;
     clicked = input.LeftMouse();
     changed = false;
+    beingControlled = false;
+    hovering = false;
     colour = glm::vec4(1.0f);
 
     if(gh::contains(input.MousePos(), sprite.getDrawRect()) && !selected)
     {
       if(!clicked)
       {
+        hovering = true;
         colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
       }
       else if(!prevClicked)
@@ -41,6 +44,7 @@ Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) 
       }
       else
       {
+        beingControlled = true;
         auto mouseAngle = getMouseAngle(input);
         if(abs(mouseAngle - prevMouseAngle) > 330)
         {
@@ -50,7 +54,7 @@ Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) 
             prevMouseAngle -= 360.0f;
         }
 
-        changedAngle = (mouseAngle - prevMouseAngle) * 0.2f; //slow rotation
+        changedAngle = (mouseAngle - prevMouseAngle) * 0.15f; //slow rotation
         prevMouseAngle = mouseAngle;
         offsetAngle(changedAngle);
       }
