@@ -68,19 +68,19 @@ void App::loadAssets()
   rotateCursor = Sprite(mRender->LoadTexture("textures/ui/rotateCursor.png"), 4.0f);
   pixelTex = mRender->LoadTexture("textures/pixel.png");
 
-  auto btnSprite = Sprite(mRender->LoadTexture("textures/UI/button.png"),glm::vec4(0),1.0f);
+  auto btnSprite = Sprite(mRender->LoadTexture("textures/ui/button.png"),glm::vec4(0),1.0f);
 
   btnSprite.setDepth(2.0f);
   btnSprite.setRect(
     glm::vec4(
-      settings::TARGET_WIDTH - 210,
+      settings::TARGET_WIDTH - 215,
       settings::TARGET_HEIGHT - 105,
-      200, 100)
+      205, 100)
   );
   retryButton = TextButton(
     btnSprite,
     true,
-    "Retry",
+    "Reset",
     gameFont
   );
 
