@@ -74,6 +74,7 @@ public:
   void EndDraw(std::atomic<bool>& submit);
 
 	  void set2DRayData(std::vector<DS::ShaderStructs::ray2D> &setRays) {
+			changedRays = true;
 	    int range = setRays.size();
 	    if(setRays.size() > MAX_2D_RAYS)
 	    {
@@ -179,6 +180,7 @@ private:
 	GLuint rayp1SSBO;
 	GLuint rayp2SSBO;
 	GLuint raydistSSBO;
+	bool changedRays = false;
 };
 
 

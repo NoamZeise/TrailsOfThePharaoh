@@ -61,6 +61,11 @@ Render::Render(GLFWwindow *window, glm::vec2 target)
   glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(perInstance2DTexOffset), &perInstance2DTexOffset, GL_DYNAMIC_DRAW);
   glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
 
+  for(int i = 0; i < MAX_2D_RAYS ; i++)
+  {
+    raydistData[i] = 0.0f;
+  }
+
   glGenBuffers(1, &rayp1SSBO);
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, rayp1SSBO);
   glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(rayp1Data), &rayp1Data, GL_DYNAMIC_DRAW);
@@ -173,6 +178,9 @@ void Render::EndDraw(std::atomic<bool>& submit)
 
   flatShader->Use();
 
+if(changedRays)
+{
+  changedRays = false;
   glBindBuffer(GL_SHADER_STORAGE_BUFFER, rayp1SSBO);
   glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(rayp1Data), rayp1Data, GL_DYNAMIC_DRAW);
   glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 6, rayp1SSBO);
@@ -187,6 +195,7 @@ void Render::EndDraw(std::atomic<bool>& submit)
   glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(raydistData), raydistData, GL_DYNAMIC_DRAW);
   glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 8, raydistSSBO);
   glBindBuffer( GL_SHADER_STORAGE_BUFFER,0 );
+}
 
 
   glUniformMatrix4fv(flatShader->Location("projection"), 1, GL_FALSE, &proj2D[0][0]);
