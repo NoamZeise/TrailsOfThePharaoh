@@ -26,6 +26,7 @@ layout(set = 4, binding = 0) readonly buffer PerFrameLightPoints{
 
 layout(location = 0) in vec3 inTexCoord;
 layout(location = 1) in vec3 inVertPos;
+layout(location = 2) in float time;
 
 layout(location = 0) out vec4 outColour;
 
@@ -58,10 +59,16 @@ vec4 calcColour(vec4 texOffset, vec4 colour, uint texID)
       {
         float t = max(0, min(1, dot(gl_FragCoord.xy - rays[i].p1, rays[i].p2 - rays[i].p1) / l2));
         vec2 projection = rays[i].p1 + (rays[i].p2 - rays[i].p1)*t;
-        dist = distance(gl_FragCoord.xy, projection);
+        float correction = 1.0f;
+      //  if(projection != rays[i].p2)
+      //  {
+          float fromStart = distance(rays[i].p1, gl_FragCoord.xy);
+          correction = abs(sin(fromStart * 0.01f - time))*0.5f + 0.3f;
+        //}
+        dist = distance(gl_FragCoord.xy, projection) / correction;
       }
 
-      attenuation += 1.0f / (1.0f + 0.5f * dist + 0.1f * dist * dist);
+      attenuation += 1.0f / (1.0f + 0.3f * dist + 0.05f * dist * dist);
     }
 
     col += vec4(1.0f, 1.0f, 0.0f, 0.0f) * attenuation;

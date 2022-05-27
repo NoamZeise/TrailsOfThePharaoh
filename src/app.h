@@ -77,6 +77,7 @@ private:
   Input::Raw previousInput;
   Input::Controls controls;
   Timer timer;
+  float timeSinceStart = 0.0f;
 
   Audio::Manager audioManager;
 

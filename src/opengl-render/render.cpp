@@ -122,10 +122,11 @@ void Render::set3DViewMatrixAndFov(glm::mat4 view, float fov)
 			((float)width) / ((float)height), 0.1f, 500.0f);
 }
 
-void Render::set2DViewMatrixAndScale(glm::mat4 view, float scale)
+void Render::set2DViewMatrixAndScaleAndTime(glm::mat4 view, float scale, float time)
 {
   view2D = view;
   this->scale = scale;
+  this->time = time;
 
   float deviceRatio = (float)width /
                   (float)height;
@@ -201,6 +202,7 @@ if(changedRays)
   glUniformMatrix4fv(flatShader->Location("projection"), 1, GL_FALSE, &proj2D[0][0]);
   glUniformMatrix4fv(flatShader->Location("view"), 1, GL_FALSE, &view2D[0][0]);
   glUniform1i(flatShader->Location("enableTex"), GL_TRUE);
+  glUniform1f(flatShader->Location("time"), time);
 
   Resource::Texture currentTexture;
   glm::vec4 currentColour;
@@ -349,5 +351,5 @@ void Render::FramebufferResize()
   glViewport(0, 0, width, height);
 
   set3DViewMatrixAndFov(view3D, fov);
-  set2DViewMatrixAndScale(view2D, scale);
+  set2DViewMatrixAndScaleAndTime(view2D, scale, time);
 }

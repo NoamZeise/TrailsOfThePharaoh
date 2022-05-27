@@ -56,7 +56,7 @@ public:
   	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   }
 	void set3DViewMatrixAndFov(glm::mat4 view, float fov);
-	void set2DViewMatrixAndScale(glm::mat4 view, float scale);
+	void set2DViewMatrixAndScaleAndTime(glm::mat4 view, float scale, float time);
 
 	Resource::Texture LoadTexture(std::string filepath);
   Resource::Model LoadModel(std::string filepath);
@@ -180,6 +180,8 @@ private:
 	GLuint rayp1SSBO;
 	GLuint rayp2SSBO;
 	GLuint raydistSSBO;
+
+	float time = 0.0f;
 	bool changedRays = false;
 };
 

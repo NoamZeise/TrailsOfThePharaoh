@@ -657,9 +657,10 @@ void Render::set3DViewMatrixAndFov(glm::mat4 view, float fov)
   _updateViewProjectionMatrix();
 }
 
-void Render::set2DViewMatrixAndScale(glm::mat4 view, float scale)
+void Render::set2DViewMatrixAndScaleAndTime(glm::mat4 view, float scale, float time)
 {
   mVP2D.data[0].view = view;
+  mVP2D.data[0].time = time;
   scale2D = scale;
 }
 

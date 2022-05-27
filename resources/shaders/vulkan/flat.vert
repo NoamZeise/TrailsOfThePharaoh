@@ -10,6 +10,7 @@ layout(set = 0, binding = 0) uniform UniformBufferObject
 {
     mat4 view;
     mat4 proj;
+    float time;
 } ubo;
 
 layout(set = 1, binding = 0) readonly buffer PerFrameBuffer {
@@ -23,9 +24,11 @@ layout(location = 2) in vec2 inTexCoord;
 
 layout(location = 0) out vec3 outTexCoord;
 layout(location = 1) out vec3 outFragPos;
+layout(location = 2) out float outTime;
 
 void main()
 {
+    outTime = ubo.time;
     outTexCoord = vec3(inTexCoord.xy, gl_InstanceIndex);
     vec4 fragPos = vec4(0.0);
     if(pcs.normalMat[3][3] == 0.0) //draw instance (use per frame buffer)

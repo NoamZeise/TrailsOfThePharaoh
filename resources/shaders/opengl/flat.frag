@@ -2,6 +2,7 @@
 
 in vec2 TexCoords;
 flat in int instanceID;
+
 out vec4 colour;
 
 const int MAX_2D_INSTANCE = 1000;
@@ -31,6 +32,7 @@ layout (std430, binding = 8) buffer piraydist
 uniform sampler2D image;
 uniform vec4 spriteColour;
 uniform bool enableTex;
+uniform float time;
 
 void main()
 {
@@ -62,7 +64,10 @@ void main()
     {
       float t = max(0, min(1, dot(gl_FragCoord.xy - rayp1[i], rayp2[i] - rayp1[i]) / l2));
       vec2 projection = rayp1[i] + (rayp2[i] - rayp1[i])*t;
-      dist = distance(gl_FragCoord.xy, projection);
+      float fromStart = distance(rayp1[i], gl_FragCoord.xy);
+      float correction = abs(sin(fromStart * 0.01f - time))*0.5f + 0.3f;
+
+      dist = distance(gl_FragCoord.xy, projection) / correction;
     }
 
     attenuation += 1.0f / (1.0f + 0.5f * dist + 0.1f * dist * dist);

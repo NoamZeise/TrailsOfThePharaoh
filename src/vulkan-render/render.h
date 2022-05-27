@@ -43,7 +43,7 @@ public:
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   }
   void set3DViewMatrixAndFov(glm::mat4 view, float fov);
-  void set2DViewMatrixAndScale(glm::mat4 view, float scale);
+  void set2DViewMatrixAndScaleAndTime(glm::mat4 view, float scale, float time);
   void set2DRayData(std::vector<DS::ShaderStructs::ray2D> &setRays) {
     int range = setRays.size();
     if(setRays.size() > m2DRays.data.size())

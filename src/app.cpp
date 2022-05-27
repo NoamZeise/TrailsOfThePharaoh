@@ -139,20 +139,6 @@ void App::preUpdate()
 {
   glfwPollEvents();
   controls.Update(input, correctedMouse(), camera.getCameraOffset());
-  if (input.Keys[GLFW_KEY_F] && !previousInput.Keys[GLFW_KEY_F])
-  {
-    if (glfwGetWindowMonitor(mWindow) == nullptr) {
-      const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-      glfwSetWindowMonitor(mWindow, glfwGetPrimaryMonitor(), 0, 0, mode->width,
-                           mode->height, mode->refreshRate);
-    }
-    else
-    {
-      const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-      glfwSetWindowMonitor(mWindow, NULL, 0, 0, mWindowWidth, mWindowHeight,
-                           mode->refreshRate);
-    }
-  }
   if (input.Keys[GLFW_KEY_ESCAPE] && !previousInput.Keys[GLFW_KEY_ESCAPE])
   {
     glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
@@ -266,7 +252,8 @@ void App::update()
 
 void App::postUpdate()
 {
-  mRender->set2DViewMatrixAndScale(camera.getViewMat(), camera.getScale());
+  timeSinceStart += timer.FrameElapsed();
+  mRender->set2DViewMatrixAndScaleAndTime(camera.getViewMat(), camera.getScale(), timeSinceStart / 500);
   previousInput = input;
   input.offset = 0;
   timer.Update();
@@ -361,7 +348,7 @@ glm::vec2 App::correctedPos(glm::vec2 pos)
 glm::vec2 App::appToScreen(glm::vec2 pos)
 {
   #ifdef OGL_RENDER_H
-  std::cout << (float)mWindowWidth / (float)mWindowHeight << std::endl;
+  //std::cout << (float)mWindowWidth / (float)mWindowHeight << std::endl;
   //wRatio = wRatio > 1.0f ? 1.0f : wRatio;
 	return glm::vec2((pos.x / scale) * ((float)mWindowWidth / (float)settings::TARGET_WIDTH),
     mWindowHeight  - ((pos.y / scale) * ((float)mWindowHeight / (float)settings::TARGET_HEIGHT)));
