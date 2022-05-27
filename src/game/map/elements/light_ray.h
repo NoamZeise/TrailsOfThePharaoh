@@ -23,6 +23,10 @@ public:
     void correctNormal();
     glm::vec2 p1;
     glm::vec2 p2;
+    bool corrected = false;
+    glm::vec2 p1Corrected;
+    glm::vec2 p2Corrected;
+    float correctedNormal;
     float normal;
     float thickness;
     bool changed;

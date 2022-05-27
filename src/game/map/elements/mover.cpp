@@ -34,6 +34,7 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightR
       lightElems[i].p1 = originalLightElems[i - lineIndex].p1 + changedLine;
       lightElems[i].p2 = originalLightElems[i - lineIndex].p2 + changedLine;
       lightElems[i].changed = true;
+      lightElems[i].corrected = false;
     }
   }
 

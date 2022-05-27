@@ -104,7 +104,7 @@ void App::loadAssets()
 
 void App::loadMaps()
 {
-  currentLevelIndex = -1;  //1 less than desired index
+  currentLevelIndex = 0;  //1 less than desired index
   levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont));
   levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont));
   levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont));

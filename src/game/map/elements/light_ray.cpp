@@ -43,62 +43,116 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
 {
   rays.clear();
 
-  const float STEP_SIZE = 1.0f;
-  glm::vec2 deltaStep = glmhelper::getVectorFromAngle(angle) * STEP_SIZE;
+  const int START_STEP_SIZE = 50.0f;
+  float stepSize = START_STEP_SIZE;
+  glm::vec2 unitStep = glmhelper::getVectorFromAngle(angle);
   int reflections = 0;
   int steps = 0;
 
-  glm::vec2 sourceVec = glm::vec2(this->source.x + this->source.z/2, this->source.y + this->source.w/2) + deltaStep*32.0f;
+  glm::vec2 sourceVec = glm::vec2(this->source.x + this->source.z/2, this->source.y + this->source.w/2) + unitStep*32.0f;
   glm::vec2 currentPos = sourceVec;
   float currentAngle = angle;
 
+  std::vector<LightElements*> crossedElems;
   while(true)
   {
     if(reflections > 10)
       break;
-    currentPos += deltaStep;
+    currentPos += unitStep*stepSize;
     steps++;
-    if(steps > 2000 / STEP_SIZE)
+    if(steps > 100)
     {
       addRay(sourceVec, currentPos);
       break;
     }
     bool struck = false;
+    crossedElems.clear();
 
     for(int i = 0; i < lightElems.size();  i++)
     {
       lightElems[i].changed = false;
-      auto normal = lightElems[i].normal;
-      if(abs(normal - currentAngle) <= 90.0f || abs(normal  - currentAngle) >= 270.0f)
-        normal = fmod(normal + 180.0f, 360.0f);
+    //  if(!lightElems[i].corrected)
+    //  {
+        lightElems[i].corrected = true;
+        lightElems[i].correctedNormal = lightElems[i].normal;
+        if(abs(lightElems[i].correctedNormal - currentAngle) <= 90.0f || abs(lightElems[i].correctedNormal  - currentAngle) >= 270.0f)
+          lightElems[i].correctedNormal = fmod(lightElems[i].correctedNormal + 180.0f, 360.0f);
 
-      auto correction = glmhelper::getVectorFromAngle(normal) * lightElems[i].thickness/2.0f;
+        auto correction = glmhelper::getVectorFromAngle(lightElems[i].correctedNormal) * lightElems[i].thickness/2.0f;
 
-      glm::vec2 p1 = lightElems[i].p1 + correction;
-      glm::vec2 p2 = lightElems[i].p2 + correction;
-      if(gh::linesCross(sourceVec, currentPos, p1, p2))
+        lightElems[i].p1Corrected = lightElems[i].p1 + correction;
+        lightElems[i].p2Corrected = lightElems[i].p2 + correction;
+      //}
+      if(gh::linesCross(sourceVec, currentPos, lightElems[i].p1Corrected, lightElems[i].p2Corrected))
       {
-        lightElems[i].lightHit = true;
-        lightElems[i].hitSource.push_back(sourceVec);
-        lightElems[i].hitDest.push_back(currentPos);
-        addRay(sourceVec, currentPos);
-        if(lightElems[i].reflective)
+        crossedElems.push_back(&lightElems[i]);
+      }
+    }
+
+    if(crossedElems.size() > 0)
+    {
+      LightElements* closestCrossed = nullptr;
+      float closestDist = -1.0f;
+      for(auto &elem: crossedElems)
+      {
+        float dist = -1.0f;
+        elem->lightHit = true;
+        elem->hitSource.push_back(sourceVec);
+        elem->hitDest.push_back(currentPos);
+        glm::vec2 lineVec = elem->p2Corrected - elem->p1Corrected;
+        float l2 = (lineVec.x* lineVec.x) + (lineVec.y*lineVec.y);
+        if(l2 == 0.0f)
+          dist = glm::distance(elem->p1Corrected, sourceVec);
+        else
         {
-          float incidence = (currentAngle) - normal;
+          float t = fmax(0, fmin(1, glm::dot(sourceVec - elem->p1Corrected, elem->p2Corrected - elem->p1Corrected) / l2));
+          glm::vec2 projOntoElem = elem->p1Corrected + (elem->p2Corrected - elem->p1Corrected)*t;
+          dist = glm::distance(sourceVec, projOntoElem);
+        }
+        if(closestDist == -1.0f || dist < closestDist)
+        {
+          closestCrossed = elem;
+          closestDist = dist;
+        }
+      }
+        float dir = -1.0f;
+        while(stepSize > 1.0f)
+        {
+          currentPos += unitStep*stepSize*dir;
+          stepSize /= 2.0f;
+          if(gh::linesCross(sourceVec, currentPos, closestCrossed->p1Corrected, closestCrossed->p2Corrected))
+          {
+            dir = -1.0f;
+          }
+          else
+          {
+            dir = 1.0f;
+          }
+        }
+
+        closestCrossed->lightHit = true;
+        closestCrossed->hitSource.push_back(sourceVec);
+        closestCrossed->hitDest.push_back(currentPos);
+        addRay(sourceVec, currentPos);
+        if(closestCrossed->reflective)
+        {
+          float incidence = (currentAngle) - closestCrossed->correctedNormal;
           currentAngle -=  incidence * 2.0f;
           currentAngle += 180.0f;
           currentAngle = fmod(currentAngle, 360.0f);
-          deltaStep = glmhelper::getVectorFromAngle(currentAngle) * STEP_SIZE;
-          currentPos += deltaStep;
+          unitStep = glmhelper::getVectorFromAngle(currentAngle);
+          currentPos += unitStep*3.0f;
+          stepSize = START_STEP_SIZE;
           sourceVec = currentPos;
           reflections++;
           steps = 0;
+
         }
         else
         {
           struck = true;
         }
-      }
+
     }
     if(struck)
       break;
