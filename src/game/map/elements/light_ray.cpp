@@ -31,8 +31,8 @@ void LightRay::Update(std::vector<LightElements> &lightElems, glm::vec4 camRect)
 void LightRay::Draw(Render *render)
 {
   //render->DrawQuad(pixel, glmhelper::calcMatFromRect(struc, 0.0f, 1.0f), glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
-
-  rayBox.Draw(render);
+  if(!baseDisabled)
+    rayBox.Draw(render);
   if(on)
     rayBoxOn.Draw(render);
   else
@@ -49,7 +49,7 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
   int reflections = 0;
   int steps = 0;
 
-  glm::vec2 sourceVec = glm::vec2(this->source.x + this->source.z/2, this->source.y + this->source.w/2) + unitStep*32.0f;
+  glm::vec2 sourceVec = glm::vec2(this->source.x + this->source.z/2, this->source.y + this->source.w/2) + unitStep*20.0f;
   glm::vec2 currentPos = sourceVec;
   float currentAngle = angle;
 
@@ -141,7 +141,7 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
           currentAngle += 180.0f;
           currentAngle = fmod(currentAngle, 360.0f);
           unitStep = glmhelper::getVectorFromAngle(currentAngle);
-          currentPos += unitStep*3.0f;
+          currentPos += unitStep*4.0f;
           stepSize = START_STEP_SIZE;
           sourceVec = currentPos;
           reflections++;
@@ -159,14 +159,19 @@ void LightRay::calcPath(std::vector<LightElements> &lightElems)
   }
 }
 
+void LightRay::disableBase()
+{
+  baseDisabled = true;
+}
+
 void LightRay::setSprites()
 {
   this->rayBox.setRect(source);
-  //this->rayBox.setRotation(angle);
-  this->rayBoxOn.setRect(source);
-  this->rayBoxOn.setRotation(angle);
+  this->rayBox.setRotation(angle + 90.0f);
+  this->rayBoxOn.setRect(glm::vec4(source.x, source.y, source.z, source.w));
+  this->rayBoxOn.setRotation(angle + 90.0f);
   this->rayBoxOff.setRect(source);
-  this->rayBoxOff.setRotation(angle);
+  this->rayBoxOff.setRotation(angle + 90.0f);
 }
 
 

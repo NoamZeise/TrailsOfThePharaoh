@@ -62,10 +62,12 @@ App::~App()
 
 void App::loadAssets()
 {
-  gameFont = mRender->LoadFont("textures/Roboto-Black.ttf");
+  gameFont = mRender->LoadFont("textures/SF Eccentric Opus.ttf");
   cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.0f);
   moveCursor = Sprite(mRender->LoadTexture("textures/ui/moveCursor.png"), 4.0f);
   rotateCursor = Sprite(mRender->LoadTexture("textures/ui/rotateCursor.png"), 4.0f);
+  moveCursorOn = Sprite(mRender->LoadTexture("textures/ui/moveCursorOn.png"), 4.0f);
+  rotateCursorOn = Sprite(mRender->LoadTexture("textures/ui/rotateCursorOn.png"), 4.0f);
   pixelTex = mRender->LoadTexture("textures/pixel.png");
 
   auto btnSprite = Sprite(mRender->LoadTexture("textures/ui/button.png"),glm::vec4(0),1.0f);
@@ -104,7 +106,7 @@ void App::loadAssets()
 
 void App::loadMaps()
 {
-  currentLevelIndex = 0;  //1 less than desired index
+  currentLevelIndex = 8;  //1 less than desired index
   levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont));
   levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont));
   levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont));
@@ -113,6 +115,9 @@ void App::loadMaps()
   levels.push_back(Level("maps/6-more-tilters.tmx", mRender, gameFont));
   levels.push_back(Level("maps/7-light-hold-intro.tmx", mRender, gameFont));
   levels.push_back(Level("maps/8-light-hold-quick.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/9-three-hold.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/10-mirror-hold-intro.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/11-mirror-hold-ext.tmx", mRender, gameFont));
 }
 
 void App::run()
@@ -172,10 +177,46 @@ void App::update()
 
   std::vector<DS::ShaderStructs::ray2D> rays;
   currentCursor = cursor;
+
+  if(inLevelTransition && currentLevelIndex < levels.size())
+  {
+    if(LevelTransitionTimer == 0.0f)
+    {
+      startTransitionCamOff = camera.getCameraOffset();
+    }
+    LevelTransitionTimer += timer.FrameElapsed();
+    if(LevelTransitionTimer > LevelTransitionDelay)
+    {
+      LevelTransitionTimer = 0.0f;
+      inLevelTransition = false;
+    }
+    else if(LevelTransitionTimer > LevelTransitionDelay/2 && !inGame)
+    {
+      inGame = true;
+      camera.SetCameraOffset(startTransitionCamOff);
+      nextMap();
+    }
+    else if(LevelTransitionTimer < LevelTransitionDelay/2)
+    {
+      auto currentRect = currentLevel.getMapRect();
+      float ratio = LevelTransitionTimer / LevelTransitionDelay;
+      camera.SetCameraOffset(glm::vec2(startTransitionCamOff.x + settings::TARGET_WIDTH/2 + currentRect.z*ratio
+        , startTransitionCamOff.y + settings::TARGET_HEIGHT/2));
+    }
+  }
+  else if(inLevelTransition)
+  {
+    inLevelTransition = false;
+    inGame = true;
+    nextMap();
+  }
+
   if(inGame)
   {
     currentLevel.Update(camera.getCameraArea(), scale, timer, controls);
 
+    if(!inLevelTransition)
+    {
     for(auto &mapRay : currentLevel.shaderRays)
     {
       DS::ShaderStructs::ray2D ray = mapRay;
@@ -186,6 +227,7 @@ void App::update()
       ray.p2.y = ray.p2.y - camera.getCameraArea().y;
       ray.p2 = appToScreen(ray.p2);
       rays.push_back(ray);
+    }
     }
 
     if(currentLevel.complete())
@@ -209,13 +251,11 @@ void App::update()
 
     if(currentLevel.moved())
     {
-      currentCursor = moveCursor;
-      currentCursor.setColour(glm::vec4(0.2f, 1.0f, 0.2f, 1.0f));
+      currentCursor =  moveCursorOn;
     }
     if(currentLevel.rotated())
     {
-      currentCursor = rotateCursor;
-      currentCursor.setColour(glm::vec4(0.2f, 1.0f, 0.2f, 1.0f));
+      currentCursor = rotateCursorOn;
     }
   }
   else
@@ -227,8 +267,7 @@ void App::update()
       if(continueButton.Clicked())
       {
         lvlShowContinue = false;
-        inGame = true;
-        nextMap();
+        inLevelTransition = true;
       }
     }
   }
@@ -273,6 +312,7 @@ void App::nextMap()
   }
   auto rect = currentLevel.getMapRect();
   target = glm::vec2(rect.x + rect.z/2, rect.y +  rect.w/2);
+  camera.SetCameraOffset(target);
   camera.setCameraMapRect(rect);
   scale = rect.z / settings::TARGET_WIDTH;
   if(rect.w / settings::TARGET_HEIGHT > scale)
@@ -295,8 +335,28 @@ void App::draw()
     submitDraw.join();
 
   mRender->Begin2DDraw();
-mRender->DrawQuad(pixelTex, glmhelper::calcMatFromRect(glm::vec4(0, 0, currentLevel.getMapRect().z, currentLevel.getMapRect().w), 0.0f, -1.0f), glm::vec4(0.3f, 0.3f, 0.1f, 1.0f));
+
+  mRender->DrawQuad(pixelTex,
+    glmhelper::calcMatFromRect(glm::vec4(0, 0, currentLevel.getMapRect().z, currentLevel.getMapRect().w), 0.0f, -1.0f),
+    glm::vec4(0.6235, 0.5294f, 0.4196f, 1.0f)
+  );
+
+  if(inLevelTransition)
+  {
+    mRender->DrawQuad(
+      pixelTex,
+      glmhelper::calcMatFromRect(glm::vec4(
+        camera.getCameraOffset().x +   settings::TARGET_WIDTH * camera.getScale() * (1 - LevelTransitionTimer*2.0f/LevelTransitionDelay),
+        camera.getCameraOffset().y,
+        settings::TARGET_WIDTH * camera.getScale(), settings::TARGET_HEIGHT * camera.getScale()),
+        0.0f, 7.0f),
+      glm::vec4(0.6235, 0.5294f, 0.4196f, 1.0f)
+    );
+  }
+
   currentLevel.Draw(mRender);
+  if(inLevelTransition)
+    nextLevel.Draw(mRender);
 
   currentCursor.Draw(mRender);
 
@@ -350,7 +410,10 @@ glm::vec2 App::appToScreen(glm::vec2 pos)
   #ifdef OGL_RENDER_H
   //std::cout << (float)mWindowWidth / (float)mWindowHeight << std::endl;
   //wRatio = wRatio > 1.0f ? 1.0f : wRatio;
-	return glm::vec2((pos.x / scale) * ((float)mWindowWidth / (float)settings::TARGET_WIDTH),
+  float ratio = (float)mWindowWidth  / (float)mWindowHeight;
+  float proper = (float)settings::TARGET_WIDTH / (float)settings::TARGET_HEIGHT;
+  float diff = ratio/proper;
+	return glm::vec2((pos.x / scale) * ((float)mWindowWidth / (float)settings::TARGET_WIDTH) / diff,
     mWindowHeight  - ((pos.y / scale) * ((float)mWindowHeight / (float)settings::TARGET_HEIGHT)));
   #else
 	return glm::vec2(pos.x / scale, pos.y / scale );

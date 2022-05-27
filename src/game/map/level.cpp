@@ -2,7 +2,7 @@
 
 Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 {
-	mirrorTex = render->LoadTexture("textures/pixel.png");
+	mirrorTex = render->LoadTexture("textures/level/mirrorUncontrollable.png");
 	tiled::Map map = tiled::Map(filename);
 	logical.SetPropsWithTiledMap(map);
 	visual = Map::Visual(map, render, mapFont);
@@ -60,7 +60,7 @@ void Level::Update(glm::vec4 cameraRect, float scale, Timer &timer, Input::Contr
 		mover.Update(cameraRect, controls, lines);
 	}
 
-	if(updatesSinceNotChanged < 2)
+	if(updatesSinceNotChanged < 5)
 		rayDependantUpdate(cameraRect, scale);
 
 	if(goal.isOn())
@@ -180,12 +180,12 @@ void Level::Draw(Render *render)
 	for(auto& mover: movers)
 		mover.Draw(render);
 
-	for(auto& l: toDrawLines)
+	for(int i = 0; i < toDrawTransforms.size(); i++)
 	{
-		if(l.reflective)
-			render->DrawQuad(mirrorTex, LightRay::GetLineTransform(l.p1, l.p2, 8.0f, l.normal + 90.0f), glm::vec4(0.5f, 1.0f, 1.0f, 1.0f));
+		if(true)
+			render->DrawQuad(mirrorTex, toDrawTransforms[i], glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 		else
-			render->DrawQuad(mirrorTex, LightRay::GetLineTransform(l.p1, l.p2, 8.0f, l.normal + 90.0f), glm::vec4(0.5f, 0.8f, 0.3f, 1.0f));
+			render->DrawQuad(mirrorTex, toDrawTransforms[i], glm::vec4(1.0f, 0.8f, 0.3f, 1.0f));
 	}
 
 	goal.Draw(render);
@@ -215,19 +215,20 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 			for(int i = 1; i < points.size(); i++)
 			{
 				lines.push_back(LightRay::LightElements(points[i-1], points[i], 0.0f, false));
-				toDrawLines.push_back(lines.back());
+				toDrawTransforms.push_back(LightRay::GetLineTransform(lines.back().p1, lines.back().p2, LINE_ELEM_THICKNESS, lines.back().normal + 90.0f));
 			}
 		for(const auto &points: logical.polyMirrors)
 			for(int i = 1; i < points.size(); i++)
 			{
 				lines.push_back(LightRay::LightElements(points[i-1], points[i], 0.0f, true));
 				toDrawLines.push_back(lines.back());
+				toDrawTransforms.push_back(LightRay::GetLineTransform(lines.back().p1, lines.back().p2, LINE_ELEM_THICKNESS, lines.back().normal + 90.0f));
 			}
 
 
 
 		int prevIndex = lines.size();
-		addRectLine(logical.goal, false);
+		addRectLine(logical.goal, false, 0.8f);
 		goal = LightSwitch(false, prevIndex, 4, logical.goal,
 			Sprite(
 				render->LoadTexture("textures/level/goalOn.png"),
@@ -248,7 +249,8 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 		for(const auto &switches: logical.switchRays)
 		{
 			int prevIndex = lines.size();
-			addRectLine(switches.box, false);
+			addRectLine(switches.box, false, 1.0f);
+			
 			raySwitches.push_back(RaySwitch(
 					LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size(), rayBox, rayBoxOn, rayBoxOff),
 					switches.on,
@@ -286,9 +288,9 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 	for(auto &doorSwitch: logical.doorBox)
 	{
 		int prevIndexSwitch = lines.size();
-		addRectLine(doorSwitch.box, false);
+		addRectLine(doorSwitch.box, false, 0.75f);
 		int prevIndexDoor = lines.size();
-		addRectLine(doorSwitch.doorRect, doorSwitch.reflective);
+		addRectLine(doorSwitch.doorRect, doorSwitch.reflective, 1.0f);
 		doorSwitches.push_back(DoorSwitch(
 			doorSwitch.reflective ? doorReflectiveSprite : doorSprite,
 			doorOffSprite, doorSwitch.doorRect, prevIndexDoor, doorSwitch.on,
@@ -299,14 +301,16 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 	Sprite moverColliderSprite = Sprite(render->LoadTexture("textures/level/solidBox.png"), glm::vec4(0.0f), 1.2f);
 	Sprite moverMirrorSprite = Sprite(render->LoadTexture("textures/level/mirrorBox.png"), glm::vec4(0.0f), 1.2f);
 	Sprite moverLineSprite = Sprite(render->LoadTexture("textures/level/lineMover.png"), glm::vec4(0.0f), 1.2f);
+	Sprite moverHandleSprite = Sprite(render->LoadTexture("textures/level/handle.png"), glm::vec4(0.0f), 1.3f);
 	for(auto& mover : logical.movers)
 	{
 		int prevIndex = lines.size();
-		addRectLine(mover.rect, mover.reflective);
+		addRectLine(mover.rect, mover.reflective, 1.0f);
 		movers.push_back(
 			Mover(
 				moverLineSprite,
 				mover.reflective ? moverMirrorSprite : moverColliderSprite,
+				moverHandleSprite,
 				mover.rect,
 				mover.trackStart,
 				mover.trackEnd,
@@ -314,31 +318,17 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 	}
 }
 
-void Level::addRectLine(glm::vec4 rect, bool reflective)
+void Level::addRectLine(glm::vec4 rect, bool reflective, float scale)
 {
 		lines.push_back(
 			LightRay::LightElements(
 				glm::vec2(
-					rect.x,
-					rect.y
+					rect.x + rect.z *scale,
+					rect.y+ rect.w *scale
 				),
 				glm::vec2(
-					rect.x + rect.z,
-					rect.y
-				),
-				0.0f,
-				reflective
-			)
-		);
-		lines.push_back(
-			LightRay::LightElements(
-				glm::vec2(
-					rect.x,
-					rect.y
-				),
-				glm::vec2(
-					rect.x,
-					rect.y + rect.w
+					rect.x + rect.z - rect.z *scale,
+					rect.y + rect.w *scale
 				),
 				0.0f,
 				reflective
@@ -347,12 +337,12 @@ void Level::addRectLine(glm::vec4 rect, bool reflective)
 		lines.push_back(
 			LightRay::LightElements(
 				glm::vec2(
-					rect.x + rect.z,
-					rect.y + rect.w
+					rect.x + rect.z *scale,
+					rect.y+ rect.w *scale
 				),
 				glm::vec2(
-					rect.x + rect.z,
-					rect.y
+					rect.x+ rect.z *scale,
+					rect.y + rect.w - rect.w *scale
 				),
 				0.0f,
 				reflective
@@ -361,12 +351,26 @@ void Level::addRectLine(glm::vec4 rect, bool reflective)
 		lines.push_back(
 			LightRay::LightElements(
 				glm::vec2(
-					rect.x + rect.z,
-					rect.y + rect.w
+					rect.x + rect.z - rect.z *scale,
+					rect.y + rect.w - rect.w *scale
 				),
 				glm::vec2(
-					rect.x,
-					rect.y + rect.w
+					rect.x + rect.z - rect.z*scale,
+					rect.y + rect.w *scale
+				),
+				0.0f,
+				reflective
+			)
+		);
+		lines.push_back(
+			LightRay::LightElements(
+				glm::vec2(
+					rect.x + rect.z - rect.z *scale,
+					rect.y + rect.w - rect.w *scale
+				),
+				glm::vec2(
+					rect.x + rect.z *scale,
+					rect.y + rect.w - rect.w*scale
 				),
 				0.0f,
 				reflective

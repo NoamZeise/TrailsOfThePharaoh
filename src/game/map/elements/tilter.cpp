@@ -8,7 +8,7 @@ Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) 
   this->initialAngleVector = glmhelper::getVectorFromAngle(initialAngle);
 
   this->angle = initialAngle;
-  glm::vec2 dim = glm::vec2(base.getDrawRect().z, mirror.getTextureDim().y);
+  glm::vec2 dim = glm::vec2(base.getDrawRect().z, TILTER_THICKNESS);
   this->mirror.setRect(glm::vec4(pivot.x - dim.x/2, pivot.y - dim.y/2, dim.x, dim.y));
   this->mirror.setRotation(initialAngle);
 }
@@ -54,12 +54,13 @@ Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) 
             prevMouseAngle -= 360.0f;
         }
 
-        changedAngle = (mouseAngle - prevMouseAngle) * 0.15f; //slow rotation
+        changedAngle = (mouseAngle - prevMouseAngle) * 1.0f; //slow rotation
         prevMouseAngle = mouseAngle;
         offsetAngle(changedAngle);
       }
     }
     sprite.setColour(colour);
+    mirror.setColour(colour);
     mirror.Update(camRect);
     sprite.Update(camRect);
   }
@@ -72,7 +73,7 @@ void Tilter::Draw(Render *render)
     render->DrawQuad(Resource::Texture(), glmhelper::getModelMatrix(glm::vec4(pos.z, pos.w, 10, 10), 0.0f, 5.0f));
   #endif
   mirror.Draw(render);
-  Button::Draw(render);
+  //Button::Draw(render);
 }
 
 
@@ -83,7 +84,7 @@ glm::vec4 Tilter::getMirrorPoints()
   {
     calculatedThisFrame = true;
     glm::vec2 angleVec  = glmhelper::getVectorFromAngle(angle);
-    glm::vec2 dim = glm::vec2(sprite.getDrawRect().z, mirror.getTextureDim().y);
+    glm::vec2 dim = glm::vec2(mirror.getDrawRect().z, TILTER_THICKNESS);
     mirrorPoints =  glm::vec4(pivot.x + angleVec.x*dim.x/2, pivot.y + angleVec.y*dim.x/2,
                    pivot.x - angleVec.x*dim.x/2, pivot.y - angleVec.y*dim.x/2);
   }

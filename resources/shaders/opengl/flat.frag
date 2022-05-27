@@ -73,7 +73,7 @@ void main()
     attenuation += 1.0f / (1.0f + 0.5f * dist + 0.1f * dist * dist);
   }
 
-  colour += vec4(1.0f, 1.0f, 0.0f, 0.0f) * attenuation;
+  colour += vec4(1.0f, 1.0f, 0.7882352941f, 0.0f) * attenuation;
 
 
   if(colour.w == 0)

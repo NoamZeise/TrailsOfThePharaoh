@@ -27,6 +27,7 @@
 
 //#define SEE_COLLIDERS
 
+const int LINE_ELEM_THICKNESS = 30.0f;
 class Level
 {
 public:
@@ -53,7 +54,7 @@ private:
 	void tilterUpdate(glm::vec4 cameraRect, Input::Controls &controls);
 	void rayDependantUpdate(glm::vec4 cameraRect, float scale);
 
-	void addRectLine(glm::vec4 rect, bool reflective);
+	void addRectLine(glm::vec4 rect, bool reflective,  float  sizeChange);
 
 	Map::Logical logical;
 	Map::Visual visual;
@@ -69,6 +70,7 @@ private:
 	int staticLinesOffset = 0;
 	std::vector<LightRay::LightElements> lines;
 	std::vector<LightRay::LightElements> toDrawLines;
+	std::vector<glm::mat4> toDrawTransforms;
 
 	Resource::Texture mirrorTex;
 

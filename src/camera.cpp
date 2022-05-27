@@ -147,7 +147,7 @@ namespace Camera
 			transform = previousOff;
 			}
 
-			cameraArea = glm::vec4(-transform.x - correctedWidth/2, -transform.y - correctedHeight/2,
+			cameraArea = glm::vec4(-transform.x - (float)correctedWidth/2.0f, -transform.y - (float)correctedHeight/2.0f,
 									(correctedWidth), (correctedHeight));
 			offset = glm::translate(glm::mat4(1.0f), glm::vec3((int)(transform.x + correctedWidth/2.0f),
 				 					(int)(transform.y + correctedHeight/2.0f), 0));

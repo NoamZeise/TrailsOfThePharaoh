@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="25" tilewidth="64" tileheight="64" infinite="0" nextlayerid="53" nextobjectid="199">
+ <tileset firstgid="1" source="tempTileset.tsx"/>
+ <objectgroup id="41" name="Copy of split">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="167" x="1408" y="256" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="0"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="168" x="1427" y="275" width="26" height="26">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="42" name="Copy of Copy of split">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="165" x="1408" y="256" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="true"/>
+    <property name="angle" type="float" value="90"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="166" x="1427" y="275" width="26" height="26">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="52" name="Copy of Copy of split">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="195" x="1250" y="706" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="0"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="196" x="1269" y="725" width="26" height="26">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="51" name="Copy of Copy of Copy of split">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="193" x="1250" y="706" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="true"/>
+    <property name="angle" type="float" value="90"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="194" x="1269" y="725" width="26" height="26">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer id="1" name="bg" width="40" height="25">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="43" name="Copy of Copy of split">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="171" x="1088" y="1152" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="0"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="172" x="1107" y="1171" width="26" height="26">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="45" name="Copy of Copy of Copy of Copy of split">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="175" x="1088" y="1152" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="270"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="176" x="1107" y="1171" width="26" height="26">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="startray">
+  <object id="19" x="256" y="1088" width="64" height="64">
+   <properties>
+    <property name="angle" type="float" value="270"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="goal">
+  <object id="20" x="196.657" y="1333.5" width="192.65" height="192.65">
+   <properties>
+    <property name="goal" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="29" name="tilter">
+  <properties>
+   <property name="tilter" type="bool" value="true"/>
+  </properties>
+  <object id="114" x="122.656" y="583.387" width="285.03" height="289.861">
+   <properties>
+    <property name="angle" type="float" value="90"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="25" name="door">
+  <properties>
+   <property name="door" type="bool" value="true"/>
+  </properties>
+  <object id="96" x="1024.62" y="656.964" width="192.727" height="177.212">
+   <properties>
+    <property name="On" type="bool" value="true"/>
+    <property name="door" type="bool" value="true"/>
+    <property name="mirror" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="97" x="1365.21" y="1344" width="128" height="128">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="46" name="Copy of door">
+  <properties>
+   <property name="door" type="bool" value="true"/>
+  </properties>
+  <object id="180" x="59.7698" y="1234.96" width="513.152" height="92.303">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="door" type="bool" value="true"/>
+    <property name="mirror" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="182" x="2368" y="256" width="64" height="64">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="48" name="Copy of Copy of Copy of door">
+  <properties>
+   <property name="door" type="bool" value="true"/>
+  </properties>
+  <object id="186" x="1514.32" y="1077.08" width="195.03" height="189.333">
+   <properties>
+    <property name="On" type="bool" value="true"/>
+    <property name="door" type="bool" value="true"/>
+    <property name="mirror" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="188" x="1219.33" y="1342.67" width="128" height="128">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="colliders">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
+  <object id="101" x="64" y="64" width="2434.42"/>
+  <object id="103" x="64" y="1536" width="2434.42"/>
+  <object id="104" x="64" y="64" height="1472"/>
+  <object id="144" x="576" y="64" height="192"/>
+  <object id="145" x="640" y="64" height="192"/>
+  <object id="146" x="576" y="320" height="384"/>
+  <object id="147" x="640" y="320" height="384"/>
+  <object id="148" x="576" y="768" height="384"/>
+  <object id="149" x="640" y="768" height="384"/>
+  <object id="150" x="576" y="1216" height="320"/>
+  <object id="151" x="640" y="1216" height="320"/>
+  <object id="152" x="576" y="1216" width="64"/>
+  <object id="153" x="576" y="768" width="64"/>
+  <object id="154" x="576" y="320" width="64"/>
+  <object id="198" x="2496" y="64" height="1472"/>
+ </objectgroup>
+ <objectgroup id="27" name="mirror">
+  <properties>
+   <property name="mirror" type="bool" value="true"/>
+  </properties>
+  <object id="179" x="1090.95" y="97">
+   <polyline points="-83.9524,6 51.0476,123"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="28" name="mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="110" x="2008.07" y="1070.42" width="276" height="238">
+   <properties>
+    <property name="mirror" type="bool" value="true"/>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="111" x="1881.7" y="657.532">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="275.758,560.606 277.363,120.93"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="40" name="Copy of mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="156" x="1698.79" y="614.909" width="276" height="238">
+   <properties>
+    <property name="mirror" type="bool" value="true"/>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="158" x="1811.48" y="720.902">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="0,8.86505 -2.27374e-13,-466.893"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="22" name="split">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="84" x="640" y="1088" width="185.884" height="191.424">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="0"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="85" x="576" y="1152" width="64" height="64">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="39" name="Copy of split">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="141" x="640" y="640" width="185.884" height="191.424">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="0"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="142" x="576" y="704" width="64" height="64">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="23" name="split2">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="88" x="640" y="192" width="191.424" height="191.424">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="0"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="89" x="576" y="256" width="64" height="64">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

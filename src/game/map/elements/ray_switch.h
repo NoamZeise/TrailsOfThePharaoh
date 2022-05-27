@@ -11,6 +11,7 @@ public:
   {
     this->lightRay = ray;
     this->lightRay.setOn(on);
+    this->lightRay.disableBase();
   }
 
   void rayUpdate(std::vector<LightRay::LightElements> &lightElems, glm::vec4 camRect)

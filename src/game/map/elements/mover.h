@@ -7,7 +7,7 @@
 class Mover : public Button
 {
 public:
-  Mover(Sprite line, Sprite base, glm::vec4 rect, glm::vec2 lineStart, glm::vec2 lineEnd, int startIndex);
+  Mover(Sprite line, Sprite base, Sprite handle, glm::vec4 rect, glm::vec2 lineStart, glm::vec2 lineEnd, int startIndex);
   void Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightRay::LightElements> &lightElems);
   void Update(glm::vec4 camRect, Input::Controls &input, float scale) override;
   void Draw(Render *render) override;
@@ -17,6 +17,7 @@ public:
 
 private:
   Sprite lineSprite;
+  Sprite  handle;
   glm::vec4 InitialRect;
 
   bool beingControlled = false;

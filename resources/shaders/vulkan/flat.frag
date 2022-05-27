@@ -71,7 +71,7 @@ vec4 calcColour(vec4 texOffset, vec4 colour, uint texID)
       attenuation += 1.0f / (1.0f + 0.3f * dist + 0.05f * dist * dist);
     }
 
-    col += vec4(1.0f, 1.0f, 0.0f, 0.0f) * attenuation;
+    col += vec4(1.0f, 1.0f, 0.7882352941f, 0.0f) * attenuation;
 
     if(col.w == 0)
         discard;

@@ -1,16 +1,19 @@
 #include "mover.h"
 
 
-Mover::Mover(Sprite line, Sprite base, glm::vec4 rect, glm::vec2 lineStart, glm::vec2 lineEnd, int startIndex)
+Mover::Mover(Sprite line, Sprite base, Sprite handle, glm::vec4 rect, glm::vec2 lineStart, glm::vec2 lineEnd, int startIndex)
   : Button(base, false)
 {
   this->lineSprite = line;
   this->unitLine = glm::normalize(lineEnd - lineStart);
   auto angle = glm::degrees(atan2(unitLine.y, unitLine.x));
-  this->lineSprite.setModel(LightRay::GetLineTransform(lineStart, lineEnd, lineSprite.getTextureDim().y, angle));
+  float length = gh::distance(lineStart, lineEnd);
+  this->lineSprite.setModel(LightRay::GetLineTransform(lineStart, lineEnd, length * lineSprite.getTextureDim().y/lineSprite.getTextureDim().x, angle));
   this->InitialRect = rect;
   this->lineIndex = startIndex;
   this->maxDistance = glm::distance(lineStart, lineEnd);
+
+  this->handle = handle;
 }
 
 void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightRay::LightElements> &lightElems)
@@ -18,6 +21,7 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightR
   if(firstUpdate)
   {
     sprite.setRect(InitialRect);
+    handle.setRect(glm::vec4(InitialRect.x + InitialRect.z/2 - handle.getTextureDim().x/4, InitialRect.y + InitialRect.w/2 - handle.getTextureDim().y/4, handle.getTextureDim().x/2, handle.getTextureDim().y/2));
     firstUpdate = false;
     for(int i = lineIndex; i < lineIndex + 4; i++)
       originalLightElems.push_back(lightElems[i]);
@@ -29,6 +33,8 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightR
   {
     auto changedLine = unitLine * currentDistance;
     sprite.setRect(glm::vec4(InitialRect.x + changedLine.x, InitialRect.y + changedLine.y, InitialRect.z, InitialRect.w));
+    handle.setRect(glm::vec4(InitialRect.x + InitialRect.z/2 - handle.getTextureDim().x/4   + changedLine.x, InitialRect.y + InitialRect.w/2 - handle.getTextureDim().y/4 + changedLine.y, handle.getTextureDim().x/2, handle.getTextureDim().y/2));
+
     for(int i = lineIndex; i < lineIndex + 4; i++)
     {
       lightElems[i].p1 = originalLightElems[i - lineIndex].p1 + changedLine;
@@ -40,6 +46,7 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightR
 
 
   sprite.Update(camRect);
+  handle.Update(camRect);
 
 //check move
 
@@ -101,4 +108,5 @@ void Mover::Draw(Render *render)
 {
   lineSprite.Draw(render);
   Button::Draw(render);
+  handle.Draw(render);
 }

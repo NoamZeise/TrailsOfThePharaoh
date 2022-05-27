@@ -62,6 +62,8 @@ public:
       angle, 0.9f, false);
   }
 
+  void  disableBase();
+
   std::vector<DS::ShaderStructs::ray2D> rays;
 
 private:
@@ -79,6 +81,7 @@ private:
   Sprite rayBox;
   Sprite rayBoxOn;
   Sprite rayBoxOff;
+  bool baseDisabled = false;
 };
 
 

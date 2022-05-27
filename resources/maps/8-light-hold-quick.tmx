@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="20" height="18" tilewidth="64" tileheight="64" infinite="0" nextlayerid="42" nextobjectid="178">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="20" height="18" tilewidth="64" tileheight="64" infinite="0" nextlayerid="42" nextobjectid="179">
  <tileset firstgid="1" source="tempTileset.tsx"/>
  <objectgroup id="29" name="Copy of Copy of onRay">
   <properties>
@@ -63,7 +63,7 @@
   </object>
  </objectgroup>
  <objectgroup id="7" name="startray">
-  <object id="68" x="576" y="1024" width="64" height="64">
+  <object id="68" x="576" y="960" width="64" height="64">
    <properties>
     <property name="angle" type="float" value="180"/>
     <property name="lightSource" type="bool" value="true"/>
@@ -82,9 +82,9 @@
   <properties>
    <property name="tilter" type="bool" value="true"/>
   </properties>
-  <object id="111" x="320" y="1024" width="64" height="64">
+  <object id="111" x="316" y="958" width="130" height="130">
    <properties>
-    <property name="angle" type="float" value="45"/>
+    <property name="angle" type="float" value="0"/>
    </properties>
   </object>
  </objectgroup>
@@ -94,7 +94,7 @@
   </properties>
  </objectgroup>
  <objectgroup id="8" name="goal">
-  <object id="78" x="896" y="384" width="62" height="62">
+  <object id="78" x="882" y="344" width="146" height="146">
    <properties>
     <property name="goal" type="bool" value="true"/>
    </properties>
@@ -143,22 +143,17 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="40" name="Copy of Copy of door">
-  <properties>
-   <property name="door" type="bool" value="true"/>
-  </properties>
- </objectgroup>
  <objectgroup id="18" name="mover">
   <properties>
    <property name="mover" type="bool" value="true"/>
   </properties>
-  <object id="72" x="192" y="735.612" width="197.333" height="102.667">
+  <object id="72" x="192" y="628.945" width="197.333" height="209.334">
    <properties>
     <property name="mirror" type="bool" value="true"/>
     <property name="mover" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="74" x="332.109" y="384">
+  <object id="74" x="414.776" y="326.667">
    <properties>
     <property name="track" type="bool" value="true"/>
    </properties>
@@ -198,12 +193,6 @@
   <object id="153" x="1088" y="960" height="128"/>
   <object id="154" x="1088" y="1088" width="128"/>
   <object id="155" x="1216" y="64" height="1024"/>
-  <object id="158" x="341.333" y="260">
-   <polyline points="234.667,-4 362.667,-4"/>
-  </object>
-  <object id="172" x="512" y="896">
-   <polyline points="0,0 153.333,0"/>
-  </object>
   <object id="174" x="64" y="64" height="1024"/>
  </objectgroup>
  <objectgroup id="3" name="mirrrors">
@@ -218,6 +207,9 @@
   </object>
   <object id="177" x="192" y="448">
    <polyline points="0,0 64,-64"/>
+  </object>
+  <object id="178" x="576" y="256">
+   <polyline points="0,0 128,0"/>
   </object>
  </objectgroup>
 </map>

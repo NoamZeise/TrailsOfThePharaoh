@@ -33,7 +33,7 @@
   </object>
  </objectgroup>
  <objectgroup id="8" name="goal">
-  <object id="20" x="198.364" y="760.36" width="64" height="64">
+  <object id="20" x="170.364" y="730.36" width="156" height="156">
    <properties>
     <property name="goal" type="bool" value="true"/>
    </properties>

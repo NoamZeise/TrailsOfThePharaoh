@@ -14,9 +14,17 @@ public:
     this->switchLineIndex = switchLineIndex;
     this->lineCount = lineCount;
 
-    this->onSprite = onSprite;
+    if(on)
+    {
+      this->offSprite = onSprite;
+      this->onSprite = offSprite;
+    }
+    else
+    {
+      this->onSprite = onSprite;
+      this->offSprite = offSprite;
+    }
     this->onSprite.setRect(rect);
-    this->offSprite = offSprite;
     this->offSprite.setRect(rect);
     this->rect = onSprite.getDrawRect();
   }

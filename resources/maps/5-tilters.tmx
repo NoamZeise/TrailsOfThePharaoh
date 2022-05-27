@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="12" height="18" tilewidth="64" tileheight="64" infinite="0" nextlayerid="22" nextobjectid="98">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="12" height="18" tilewidth="64" tileheight="64" infinite="0" nextlayerid="22" nextobjectid="99">
  <tileset firstgid="1" source="tempTileset.tsx"/>
  <layer id="1" name="bg" width="12" height="18">
   <data encoding="csv">
@@ -35,14 +35,14 @@
   <properties>
    <property name="tilter" type="bool" value="true"/>
   </properties>
-  <object id="69" x="256" y="384" width="64" height="64">
+  <object id="69" x="223" y="380" width="138" height="138">
    <properties>
     <property name="angle" type="float" value="0"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="8" name="goal">
-  <object id="78" x="578" y="380" width="62" height="62">
+  <object id="78" x="512.667" y="341.333" width="131.333" height="131.333">
    <properties>
     <property name="goal" type="bool" value="true"/>
    </properties>
@@ -81,30 +81,21 @@
    <polyline points="-64,0 -192,0"/>
   </object>
  </objectgroup>
- <objectgroup id="2" name="colliders">
-  <properties>
-   <property name="collidable" type="bool" value="true"/>
-  </properties>
-  <object id="71" x="192" y="512">
-   <polyline points="0,0 192,0"/>
-  </object>
-  <object id="91" x="-128" y="64" width="1024"/>
-  <object id="93" x="-128" y="1088" width="1024"/>
-  <object id="95" x="64" y="64" height="1024"/>
-  <object id="96" x="704" y="64" height="1024"/>
- </objectgroup>
  <objectgroup id="3" name="mirrrors">
   <properties>
    <property name="mirror" type="bool" value="true"/>
   </properties>
   <object id="76" x="0" y="448">
-   <polyline points="128,0 192,-64"/>
+   <polyline points="102.667,28 210.667,-100"/>
   </object>
   <object id="77" x="448" y="384">
-   <polyline points="-64,0 0,64"/>
+   <polyline points="-90.6667,-37.3333 16,84"/>
   </object>
   <object id="90" x="448" y="1024">
    <polyline points="-64,-64 0.6667,-128.333"/>
+  </object>
+  <object id="98" x="192" y="512">
+   <polyline points="0,0 192,0"/>
   </object>
  </objectgroup>
 </map>

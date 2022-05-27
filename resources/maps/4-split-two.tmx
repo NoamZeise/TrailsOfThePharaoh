@@ -39,7 +39,7 @@
   </object>
  </objectgroup>
  <objectgroup id="8" name="goal">
-  <object id="20" x="1792" y="64" width="64" height="64">
+  <object id="20" x="1621.21" y="119.273" width="179.152" height="179.152">
    <properties>
     <property name="goal" type="bool" value="true"/>
    </properties>
@@ -100,7 +100,7 @@
   <properties>
    <property name="mover" type="bool" value="true"/>
   </properties>
-  <object id="90" x="295.333" y="243.333" width="96" height="96">
+  <object id="90" x="271.091" y="219.091" width="144.485" height="144.485">
    <properties>
     <property name="mirror" type="bool" value="false"/>
     <property name="mover" type="bool" value="true"/>
@@ -150,7 +150,7 @@
     <property name="lightSource" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="85" x="467" y="403" width="26" height="26">
+  <object id="85" x="470" y="405" width="20" height="20">
    <properties>
     <property name="switch" type="bool" value="true"/>
    </properties>
@@ -167,7 +167,7 @@
     <property name="lightSource" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="89" x="467" y="403" width="26" height="26">
+  <object id="89" x="470" y="405" width="20" height="20">
    <properties>
     <property name="switch" type="bool" value="true"/>
    </properties>

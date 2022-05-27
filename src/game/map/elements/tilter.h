@@ -9,6 +9,8 @@
 
 //#define SEE_TILTER_MIRROR_POINTS
 
+const  float TILTER_THICKNESS =  50.0f;
+
 class Tilter : public Button
 {
 public:
@@ -19,7 +21,7 @@ public:
   glm::vec4 getMirrorPoints();
   bool wasChanged() { return changed; }
   float getAngle() {  return  angle; }
-  float getThickness() { return mirror.getTextureDim().y;  }
+  float getThickness() { return TILTER_THICKNESS;  }
   float getChanged() {
     auto temp = changedAngle;
     changedAngle = 0.0f;

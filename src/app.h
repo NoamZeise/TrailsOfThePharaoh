@@ -95,13 +95,21 @@ private:
   Sprite currentCursor;
   Sprite cursor;
   Sprite rotateCursor;
+  Sprite rotateCursorOn;
   Sprite moveCursor;
+  Sprite moveCursorOn;
   std::vector<Level> levels;
   int currentLevelIndex;
   Level currentLevel;
   TextButton retryButton;
   bool lvlShowContinue = false;
   TextButton continueButton;
+
+  bool inLevelTransition = false;
+  float LevelTransitionDelay = 1000.0f;
+  float LevelTransitionTimer = 0.0f;
+  Level nextLevel;
+  glm::vec2 startTransitionCamOff;
 
   bool allLevelsComplete = false;
 };
