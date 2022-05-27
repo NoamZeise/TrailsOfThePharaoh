@@ -361,11 +361,12 @@ glm::vec2 App::correctedPos(glm::vec2 pos)
 glm::vec2 App::appToScreen(glm::vec2 pos)
 {
   #ifdef OGL_RENDER_H
-	return glm::vec2(pos.x * ((float)mWindowWidth / (float)settings::TARGET_WIDTH) / scale,
-	          settings::TARGET_HEIGHT - pos.y * ((float)mWindowHeight / (float)settings::TARGET_HEIGHT) / scale );
+  std::cout << (float)mWindowWidth / (float)mWindowHeight << std::endl;
+  //wRatio = wRatio > 1.0f ? 1.0f : wRatio;
+	return glm::vec2((pos.x / scale) * ((float)mWindowWidth / (float)settings::TARGET_WIDTH),
+    mWindowHeight  - ((pos.y / scale) * ((float)mWindowHeight / (float)settings::TARGET_HEIGHT)));
   #else
-	return glm::vec2(pos.x * ((float)mWindowWidth / (float)settings::TARGET_WIDTH) / scale,
-	          pos.y * ((float)mWindowHeight / (float)settings::TARGET_HEIGHT) / scale );
+	return glm::vec2(pos.x / scale, pos.y / scale );
   #endif
 }
 

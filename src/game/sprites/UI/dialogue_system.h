@@ -3,11 +3,12 @@
 
 #include <string>
 
+#include "../sprite.h"
+#include "../../../renderer-include.h"
+
 #include <timer.h>
 #include <input.h>
 
-#include "../sprite.h"
-#include "../../../renderer-include.h"
 
 
 class DialogueSystem
