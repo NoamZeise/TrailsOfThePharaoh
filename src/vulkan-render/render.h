@@ -74,6 +74,7 @@ public:
   void DrawQuad(Resource::Texture texture, glm::mat4 modelMatrix);
   void DrawString(Resource::Font font, std::string text, glm::vec2 position, float size, float depth, glm::vec4 colour, float rotate);
   void DrawString(Resource::Font font, std::string text, glm::vec2 position, float size, float depth, glm::vec4 colour);
+  float MeasureString(Resource::Font font, std::string text, float size);
   void EndDraw(std::atomic<bool> &submit);
 
   void FramebufferResize();

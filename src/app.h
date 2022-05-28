@@ -113,11 +113,20 @@ private:
   glm::vec2 startTransitionCamOff;
 
   bool inDialogue = true;
-  Sprite testCharacter;
 
   DialogueSystem dialogue;
 
   bool allLevelsComplete = false;
+
+  gh::Random rand;
+
+  int lastAmbientIndex = -1;
+  std::vector<std::string> ambientMusicTracks = {
+    "audio/music/Trials of The Pharaoh Gameplay1.wav",
+    "audio/music/Trials of The Pharaoh Gameplay2.wav",
+    //"audio/music/Trials of The Pharaoh Gameplay3.wav",
+    "audio/music/Trials of The Pharaoh Gameplay4.wav"
+  };
 };
 
 #endif

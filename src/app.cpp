@@ -70,13 +70,14 @@ void App::loadAssets()
   rotateCursorOn = Sprite(mRender->LoadTexture("textures/ui/rotateCursorOn.png"), 4.0f);
   pixelTex = mRender->LoadTexture("textures/pixel.png");
 
-  testCharacter = Sprite(mRender->LoadTexture("textures/ui/character.png"), 3.2f);
+  Sprite testCharacter = Sprite(mRender->LoadTexture("textures/ui/Anubis.png"), glm::vec4(0, 0, settings::TARGET_WIDTH, settings::TARGET_HEIGHT), 3.2f);
   dialogue = DialogueSystem(
-    Sprite(mRender->LoadTexture("textures/ui/dialogueBg.png"), glm::vec4(0, 0, 1600, 900), 3.5f),
+    Sprite(mRender->LoadTexture("textures/ui/Tomb_BG.png"), glm::vec4(0, 0, settings::TARGET_WIDTH, settings::TARGET_HEIGHT), 3.1f),
+    Sprite(mRender->LoadTexture("textures/ui/dialogueBg.png"), glm::vec4(0, 0, settings::TARGET_WIDTH, settings::TARGET_HEIGHT), 3.5f),
     gameFont
   );
 
-  dialogue.ShowMessage("Hello, I am looking for the way to the afterlife", &testCharacter);
+  dialogue.ShowMessage("Hello, I am looking for the way to the afterlife", testCharacter, true);
 
   auto btnSprite = Sprite(mRender->LoadTexture("textures/ui/button.png"),glm::vec4(0),1.0f);
 
@@ -186,6 +187,15 @@ void App::update()
   std::vector<DS::ShaderStructs::ray2D> rays;
   currentCursor = cursor;
 
+  if(!audioManager.Playing(ambientMusicTracks))
+  {
+    int index = (int)(rand.PositiveReal() * ambientMusicTracks.size());
+    if(index == lastAmbientIndex)
+      index = (int)(rand.PositiveReal() * ambientMusicTracks.size());
+    audioManager.Play(ambientMusicTracks[index], false, 0.7f);
+    lastAmbientIndex = index;
+  }
+
   if(inLevelTransition && currentLevelIndex < levels.size())
   {
     if(LevelTransitionTimer == 0.0f)
@@ -201,15 +211,15 @@ void App::update()
     else if(LevelTransitionTimer > LevelTransitionDelay/2 && !inGame)
     {
       inGame = true;
-      camera.SetCameraOffset(startTransitionCamOff);
+      //camera.SetCameraOffset(startTransitionCamOff);
       nextMap();
     }
     else if(LevelTransitionTimer < LevelTransitionDelay/2)
     {
-      auto currentRect = currentLevel.getMapRect();
-      float ratio = LevelTransitionTimer / LevelTransitionDelay;
-      camera.SetCameraOffset(glm::vec2(startTransitionCamOff.x + settings::TARGET_WIDTH/2 + currentRect.z*ratio
-        , startTransitionCamOff.y + settings::TARGET_HEIGHT/2));
+    //  auto currentRect = currentLevel.getMapRect();
+      //float ratio = LevelTransitionTimer / LevelTransitionDelay;
+      //camera.SetCameraOffset(glm::vec2(startTransitionCamOff.x + settings::TARGET_WIDTH/2 + currentRect.z*ratio
+        //, startTransitionCamOff.y + settings::TARGET_HEIGHT/2));
     }
   }
   else if(inLevelTransition)
@@ -240,7 +250,11 @@ void App::update()
 
     if(currentLevel.complete())
     {
-      lvlShowContinue = true;
+      inLevelTransition = true;
+      if(currentLevelIndex % 2 == 0)
+        audioManager.Play("audio/music/Level Complete.wav", false, 0.5f);
+      else
+        audioManager.Play("audio/music/Level Complete2.wav", false, 0.5f);
       inGame = false;
     }
 
@@ -278,13 +292,16 @@ void App::update()
         inLevelTransition = true;
       }
     }
-
-  }
-
-      if(inDialogue)
+    if(inDialogue)
+    {
+      dialogue.Update(timer, controls, camera.getCameraArea(), camera.getScale());
+      if(!dialogue.showingMessage())
       {
-        dialogue.Update(timer, controls, camera.getCameraArea(), camera.getScale());
+        inDialogue = false;
+        inGame = true;
       }
+    }
+  }
 
   mRender->set2DRayData(rays);
 
@@ -365,7 +382,7 @@ void App::draw()
         camera.getCameraOffset().y,
         settings::TARGET_WIDTH * camera.getScale(), settings::TARGET_HEIGHT * camera.getScale()),
         0.0f, 7.0f),
-      glm::vec4(0.6235, 0.5294f, 0.4196f, 1.0f)
+      glm::vec4(settings::BG_R, settings::BG_G, settings::BG_B, 1.0f)
     );
   }
 
@@ -382,7 +399,9 @@ void App::draw()
 
   if(lvlShowContinue)
   {
-    mRender->DrawQuad(pixelTex, glmhelper::calcMatFromRect(glm::vec4(0, 0, settings::TARGET_WIDTH*scale, settings::TARGET_HEIGHT*scale), 0.0f, 2.5f), glm::vec4(0.0f, 0.0f, 0.0f, 0.5f));
+    mRender->DrawQuad(pixelTex,
+      glmhelper::calcMatFromRect(glm::vec4(camera.getCameraOffset().x, camera.getCameraOffset().y, settings::TARGET_WIDTH*scale, settings::TARGET_HEIGHT*scale), 0.0f, 2.5f),
+      glm::vec4(0.0f, 0.0f, 0.0f, 0.5f));
     continueButton.Draw(mRender);
     mRender->DrawString(gameFont, "Level Complete!",
       glm::vec2(

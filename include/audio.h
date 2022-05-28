@@ -229,6 +229,15 @@ public:
 		return false;
 	}
 
+	bool Playing(std::vector<std::string> filenames)
+	{
+		for (size_t i = 0; i < activeAudio.size(); i++)
+			for(size_t j = 0; j < filenames.size(); j++)
+				if(activeAudio[i]->audio->filename == filenames[j] && activeAudio[i]->Playing())
+					return true;
+		return false;
+	}
+
 private:
 	std::map<std::string, AudioData*> loaded;
 	std::vector<Instance*> activeAudio;

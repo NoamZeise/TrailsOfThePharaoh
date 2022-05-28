@@ -172,7 +172,7 @@ void Render::Begin3DDraw()
 
 void Render::EndDraw(std::atomic<bool>& submit)
 {
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearColor(settings::BG_R, settings::BG_G, settings::BG_B, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 //Draw 2D
@@ -344,6 +344,10 @@ void Render::DrawString(Resource::Font font, std::string text, glm::vec2 positio
   DrawString(font, text, position, size, depth, colour, 0.0f);
 }
 
+float Render::MeasureString(Resource::Font font, std::string text, float size)
+{
+  fontLoader->MeasureString(font, text, size);
+}
 
 void Render::FramebufferResize()
 {

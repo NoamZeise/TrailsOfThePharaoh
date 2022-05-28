@@ -341,7 +341,7 @@ void Render::_startDraw() {
   // colour attachment need colour for each attachment being cleared (colour,
   // depth)
   std::array<VkClearValue, 2> clearColours{};
-  clearColours[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
+  clearColours[0].color = {{settings::BG_R, settings::BG_G, settings::BG_B, 1.0f}};
   clearColours[1].depthStencil = {1.0f, 0};
   renderPassInfo.clearValueCount = clearColours.size();
   renderPassInfo.pClearValues = clearColours.data();
@@ -516,6 +516,11 @@ void Render::DrawString(Resource::Font font, std::string text, glm::vec2 positio
 void Render::DrawString(Resource::Font font, std::string text, glm::vec2 position, float size, float depth, glm::vec4 colour)
 {
   DrawString(font, text, position, size, depth, colour, 0.0);
+}
+
+float Render::MeasureString(Resource::Font font, std::string text, float size)
+{
+  return mFontLoader->MeasureString(font, text, size);
 }
 
 void Render::EndDraw(std::atomic<bool> &submit) {
