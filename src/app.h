@@ -37,6 +37,7 @@
 #include "game/sprites/sprite.h"
 #include "game/sprites/UI/button.h"
 #include "game/sprites/UI/text_button.h"
+#include "game/sprites/UI/dialogue_system.h"
 
 //#define TIME_APP_DRAW_UPDATE
 //#define MULTI_UPDATE_ON_SLOW_DRAW
@@ -88,7 +89,7 @@ private:
   glm::vec2 target = glm::vec2(0, 0);
   float scale  = 2.0f;
 
-  bool inGame = true;
+  bool inGame = false;
 
   Resource::Texture pixelTex;
   Resource::Font gameFont;
@@ -110,6 +111,11 @@ private:
   float LevelTransitionTimer = 0.0f;
   Level nextLevel;
   glm::vec2 startTransitionCamOff;
+
+  bool inDialogue = true;
+  Sprite testCharacter;
+
+  DialogueSystem dialogue;
 
   bool allLevelsComplete = false;
 };

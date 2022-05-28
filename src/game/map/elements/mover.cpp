@@ -1,7 +1,7 @@
 #include "mover.h"
 
 
-Mover::Mover(Sprite line, Sprite base, Sprite handle, glm::vec4 rect, glm::vec2 lineStart, glm::vec2 lineEnd, int startIndex)
+Mover::Mover(Sprite line, Sprite outline, Sprite base, Sprite handle, glm::vec4 rect, glm::vec2 lineStart, glm::vec2 lineEnd, int startIndex)
   : Button(base, false)
 {
   this->lineSprite = line;
@@ -14,6 +14,7 @@ Mover::Mover(Sprite line, Sprite base, Sprite handle, glm::vec4 rect, glm::vec2 
   this->maxDistance = glm::distance(lineStart, lineEnd);
 
   this->handle = handle;
+  this->outline = outline;
 }
 
 void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightRay::LightElements> &lightElems)
@@ -21,6 +22,14 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightR
   if(firstUpdate)
   {
     sprite.setRect(InitialRect);
+    outline.setRect(
+      glm::vec4(
+        InitialRect.x - MOVER_OUTLINE_THICKNESS,
+        InitialRect.y - MOVER_OUTLINE_THICKNESS,
+        InitialRect.z + MOVER_OUTLINE_THICKNESS*2,
+        InitialRect.w + MOVER_OUTLINE_THICKNESS*2
+      )
+    );
     handle.setRect(glm::vec4(InitialRect.x + InitialRect.z/2 - handle.getTextureDim().x/4, InitialRect.y + InitialRect.w/2 - handle.getTextureDim().y/4, handle.getTextureDim().x/2, handle.getTextureDim().y/2));
     firstUpdate = false;
     for(int i = lineIndex; i < lineIndex + 4; i++)
@@ -34,7 +43,14 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightR
     auto changedLine = unitLine * currentDistance;
     sprite.setRect(glm::vec4(InitialRect.x + changedLine.x, InitialRect.y + changedLine.y, InitialRect.z, InitialRect.w));
     handle.setRect(glm::vec4(InitialRect.x + InitialRect.z/2 - handle.getTextureDim().x/4   + changedLine.x, InitialRect.y + InitialRect.w/2 - handle.getTextureDim().y/4 + changedLine.y, handle.getTextureDim().x/2, handle.getTextureDim().y/2));
-
+        outline.setRect(
+          glm::vec4(
+            changedLine.x + InitialRect.x - MOVER_OUTLINE_THICKNESS,
+            changedLine.y + InitialRect.y - MOVER_OUTLINE_THICKNESS,
+            InitialRect.z + MOVER_OUTLINE_THICKNESS*2,
+            InitialRect.w + MOVER_OUTLINE_THICKNESS*2
+          )
+        );
     for(int i = lineIndex; i < lineIndex + 4; i++)
     {
       lightElems[i].p1 = originalLightElems[i - lineIndex].p1 + changedLine;
@@ -46,6 +62,7 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, std::vector<LightR
 
 
   sprite.Update(camRect);
+  outline.Update(camRect);
   handle.Update(camRect);
 
 //check move
@@ -62,11 +79,13 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, float scale)
   hovering = false;
 
   if(gh::contains(input.MousePos(), sprite.getDrawRect()))
+    colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+
+  if(gh::contains(input.MousePos(), sprite.getDrawRect()))
   {
     if(!clicked)
     {
       hovering = true;
-      colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     }
     else if(!prevClicked)
     {
@@ -84,7 +103,7 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, float scale)
     else
     {
       beingControlled = true;
-      colour = glm::vec4(0.5f, 0.0f, 0.0f, 1.0f);
+      colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
       auto mouseChanged = input.MousePos() - prevMouse;
       auto changeUnit = unitLine * mouseChanged;
       float changed = changeUnit.x + changeUnit.y;
@@ -109,4 +128,6 @@ void Mover::Draw(Render *render)
   lineSprite.Draw(render);
   Button::Draw(render);
   handle.Draw(render);
+  if(beingControlled)
+    outline.Draw(render);
 }

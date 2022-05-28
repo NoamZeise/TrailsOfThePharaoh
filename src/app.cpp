@@ -70,6 +70,14 @@ void App::loadAssets()
   rotateCursorOn = Sprite(mRender->LoadTexture("textures/ui/rotateCursorOn.png"), 4.0f);
   pixelTex = mRender->LoadTexture("textures/pixel.png");
 
+  testCharacter = Sprite(mRender->LoadTexture("textures/ui/character.png"), 3.2f);
+  dialogue = DialogueSystem(
+    Sprite(mRender->LoadTexture("textures/ui/dialogueBg.png"), glm::vec4(0, 0, 1600, 900), 3.5f),
+    gameFont
+  );
+
+  dialogue.ShowMessage("Hello, I am looking for the way to the afterlife", &testCharacter);
+
   auto btnSprite = Sprite(mRender->LoadTexture("textures/ui/button.png"),glm::vec4(0),1.0f);
 
   btnSprite.setDepth(2.0f);
@@ -106,7 +114,7 @@ void App::loadAssets()
 
 void App::loadMaps()
 {
-  currentLevelIndex = 8;  //1 less than desired index
+  currentLevelIndex = -1;  //1 less than desired index
   levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont));
   levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont));
   levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont));
@@ -270,8 +278,15 @@ void App::update()
         inLevelTransition = true;
       }
     }
+
   }
-    mRender->set2DRayData(rays);
+
+      if(inDialogue)
+      {
+        dialogue.Update(timer, controls, camera.getCameraArea(), camera.getScale());
+      }
+
+  mRender->set2DRayData(rays);
 
   auto cursorRect = cursor.getDrawRect();
   currentCursor.setRect(glm::vec4(controls.MousePos().x - cursorRect.z/2, controls.MousePos().y - cursorRect.w/2, cursorRect.z, cursorRect.w));
@@ -357,6 +372,9 @@ void App::draw()
   currentLevel.Draw(mRender);
   if(inLevelTransition)
     nextLevel.Draw(mRender);
+
+  if(inDialogue)
+    dialogue.Draw(mRender);
 
   currentCursor.Draw(mRender);
 

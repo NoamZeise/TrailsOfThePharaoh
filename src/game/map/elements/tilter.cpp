@@ -1,16 +1,20 @@
 #include "tilter.h"
 
-Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) : Button(base, false)
+Tilter::Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, float initialAngle) : Button(base, false)
 {
   this->mirror = mirror;
+  this->outline = outline;
   this->pivot = pivot;
 
   this->initialAngleVector = glmhelper::getVectorFromAngle(initialAngle);
 
   this->angle = initialAngle;
-  glm::vec2 dim = glm::vec2(base.getDrawRect().z, TILTER_THICKNESS);
+  glm::vec2 dim = glm::vec2(base.getDrawRect().z*1.2f, TILTER_THICKNESS);
   this->mirror.setRect(glm::vec4(pivot.x - dim.x/2, pivot.y - dim.y/2, dim.x, dim.y));
   this->mirror.setRotation(initialAngle);
+  sprite.setRotation(initialAngle);
+  this->outline.setRect(sprite.getDrawRect());
+  this->outline.setRotation(initialAngle);
 }
 
   void Tilter::Update(glm::vec4 camRect, Input::Controls &input, float scale)
@@ -21,6 +25,9 @@ Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) 
     beingControlled = false;
     hovering = false;
     colour = glm::vec4(1.0f);
+
+    if(gh::contains(input.MousePos(), sprite.getDrawRect()))
+      colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 
     if(gh::contains(input.MousePos(), sprite.getDrawRect()) && !selected)
     {
@@ -59,10 +66,11 @@ Tilter::Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle) 
         offsetAngle(changedAngle);
       }
     }
-    sprite.setColour(colour);
-    mirror.setColour(colour);
+    //sprite.setColour(colour);
+    //mirror.setColour(colour);
     mirror.Update(camRect);
     sprite.Update(camRect);
+    outline.Update(camRect);
   }
 
 void Tilter::Draw(Render *render)
@@ -73,7 +81,9 @@ void Tilter::Draw(Render *render)
     render->DrawQuad(Resource::Texture(), glmhelper::getModelMatrix(glm::vec4(pos.z, pos.w, 10, 10), 0.0f, 5.0f));
   #endif
   mirror.Draw(render);
-  //Button::Draw(render);
+  Button::Draw(render);
+  if(beingControlled)
+    outline.Draw(render);
 }
 
 

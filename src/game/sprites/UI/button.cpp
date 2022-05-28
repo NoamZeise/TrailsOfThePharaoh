@@ -16,7 +16,7 @@ void Button::Update(glm::vec4 camRect, Input::Controls &input, float scale)
   }
 
   if(isStatic)
-    sprite.setRect(glm::vec4((initialRect.x*scale)+camRect.x, (initialRect.y*scale)+camRect.y, initialRect.z*scale, initialRect.w*scale));
+    sprite.setRect(glmhelper::correctRectWithCamera(initialRect, camRect, scale));
 
   sprite.Update(camRect);
 }

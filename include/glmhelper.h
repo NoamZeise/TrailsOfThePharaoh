@@ -63,6 +63,11 @@ inline glm::mat4 calcMatFromRect(glm::vec4 rect, float rotate, float depth, bool
 	return model;
 }
 
+inline glm::vec4 correctRectWithCamera(glm::vec4 rect, glm::vec4 camRect, float scale)
+{
+	return glm::vec4((rect.x*scale)+camRect.x, (rect.y*scale)+camRect.y, rect.z*scale, rect.w*scale);
+}
+
 inline glm::mat4 calcMatFromRect(glm::vec4 rect, float rotate, float depth)
 {
 	return calcMatFromRect(rect, rotate, depth, true);

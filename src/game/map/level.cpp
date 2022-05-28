@@ -9,12 +9,15 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 
 	Resource::Texture mirror = render->LoadTexture("textures/level/mirror.png");
 	Resource::Texture tilterBase = render->LoadTexture("textures/level/tilterBase.png");
+	Resource::Texture tilterOutline = render->LoadTexture("textures/level/tilterOutline.png");
 
 	for(const auto &tilterGroup : logical.tilters)
 	{
 		tilters.push_back(std::vector<Tilter>());
 		for(const auto& tilter:  tilterGroup)
-			tilters.back().push_back(Tilter(Sprite(tilterBase, tilter.rect, 0.5f), Sprite(mirror, glm::vec4(0), 1.1f), tilter.pivot, tilter.initialAngle));
+			tilters.back().push_back(Tilter(Sprite(tilterBase, tilter.rect, 0.5f)
+			,Sprite(tilterOutline, tilter.rect, 0.49f),
+			 Sprite(mirror, glm::vec4(0), 1.1f), tilter.pivot, tilter.initialAngle));
 	}
 
 	auto rayBox = Sprite(
@@ -250,7 +253,7 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 		{
 			int prevIndex = lines.size();
 			addRectLine(switches.box, false, 1.0f);
-			
+
 			raySwitches.push_back(RaySwitch(
 					LightRay(render->LoadTexture("textures/pixel.png"), switches.ray.rect, switches.ray.angle, lines.size(), rayBox, rayBoxOn, rayBoxOff),
 					switches.on,
@@ -302,6 +305,7 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 	Sprite moverMirrorSprite = Sprite(render->LoadTexture("textures/level/mirrorBox.png"), glm::vec4(0.0f), 1.2f);
 	Sprite moverLineSprite = Sprite(render->LoadTexture("textures/level/lineMover.png"), glm::vec4(0.0f), 1.2f);
 	Sprite moverHandleSprite = Sprite(render->LoadTexture("textures/level/handle.png"), glm::vec4(0.0f), 1.3f);
+	Sprite moverOutlineSprite = Sprite(render->LoadTexture("textures/level/outlineBox.png"), glm::vec4(0.0f), 1.1f);
 	for(auto& mover : logical.movers)
 	{
 		int prevIndex = lines.size();
@@ -309,6 +313,7 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 		movers.push_back(
 			Mover(
 				moverLineSprite,
+				moverOutlineSprite,
 				mover.reflective ? moverMirrorSprite : moverColliderSprite,
 				moverHandleSprite,
 				mover.rect,

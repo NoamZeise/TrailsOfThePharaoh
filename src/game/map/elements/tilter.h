@@ -14,7 +14,7 @@ const  float TILTER_THICKNESS =  50.0f;
 class Tilter : public Button
 {
 public:
-  Tilter(Sprite base, Sprite mirror, glm::vec2 pivot, float initialAngle);
+  Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, float initialAngle);
   void Update(glm::vec4 camRect, Input::Controls &input) { Update(camRect, input, 1.0f); }
   void Update(glm::vec4 camRect, Input::Controls &input, float scale) override;
   void Draw(Render *render) override;
@@ -28,13 +28,14 @@ public:
     return temp;  }
   void offsetAngle(float offset)
   {
-    colour = glm::vec4(0.3f, 0.8f, 0.2f, 1.0f);
+    colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     sprite.setColour(colour);
     angle += offset;
     changed = true;
     calculatedThisFrame = false;
     this->mirror.setRotation(angle);
     this->sprite.setRotation(angle);
+    this->outline.setRotation(angle);
   }
   glm::vec4 getColour()
   {
@@ -53,6 +54,7 @@ private:
   float getMouseAngle(Input::Controls &controls);
 
   Sprite mirror;
+  Sprite outline;
 
   glm::vec2 pivot;
   float angle;
@@ -69,6 +71,8 @@ private:
   bool selected = false;
   bool changed = false;
   float changedAngle = 0.0f;
+
+  bool first = true;
 };
 
 

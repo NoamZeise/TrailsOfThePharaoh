@@ -14,16 +14,21 @@
 class DialogueSystem
 {
 public:
+  DialogueSystem() {}
   DialogueSystem(Sprite background, Resource::Font font);
-  void ShowMessage(std::string text);
-
-  void Update(Timer &timer, Input::Controls &controls);
+  void ShowMessage(std::string text, Sprite* character);
+  void Update(Timer &timer, Input::Controls &controls, glm::vec4 camRect, float scale);
+  void Draw(Render *render);
 
   bool showingMessage();
 private:
   Sprite background;
   Resource::Font font;
+  glm::vec4 initialBgRect;
 
+  std::string currentText;
+  Sprite* characterSprite = nullptr;
+  glm::vec4 initialCharacterRect;
 };
 
 #endif
