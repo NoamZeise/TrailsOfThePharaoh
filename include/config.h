@@ -16,8 +16,8 @@ const bool SAMPLE_SHADING = true;
 
 const bool FIXED_RATIO = true;
 const bool USE_TARGET_RESOLUTION = true;
-const int TARGET_WIDTH = 1920;
-const int TARGET_HEIGHT = 1080;
+const int TARGET_WIDTH = 1920;//3840;
+const int TARGET_HEIGHT = 1080;//2160;
 
 const int INITIAL_WINDOW_WIDTH = 1600;
 const int INITIAL_WINDOW_HEIGHT = 900;

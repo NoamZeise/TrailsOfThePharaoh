@@ -63,21 +63,18 @@ App::~App()
 void App::loadAssets()
 {
   gameFont = mRender->LoadFont("textures/SF Eccentric Opus.ttf");
-  cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.0f);
-  moveCursor = Sprite(mRender->LoadTexture("textures/ui/moveCursor.png"), 4.0f);
-  rotateCursor = Sprite(mRender->LoadTexture("textures/ui/rotateCursor.png"), 4.0f);
-  moveCursorOn = Sprite(mRender->LoadTexture("textures/ui/moveCursorOn.png"), 4.0f);
-  rotateCursorOn = Sprite(mRender->LoadTexture("textures/ui/rotateCursorOn.png"), 4.0f);
+  cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.1f);
+  moveCursor = Sprite(mRender->LoadTexture("textures/ui/moveCursor.png"), 4.1f);
+  rotateCursor = Sprite(mRender->LoadTexture("textures/ui/rotateCursor.png"), 4.1f);
+  moveCursorOn = Sprite(mRender->LoadTexture("textures/ui/moveCursorOn.png"), 4.1f);
+  rotateCursorOn = Sprite(mRender->LoadTexture("textures/ui/rotateCursorOn.png"), 4.1f);
   pixelTex = mRender->LoadTexture("textures/pixel.png");
 
-  Sprite testCharacter = Sprite(mRender->LoadTexture("textures/ui/Anubis.png"), glm::vec4(0, 0, settings::TARGET_WIDTH, settings::TARGET_HEIGHT), 3.2f);
-  dialogue = DialogueSystem(
-    Sprite(mRender->LoadTexture("textures/ui/Tomb_BG.png"), glm::vec4(0, 0, settings::TARGET_WIDTH, settings::TARGET_HEIGHT), 3.1f),
-    Sprite(mRender->LoadTexture("textures/ui/dialogueBg.png"), glm::vec4(0, 0, settings::TARGET_WIDTH, settings::TARGET_HEIGHT), 3.5f),
-    gameFont
-  );
+  csManager = CutsceneManager(mRender, gameFont);
 
-  dialogue.ShowMessage("Hello, I am looking for the way to the afterlife", testCharacter, true);
+  csManager.PlayCutscene("dialogue/0.txt");
+  inGame = false;
+  inDialogue = true;
 
   auto btnSprite = Sprite(mRender->LoadTexture("textures/ui/button.png"),glm::vec4(0),1.0f);
 
@@ -211,20 +208,14 @@ void App::update()
     else if(LevelTransitionTimer > LevelTransitionDelay/2 && !inGame)
     {
       inGame = true;
-      //camera.SetCameraOffset(startTransitionCamOff);
+      inLevelDialogueTransition = false;
       nextMap();
-    }
-    else if(LevelTransitionTimer < LevelTransitionDelay/2)
-    {
-    //  auto currentRect = currentLevel.getMapRect();
-      //float ratio = LevelTransitionTimer / LevelTransitionDelay;
-      //camera.SetCameraOffset(glm::vec2(startTransitionCamOff.x + settings::TARGET_WIDTH/2 + currentRect.z*ratio
-        //, startTransitionCamOff.y + settings::TARGET_HEIGHT/2));
     }
   }
   else if(inLevelTransition)
   {
     inLevelTransition = false;
+    inLevelDialogueTransition = false;
     inGame = true;
     nextMap();
   }
@@ -252,9 +243,9 @@ void App::update()
     {
       inLevelTransition = true;
       if(currentLevelIndex % 2 == 0)
-        audioManager.Play("audio/music/Level Complete.wav", false, 0.5f);
+        audioManager.Play("audio/music/Level Complete.wav", false, 0.35f);
       else
-        audioManager.Play("audio/music/Level Complete2.wav", false, 0.5f);
+        audioManager.Play("audio/music/Level Complete2.wav", false, 0.35f);
       inGame = false;
     }
 
@@ -262,8 +253,10 @@ void App::update()
 
     if(retryButton.Clicked())
     {
+      inLevelTransition = true;
+      inGame = false;
       currentLevelIndex--;
-      nextMap();
+      //nextMap();
     }
 
     if(currentLevel.movedSel())
@@ -294,11 +287,13 @@ void App::update()
     }
     if(inDialogue)
     {
-      dialogue.Update(timer, controls, camera.getCameraArea(), camera.getScale());
-      if(!dialogue.showingMessage())
+      csManager.Update(timer, controls, camera.getCameraArea(), camera.getScale());
+      if(csManager.isFinished())
       {
         inDialogue = false;
-        inGame = true;
+        inLevelTransition = true;
+        inLevelDialogueTransition = true;
+        inGame = false;
       }
     }
   }
@@ -390,8 +385,8 @@ void App::draw()
   if(inLevelTransition)
     nextLevel.Draw(mRender);
 
-  if(inDialogue)
-    dialogue.Draw(mRender);
+  if(inDialogue || inLevelDialogueTransition)
+    csManager.Draw(mRender);
 
   currentCursor.Draw(mRender);
 

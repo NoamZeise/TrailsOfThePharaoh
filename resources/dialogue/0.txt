@@ -1,8 +1,22 @@
+N
+A female mummy awakens from a sarcophagus.  Not knowing what her name is, she wanders and meets with Anubis.
 P
-What is this place? Who am I? I can’t…… I can’t remember.
+What is this place? Who am I? I can’t...... I can’t remember.
 A
 Who dares to trespass the walkway of Pharaohs?
 P
-Gasps I… I……
+Gasps I... I......who are.....
 A
-I am the Lord of the Underworld, Anubis. You….. Your name is not in the book of the dead. I do not know who you are, but I see visions of your mummification…. You are a Pharaoh, but one who does not know who she is..
+I am the Lord of the Underworld, Anubis.
+B
+This is the sacred book of the underworld, the book of the dead. It reveals to me the names of those who should pass onto the afterlife.
+B
+It does not show me you who are. I see visions of your mummification.... You are a Pharaoh, but one who does not know who she is..
+B
+I see visions of those filled with envy attempting to erase you from history. I see those filled by greed breaking into your sacred tomb to rob you.
+A
+If you wish to pass on, you must undergo a series of trials.
+A
+These trials shall be the key to unlocking your forgotten memories and restore your name into the book of the dead.
+A
+Go Pharaoh, escape the eternal darkness and master the light! Let the trials begin!

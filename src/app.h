@@ -37,7 +37,7 @@
 #include "game/sprites/sprite.h"
 #include "game/sprites/UI/button.h"
 #include "game/sprites/UI/text_button.h"
-#include "game/sprites/UI/dialogue_system.h"
+#include "game/sprites/UI/cutscene_manager.h"
 
 //#define TIME_APP_DRAW_UPDATE
 //#define MULTI_UPDATE_ON_SLOW_DRAW
@@ -107,6 +107,7 @@ private:
   TextButton continueButton;
 
   bool inLevelTransition = false;
+  bool inLevelDialogueTransition = false;
   float LevelTransitionDelay = 1000.0f;
   float LevelTransitionTimer = 0.0f;
   Level nextLevel;
@@ -114,9 +115,10 @@ private:
 
   bool inDialogue = true;
 
-  DialogueSystem dialogue;
 
   bool allLevelsComplete = false;
+
+  CutsceneManager csManager;
 
   gh::Random rand;
 

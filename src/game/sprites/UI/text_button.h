@@ -28,7 +28,7 @@ public:
   void Draw(Render* render) override
   {
     Button::Draw(render);
-    render->DrawString(font, text, pos, size, depth, glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    render->DrawString(font, text, pos, size, depth, glm::vec4(0.4f, 0.20784f, 0.13725f, 1.0f));
   }
 
 private:

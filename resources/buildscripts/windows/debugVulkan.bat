@@ -8,7 +8,7 @@ Xcopy resources\maps build\Debug\maps /i /c /e /r /y
 Xcopy resources\shaders build\Debug\shaders /i /c /e /r /y
 Xcopy resources\textures build\Debug\textures /i /c /e /r /y
 Xcopy resources\windows-dlls build\Debug\ /i /c /e /r /y
-Xcopy resources\dialogue build\Debug\ /i /c /e /r /y
+Xcopy resources\dialogue build\Debug\dialogue /i /c /e /r /y
 cd build\Debug
 Vulkan-Environment
 cd ../..

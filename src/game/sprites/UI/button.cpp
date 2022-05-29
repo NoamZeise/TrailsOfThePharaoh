@@ -7,7 +7,7 @@ void Button::Update(glm::vec4 camRect, Input::Controls &input, float scale)
   if(gh::contains(input.MousePos(), sprite.getDrawRect()))
   {
     onSprite = true;
-    sprite.setColour(glm::vec4(0.4f, 0.20784f, 0.13725f, 1.0f));
+    sprite.setColour(glm::vec4(0.4f, 0.4f, 0.4f, 1.0f));
   }
   else
   {
