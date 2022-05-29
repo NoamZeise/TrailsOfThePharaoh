@@ -6,6 +6,7 @@
 #include "../../sprites/sprite.h"
 
 #include <glmhelper.h>
+#include <audio.h>
 
 //#define SEE_TILTER_MIRROR_POINTS
 
@@ -14,7 +15,7 @@ const  float TILTER_THICKNESS =  50.0f;
 class Tilter : public Button
 {
 public:
-  Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, float initialAngle);
+  Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, float initialAngle, Audio::Manager *audio);
   void Update(glm::vec4 camRect, Input::Controls &input) { Update(camRect, input, 1.0f); }
   void Update(glm::vec4 camRect, Input::Controls &input, float scale) override;
   void Draw(Render *render) override;
@@ -53,6 +54,8 @@ private:
 
   float getMouseAngle(Input::Controls &controls);
 
+  Audio::Manager *audio;
+
   Sprite mirror;
   Sprite outline;
 
@@ -71,6 +74,8 @@ private:
   bool selected = false;
   bool changed = false;
   float changedAngle = 0.0f;
+
+  bool playingAudio = false;
 
   bool first = true;
 };

@@ -1,7 +1,9 @@
 #include "level.h"
 
-Level::Level(std::string filename, Render* render, Resource::Font mapFont)
+Level::Level(std::string filename, Render* render, Resource::Font mapFont, Audio::Manager *audio)
 {
+	this->audio = audio;
+
 	mirrorTex = render->LoadTexture("textures/level/mirrorUncontrollable.png");
 	tiled::Map map = tiled::Map(filename);
 	logical.SetPropsWithTiledMap(map);
@@ -17,7 +19,7 @@ Level::Level(std::string filename, Render* render, Resource::Font mapFont)
 		for(const auto& tilter:  tilterGroup)
 			tilters.back().push_back(Tilter(Sprite(tilterBase, tilter.rect, 0.5f)
 			,Sprite(tilterOutline, tilter.rect, 0.49f),
-			 Sprite(mirror, glm::vec4(0), 1.1f), tilter.pivot, tilter.initialAngle));
+			 Sprite(mirror, glm::vec4(0), 1.1f), tilter.pivot, tilter.initialAngle, audio));
 	}
 
 	auto rayBox = Sprite(
@@ -68,10 +70,20 @@ void Level::Update(glm::vec4 cameraRect, float scale, Timer &timer, Input::Contr
 
 	if(goal.isOn())
 	{
+		if(!playingEnd)
+		{
+			playingEnd = true;
+			audio->Play("audio/sfx/Crystal Charge.wav", false, 0.2f);
+		}
 		winTimer += timer.FrameElapsed();
 	}
 	else
 	{
+		if(playingEnd)
+		{
+			playingEnd = false;
+			audio->Stop("audio/sfx/Crystal Charge.wav");
+		}
 		winTimer = 0.0f;
 	}
 
@@ -319,7 +331,10 @@ void Level::setLineObjects(Render *render, Sprite rayBox, Sprite rayBoxOn, Sprit
 				mover.rect,
 				mover.trackStart,
 				mover.trackEnd,
-				prevIndex));
+				prevIndex,
+				audio
+			)
+		);
 	}
 }
 

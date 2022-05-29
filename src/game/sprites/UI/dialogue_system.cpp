@@ -70,6 +70,9 @@ void DialogueSystem::addText(std::string text)
 
 void DialogueSystem::Update(Timer &timer, Input::Controls &controls, glm::vec4 camRect, float scale)
 {
+  this->camRect = camRect;
+  this->scale = scale;
+
   background.setRect(glmhelper::correctRectWithCamera(initialBgRect, camRect, scale));
   blurredBackground.setRect(glmhelper::correctRectWithCamera(initialBgRect, camRect, scale));
   messageBox.setRect(glmhelper::correctRectWithCamera(inititalMsgRect, camRect, scale));
@@ -104,6 +107,6 @@ void DialogueSystem::Draw(Render *render)
 
   for(int i = 0; i < currentText.size(); i++)
   {
-    render->DrawString(font, currentText[i], glm::vec2(350, 890 + i * 75), 60.0f, 4.0f, glm::vec4(102.0f/255.0f,53.0f/255.0f,34.0f/255.0f, 1.0f));
+    render->DrawString(font, currentText[i], glm::vec2((420*scale) + camRect.x, (770 + i * 75)*scale + camRect.y), 50.0f*scale, 4.0f, glm::vec4(102.0f/255.0f,53.0f/255.0f,34.0f/255.0f, 1.0f));
   }
 }

@@ -42,6 +42,9 @@ private:
 
   bool messageSkipped = true;
   bool prevClicked = true;
+
+  glm::vec4 camRect;
+  float scale;
 };
 
 #endif

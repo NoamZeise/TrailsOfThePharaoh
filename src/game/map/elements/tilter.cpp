@@ -1,7 +1,9 @@
 #include "tilter.h"
 
-Tilter::Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, float initialAngle) : Button(base, false)
+Tilter::Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, float initialAngle, Audio::Manager *audio) : Button(base, false)
 {
+  this->audio = audio;
+
   this->mirror = mirror;
   this->outline = outline;
   this->pivot = pivot;
@@ -51,6 +53,12 @@ Tilter::Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, floa
       }
       else
       {
+        if(!playingAudio)
+        {
+          playingAudio = true;
+          audio->Play("audio/sfx/Wheel spin1.wav", false, 0.2f);
+        }
+
         beingControlled = true;
         auto mouseAngle = getMouseAngle(input);
         if(abs(mouseAngle - prevMouseAngle) > 330)
@@ -64,6 +72,14 @@ Tilter::Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, floa
         changedAngle = (mouseAngle - prevMouseAngle) * 1.0f; //slow rotation
         prevMouseAngle = mouseAngle;
         offsetAngle(changedAngle);
+      }
+    }
+    else
+    {
+      if(playingAudio)
+      {
+        playingAudio = false;
+        audio->Stop("audio/sfx/Wheel spin1.wav");
       }
     }
     //sprite.setColour(colour);

@@ -346,7 +346,7 @@ void Render::DrawString(Resource::Font font, std::string text, glm::vec2 positio
 
 float Render::MeasureString(Resource::Font font, std::string text, float size)
 {
-  fontLoader->MeasureString(font, text, size);
+  return fontLoader->MeasureString(font, text, size);
 }
 
 void Render::FramebufferResize()

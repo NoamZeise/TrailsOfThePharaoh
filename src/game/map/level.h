@@ -24,6 +24,7 @@
 
 #include <glmhelper.h>
 #include <gamehelper.h>
+#include <audio.h>
 
 //#define SEE_COLLIDERS
 
@@ -32,7 +33,7 @@ class Level
 {
 public:
 Level() {}
-Level(std::string filename, Render* render, Resource::Font mapFont);
+Level(std::string filename, Render* render, Resource::Font mapFont, Audio::Manager *audio);
 void Update(glm::vec4 cameraRect, float scale, Timer &timer, Input::Controls &controls);
 void Draw(Render *render);
 
@@ -58,6 +59,9 @@ private:
 
 	Map::Logical logical;
 	Map::Visual visual;
+
+	Audio::Manager* audio;
+	bool playingEnd = false;
 
 	std::vector<glm::vec4> activeColliders;
 	std::vector<glm::vec4> mirrors;

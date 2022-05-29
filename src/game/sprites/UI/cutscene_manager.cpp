@@ -78,7 +78,6 @@
     Dialogue nextDialogue;
     for(std::string line; std::getline(in, line);)
     {
-      std::cout << line << std::endl;
       if(line.size() == 0)
         break;
       if(i % 2 == 0)

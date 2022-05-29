@@ -1,9 +1,11 @@
 #include "mover.h"
 
 
-Mover::Mover(Sprite line, Sprite outline, Sprite base, Sprite handle, glm::vec4 rect, glm::vec2 lineStart, glm::vec2 lineEnd, int startIndex)
+Mover::Mover(Sprite line, Sprite outline, Sprite base, Sprite handle, glm::vec4 rect, glm::vec2 lineStart, glm::vec2 lineEnd, int startIndex, Audio::Manager *audio)
   : Button(base, false)
 {
+  this->audio = audio;
+
   this->lineSprite = line;
   this->unitLine = glm::normalize(lineEnd - lineStart);
   auto angle = glm::degrees(atan2(unitLine.y, unitLine.x));
@@ -102,6 +104,14 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, float scale)
     }
     else
     {
+      if(!playingAudio)
+      {
+        playingAudio = true;
+        if((int)InitialRect.x % 2 == 0)
+          audio->Play("audio/sfx/Stone Slide1.wav", false, 0.2f);
+        else
+          audio->Play("audio/sfx/Stone Slide2.wav", false, 0.2f);
+      }
       beingControlled = true;
       colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
       auto mouseChanged = input.MousePos() - prevMouse;
@@ -117,6 +127,17 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, float scale)
       changedThisFrame = changed != 0;
 
       prevMouse = input.MousePos();
+    }
+  }
+  else
+  {
+    if(playingAudio)
+    {
+      playingAudio = false;
+      if((int)InitialRect.x % 2 == 0)
+        audio->Stop("audio/sfx/Stone Slide1.wav");
+      else
+        audio->Stop("audio/sfx/Stone Slide2.wav");
     }
   }
   sprite.setColour(colour);

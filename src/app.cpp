@@ -47,7 +47,6 @@ App::App()
     glfwSetWindowAspectRatio(mWindow, width, height);
 
   loadAssets();
-  nextMap();
 
   finishedDrawSubmit = true;
 }
@@ -113,17 +112,17 @@ void App::loadAssets()
 void App::loadMaps()
 {
   currentLevelIndex = -1;  //1 less than desired index
-  levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/4-split-two.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/5-tilters.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/6-more-tilters.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/7-light-hold-intro.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/8-light-hold-quick.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/9-three-hold.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/10-mirror-hold-intro.tmx", mRender, gameFont));
-  levels.push_back(Level("maps/11-mirror-hold-ext.tmx", mRender, gameFont));
+  levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/4-split-two.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/5-tilters.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/6-more-tilters.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/7-light-hold-intro.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/8-light-hold-quick.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/9-three-hold.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/10-mirror-hold-intro.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/11-mirror-hold-ext.tmx", mRender, gameFont, &audioManager));
 }
 
 void App::run()
@@ -150,9 +149,14 @@ void App::preUpdate()
 {
   glfwPollEvents();
   controls.Update(input, correctedMouse(), camera.getCameraOffset());
-  if (input.Keys[GLFW_KEY_ESCAPE] && !previousInput.Keys[GLFW_KEY_ESCAPE])
+  /*if (input.Keys[GLFW_KEY_ESCAPE] && !previousInput.Keys[GLFW_KEY_ESCAPE])
   {
     glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
+  }*/
+  if (input.Keys[GLFW_KEY_F] && !previousInput.Keys[GLFW_KEY_F])
+  {
+    glfwSetWindowPos(mWindow, 0, 0);
+    glfwSetWindowSize(mWindow, settings::TARGET_WIDTH, settings::TARGET_HEIGHT);
   }
 }
 
@@ -330,6 +334,7 @@ void App::nextMap()
   currentLevelIndex++;
   if(currentLevelIndex >= levels.size())
   {
+    glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
     currentLevelIndex--;
     allLevelsComplete = true;
   }
@@ -382,13 +387,11 @@ void App::draw()
   }
 
   currentLevel.Draw(mRender);
-  if(inLevelTransition)
-    nextLevel.Draw(mRender);
+
+  currentCursor.Draw(mRender);
 
   if(inDialogue || inLevelDialogueTransition)
     csManager.Draw(mRender);
-
-  currentCursor.Draw(mRender);
 
   retryButton.Draw(mRender);
 
