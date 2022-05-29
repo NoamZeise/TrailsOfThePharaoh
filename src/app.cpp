@@ -107,17 +107,13 @@ void App::loadAssets()
 
   loadMaps();
 
-//temp
-  inDialogue = false;
-  inGame = true;
-  nextMap();
 
   mRender->EndResourceLoad();
 }
 
 void App::loadMaps()
 {
-  currentLevelIndex = 2;  //1 less than desired index
+  currentLevelIndex = 10;  //1 less than desired index
   levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont, &audioManager));
@@ -220,7 +216,16 @@ void App::update()
     {
       inGame = true;
       inLevelDialogueTransition = false;
-      nextMap();
+      if(currentLevelIndex == levels.size() - 1)
+      {
+        if(!lastCutsceneWatched)
+          csManager.PlayCutscene("dialogue/end.txt");
+        lastCutsceneWatched = true;
+        inDialogue = true;
+        inGame = false;
+      }
+      else
+        nextMap();
     }
   }
   else if(inLevelTransition)
@@ -301,6 +306,8 @@ void App::update()
       csManager.Update(timer, controls, camera.getCameraArea(), camera.getScale());
       if(csManager.isFinished())
       {
+        if(lastCutsceneWatched)
+          glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
         inDialogue = false;
         inLevelTransition = true;
         inLevelDialogueTransition = true;

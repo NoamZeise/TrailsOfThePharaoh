@@ -30,6 +30,8 @@ private:
     Anubis,
     Mummy,
     Bod,
+    EmptyBod,
+    FullBod
   };
   struct Dialogue
   {
@@ -44,6 +46,8 @@ private:
   Sprite Anubis;
   Sprite Mummy;
   Sprite Book;
+  Sprite EmptyBook;
+  Sprite FullBook;
 
 
 };

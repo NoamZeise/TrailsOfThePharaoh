@@ -20,6 +20,18 @@
       glm::vec4(400.0f, 0.0f, BODTex.dim.x/7, BODTex.dim.y/7),
       3.4f
     );
+    auto EmptyBODTex = render->LoadTexture("textures/Story/BookoftheDead_open_empty.png");
+    EmptyBook = Sprite(
+      EmptyBODTex,
+      glm::vec4(200.0f, 0.0f, EmptyBODTex.dim.x/7, EmptyBODTex.dim.y/7),
+      3.4f
+    );
+    auto FullBODTex = render->LoadTexture("textures/Story/BookoftheDead_open.png");
+    FullBook = Sprite(
+      FullBODTex,
+      glm::vec4(200.0f, 0.0f, FullBODTex.dim.x/7, FullBODTex.dim.y/7),
+      3.4f
+    );
     auto textFieldTex = render->LoadTexture("textures/Story/textField.png");
     ds = DialogueSystem(
       Sprite(render->LoadTexture("textures/Story/Tomb_BG.png"), glm::vec4(0, 0, settings::TARGET_WIDTH, settings::TARGET_HEIGHT), 3.3f),
@@ -55,6 +67,12 @@
           case Character::Bod:
             ds.ShowMessage(next.text, {Anubis, Book});
             break;
+          case Character::EmptyBod:
+            ds.ShowMessage(next.text, {Anubis, EmptyBook});
+            break;
+          case Character::FullBod:
+            ds.ShowMessage(next.text, {Anubis, FullBook});
+            break;
           case Character::None:
             ds.ShowMessage(next.text);
             break;
@@ -73,6 +91,7 @@
 
   void CutsceneManager::PlayCutscene(std::string cutsceneFile)
   {
+    std::cout << "play cutscene" << std::endl;
     std::ifstream in(cutsceneFile);
     int i = 0;
     Dialogue nextDialogue;
@@ -92,6 +111,12 @@
             break;
           case 'B':
             nextDialogue.character = Character::Bod;
+            break;
+          case 'E':
+            nextDialogue.character = Character::EmptyBod;
+            break;
+          case 'F':
+            nextDialogue.character = Character::FullBod;
             break;
           default:
             nextDialogue.character = Character::None;

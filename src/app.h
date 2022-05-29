@@ -115,6 +115,7 @@ private:
 
   bool inDialogue = true;
 
+  bool lastCutsceneWatched = false;
 
   bool allLevelsComplete = false;
 
