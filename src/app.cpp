@@ -106,12 +106,18 @@ void App::loadAssets()
   );
 
   loadMaps();
+
+//temp
+  inDialogue = false;
+  inGame = true;
+  nextMap();
+
   mRender->EndResourceLoad();
 }
 
 void App::loadMaps()
 {
-  currentLevelIndex = -1;  //1 less than desired index
+  currentLevelIndex = 2;  //1 less than desired index
   levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont, &audioManager));
@@ -121,6 +127,7 @@ void App::loadMaps()
   levels.push_back(Level("maps/7-light-hold-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/8-light-hold-quick.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/9-three-hold.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/9-5-mirror-hold-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/10-mirror-hold-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/11-mirror-hold-ext.tmx", mRender, gameFont, &audioManager));
 }

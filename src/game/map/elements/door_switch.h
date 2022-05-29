@@ -14,6 +14,7 @@ public:
     this->doorRect = doorRect;
     this->door.setRect(doorRect);
     this->doorOff.setRect(doorRect);
+    this->doorOff.setColour(glm::vec4(1.0f, 1.0f, 1.0f, 0.5f));
     this->doorLineIndex = doorLineIndex;
   }
 

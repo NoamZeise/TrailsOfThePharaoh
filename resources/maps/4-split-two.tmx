@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="64" tileheight="64" infinite="0" nextlayerid="27" nextobjectid="105">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="64" tileheight="64" infinite="0" nextlayerid="31" nextobjectid="113">
  <tileset firstgid="1" source="tempTileset.tsx"/>
+ <objectgroup id="27" name="Copy of split2">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="105" x="1344" y="512" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="225"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="106" x="1366" y="533" width="20" height="20">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="28" name="Copy of Copy of split2">
+  <properties>
+   <property name="switchLayer" type="bool" value="true"/>
+  </properties>
+  <object id="107" x="1344" y="512" width="64" height="64">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="angle" type="float" value="310"/>
+    <property name="lightSource" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="108" x="1366" y="533" width="20" height="20">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
  <layer id="1" name="bg" width="30" height="25">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -39,7 +73,7 @@
   </object>
  </objectgroup>
  <objectgroup id="8" name="goal">
-  <object id="20" x="1621.21" y="119.273" width="179.152" height="179.152">
+  <object id="20" x="1597.21" y="99.273" width="179.152" height="179.152">
    <properties>
     <property name="goal" type="bool" value="true"/>
    </properties>
@@ -79,6 +113,23 @@
    <polyline points="50.0606,-74.8485 -141.939,-74.8485"/>
   </object>
  </objectgroup>
+ <objectgroup id="30" name="Copy of Copy of mover">
+  <properties>
+   <property name="mover" type="bool" value="true"/>
+  </properties>
+  <object id="111" x="1063.64" y="179.152" width="168" height="168">
+   <properties>
+    <property name="mirror" type="bool" value="true"/>
+    <property name="mover" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="112" x="1075.5" y="264.009">
+   <properties>
+    <property name="track" type="bool" value="true"/>
+   </properties>
+   <polyline points="48.4962,-0.00748485 -125.503,-142.007"/>
+  </object>
+ </objectgroup>
  <objectgroup id="25" name="door">
   <properties>
    <property name="door" type="bool" value="true"/>
@@ -91,6 +142,23 @@
    </properties>
   </object>
   <object id="97" x="1280" y="960" width="128" height="128">
+   <properties>
+    <property name="switch" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="29" name="Copy of door">
+  <properties>
+   <property name="door" type="bool" value="true"/>
+  </properties>
+  <object id="109" x="1474" y="140" width="88" height="314">
+   <properties>
+    <property name="On" type="bool" value="false"/>
+    <property name="door" type="bool" value="true"/>
+    <property name="mirror" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="110" x="600" y="650" width="128" height="128">
    <properties>
     <property name="switch" type="bool" value="true"/>
    </properties>
