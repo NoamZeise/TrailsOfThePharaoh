@@ -3,13 +3,13 @@ What is this place? Who am I? I can’t...... I can’t remember.
 A 0-A1.ogg
 Who dares to trespass the walkway of Pharaohs?
 P 0-P2.ogg
-Gasps I... I......who are.....
+I... I......who are.....
 A 0-A2.ogg
 I am the Lord of the Underworld, Anubis.
 B 0-A3.ogg
 This is the sacred book of the underworld, the book of the dead. It reveals to me the names of those who should pass onto the afterlife.
 B 0-A4.ogg
-It does not show me you who are. I see visions of your mummification....
+It does not show me who you are. I see visions of your mummification....
 B 0-A5.ogg
 You are a Pharaoh, but one whose name has been damaged by the passage of time. One whose name I do not know.
 B 0-A6.ogg

@@ -7,8 +7,8 @@ App::App()
     throw std::runtime_error("failed to initialise glfw!");
 
   const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-  mWindowWidth = videoMode->width;
-  mWindowHeight = videoMode->height;
+  mWindowWidth = videoMode->width*0.95;
+  mWindowHeight = videoMode->height*0.95;
 
   Render::SetGLFWWindowHints();
 
@@ -23,7 +23,7 @@ App::App()
     glfwTerminate();
     throw std::runtime_error("failed to create glfw window!");
   }
-  glfwSetWindowPos(mWindow, 0, 0);
+  glfwSetWindowPos(mWindow, mWindowHeight*0.025f, mWindowHeight*0.025f);
   GLFWimage winIcon[1];
 	winIcon[0].pixels = stbi_load("textures/icon.png", &winIcon[0].width, &winIcon[0].height, 0, 4); //rgba channels
 	glfwSetWindowIcon(mWindow, 1, winIcon);
@@ -64,8 +64,6 @@ App::~App()
 
 void App::loadAssets()
 {
-  std::cout << "loading game" << std::endl;
-  std::cout << "loading UI assets" << std::endl;
   gameFont = mRender->LoadFont("textures/SF Eccentric Opus.ttf");
   cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.1f);
   moveCursor = Sprite(mRender->LoadTexture("textures/ui/moveCursor.png"), 4.1f);
@@ -104,15 +102,14 @@ void App::loadAssets()
     gameFont
   );
 
-  std::cout << "loading maps" << std::endl;
 
   loadMaps();
 
-  std::cout << "loading cutscenes" << std::endl;
+  for(const auto &f: ambientMusicTracks)
+    audioManager.LoadAudioFile(f);
 
   csManager = CutsceneManager(mRender, gameFont, &audioManager);
-
-  audioManager.Play("audio/music/Trials of The Pharaoh Intro.ogg", false, 1.0f);
+  audioManager.Play("audio/music/Trials of The Pharaoh Intro.ogg", false, 1.2f);
   csManager.PlayCutscene("dialogue/0.txt");
 
   inGame = false;
@@ -167,15 +164,6 @@ void App::preUpdate()
 {
   glfwPollEvents();
   controls.Update(input, correctedMouse(), camera.getCameraOffset());
-  /*if (input.Keys[GLFW_KEY_ESCAPE] && !previousInput.Keys[GLFW_KEY_ESCAPE])
-  {
-    glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
-  }*/
-  if (input.Keys[GLFW_KEY_F] && !previousInput.Keys[GLFW_KEY_F])
-  {
-    glfwSetWindowPos(mWindow, 0, 0);
-    glfwSetWindowSize(mWindow, settings::TARGET_WIDTH, settings::TARGET_HEIGHT);
-  }
 }
 
 void App::update()
@@ -238,7 +226,7 @@ void App::update()
         if(!lastCutsceneWatched)
         {
           audioManager.Stop(ambientMusicTracks[lastAmbientIndex]);
-          audioManager.Play("audio/music/Trials of The Pharaoh End.ogg", false, 1.0f);
+          audioManager.Play("audio/music/Trials of The Pharaoh End.ogg", false, 1.3f);
           csManager.PlayCutscene("dialogue/end.txt");
         }
         lastCutsceneWatched = true;
