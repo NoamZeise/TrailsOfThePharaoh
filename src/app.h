@@ -125,10 +125,10 @@ private:
 
   int lastAmbientIndex = -1;
   std::vector<std::string> ambientMusicTracks = {
-    "audio/music/Trials of The Pharaoh Gameplay1.wav",
-    "audio/music/Trials of The Pharaoh Gameplay2.wav",
-    //"audio/music/Trials of The Pharaoh Gameplay3.wav",
-    "audio/music/Trials of The Pharaoh Gameplay4.wav"
+    "audio/music/Trials of The Pharaoh Gameplay1.ogg",
+    "audio/music/Trials of The Pharaoh Gameplay2.ogg",
+    //"audio/music/Trials of The Pharaoh Gameplay3.ogg",
+    "audio/music/Trials of The Pharaoh Gameplay4.ogg"
   };
 };
 

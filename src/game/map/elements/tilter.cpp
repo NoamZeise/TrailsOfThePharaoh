@@ -56,7 +56,7 @@ Tilter::Tilter(Sprite base, Sprite outline, Sprite mirror, glm::vec2 pivot, floa
         if(!playingAudio)
         {
           playingAudio = true;
-          audio->Play("audio/sfx/Wheel spin1.wav", false, 0.2f);
+          audio->Play("audio/sfx/Wheel spin1.wav", false, 0.15f);
         }
 
         beingControlled = true;

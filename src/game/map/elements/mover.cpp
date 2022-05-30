@@ -108,9 +108,9 @@ void Mover::Update(glm::vec4 camRect, Input::Controls &input, float scale)
       {
         playingAudio = true;
         if((int)InitialRect.x % 2 == 0)
-          audio->Play("audio/sfx/Stone Slide1.wav", false, 0.2f);
+          audio->Play("audio/sfx/Stone Slide1.wav", false, 0.15f);
         else
-          audio->Play("audio/sfx/Stone Slide2.wav", false, 0.2f);
+          audio->Play("audio/sfx/Stone Slide2.wav", false, 0.15f);
       }
       beingControlled = true;
       colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);

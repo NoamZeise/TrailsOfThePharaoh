@@ -10,5 +10,5 @@ Xcopy resources\textures build\Release\textures /i /c /e /r /y
 Xcopy resources\windows-dlls build\Release\ /i /c /e /r /y
 Xcopy resources\dialogue build\Release\dialogue /i /c /e /r /y
 cd build\Release
-Vulkan-Environment
+TrialsOfThePharaoh
 cd ../..

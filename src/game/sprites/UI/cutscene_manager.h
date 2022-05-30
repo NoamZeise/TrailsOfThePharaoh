@@ -9,12 +9,13 @@
 #include "../../../renderer-include.h"
 #include <input.h>
 #include <timer.h>
+#include <audio.h>
 
 class CutsceneManager
 {
 public:
   CutsceneManager() {}
-  CutsceneManager(Render* render, Resource::Font font);
+  CutsceneManager(Render* render, Resource::Font font, Audio::Manager *audio);
   void Update(Timer &timer, Input::Controls &controls, glm::vec4 camRect, float camScale);
   void Draw(Render *render);
   void PlayCutscene(std::string cutsceneFile);
@@ -31,17 +32,25 @@ private:
     Mummy,
     Bod,
     EmptyBod,
-    FullBod
+    FullBod,
+    Title,
+    Credit
   };
   struct Dialogue
   {
     Character character;
     std::string text;
+    std::string audioPath;
   };
+
+  Audio::Manager *audio;
+  std::string lastAudio;
 
   std::vector<Dialogue> toRead;
 
   bool finished = true;
+  bool showingTitle = false;
+  bool showingEnd = false;
 
   Sprite Anubis;
   Sprite Mummy;
@@ -49,7 +58,9 @@ private:
   Sprite EmptyBook;
   Sprite FullBook;
 
-
+  Sprite Background;
+  Sprite EmptyBookTitle;
+  Resource::Font font;
 };
 
 #endif

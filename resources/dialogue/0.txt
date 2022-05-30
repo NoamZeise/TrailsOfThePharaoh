@@ -1,22 +1,26 @@
-N
-A female mummy awakens from a sarcophagus.  Not knowing what her name is, she wanders and meets with Anubis.
-P
+P 0-P1.ogg
 What is this place? Who am I? I can’t...... I can’t remember.
-A
+A 0-A1.ogg
 Who dares to trespass the walkway of Pharaohs?
-P
+P 0-P2.ogg
 Gasps I... I......who are.....
-A
+A 0-A2.ogg
 I am the Lord of the Underworld, Anubis.
-B
+B 0-A3.ogg
 This is the sacred book of the underworld, the book of the dead. It reveals to me the names of those who should pass onto the afterlife.
-B
-It does not show me you who are. I see visions of your mummification.... You are a Pharaoh, but one who does not know who she is..
-B
-I see visions of those filled with envy attempting to erase you from history. I see those filled by greed breaking into your sacred tomb to rob you.
-A
+B 0-A4.ogg
+It does not show me you who are. I see visions of your mummification....
+B 0-A5.ogg
+You are a Pharaoh, but one whose name has been damaged by the passage of time. One whose name I do not know.
+B 0-A6.ogg
+I see visions of those filled with envy attempting to erase you from history.
+B 0-A7.ogg
+I see those consumed by greed desecrating your sacred tomb and stealing your possessions.
+A 0-A8.ogg
 If you wish to pass on, you must undergo a series of trials.
-A
+A 0-A9.ogg
 These trials shall be the key to unlocking your forgotten memories and restore your name into the book of the dead.
-A
+A 0-A10.ogg
 Go Pharaoh, escape the eternal darkness and master the light! Let the trials begin!
+T Title Screen Sting.ogg
+The Trial of The Pharaoh

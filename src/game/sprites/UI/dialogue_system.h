@@ -22,6 +22,11 @@ public:
   void Draw(Render *render);
 
   bool showingMessage() { return !messageSkipped; }
+
+  void skipMessage() { messageSkipped = true; }
+
+  glm::vec4 lastCamRect() { return camRect; }
+  float lastScale() { return scale; }
 private:
 
   void addText(std::string text);

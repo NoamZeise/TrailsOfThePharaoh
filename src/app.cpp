@@ -13,17 +13,19 @@ App::App()
   Render::SetGLFWWindowHints();
 
   #ifdef GFX_ENV_VULKAN
-  mWindow = glfwCreateWindow(mWindowWidth, mWindowHeight, "Vulkan App", nullptr, nullptr);
+  mWindow = glfwCreateWindow(mWindowWidth, mWindowHeight, "Trials of The Pharaoh", nullptr, nullptr);
   #endif
   #ifdef GFX_ENV_OPENGL
-  mWindow = glfwCreateWindow(mWindowWidth, mWindowHeight, "OpenGL App", nullptr, nullptr);
+  mWindow = glfwCreateWindow(mWindowWidth, mWindowHeight, "Trials of The Pharaoh", nullptr, nullptr);
   #endif
   if (!mWindow)
   {
     glfwTerminate();
     throw std::runtime_error("failed to create glfw window!");
   }
-
+  GLFWimage winIcon[1];
+	winIcon[0].pixels = stbi_load("textures/icon.png", &winIcon[0].width, &winIcon[0].height, 0, 4); //rgba channels
+	glfwSetWindowIcon(mWindow, 1, winIcon);
   glfwSetWindowUserPointer(mWindow, this);
   glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
   glfwSetCursorPosCallback(mWindow, mouse_callback);
@@ -61,6 +63,8 @@ App::~App()
 
 void App::loadAssets()
 {
+  std::cout << "loading game" << std::endl;
+  std::cout << "loading UI assets" << std::endl;
   gameFont = mRender->LoadFont("textures/SF Eccentric Opus.ttf");
   cursor = Sprite(mRender->LoadTexture("textures/ui/cursor.png"), 4.1f);
   moveCursor = Sprite(mRender->LoadTexture("textures/ui/moveCursor.png"), 4.1f);
@@ -68,12 +72,6 @@ void App::loadAssets()
   moveCursorOn = Sprite(mRender->LoadTexture("textures/ui/moveCursorOn.png"), 4.1f);
   rotateCursorOn = Sprite(mRender->LoadTexture("textures/ui/rotateCursorOn.png"), 4.1f);
   pixelTex = mRender->LoadTexture("textures/pixel.png");
-
-  csManager = CutsceneManager(mRender, gameFont);
-
-  csManager.PlayCutscene("dialogue/0.txt");
-  inGame = false;
-  inDialogue = true;
 
   auto btnSprite = Sprite(mRender->LoadTexture("textures/ui/button.png"),glm::vec4(0),1.0f);
 
@@ -105,7 +103,20 @@ void App::loadAssets()
     gameFont
   );
 
+  std::cout << "loading maps" << std::endl;
+
   loadMaps();
+
+  std::cout << "loading cutscenes" << std::endl;
+
+  csManager = CutsceneManager(mRender, gameFont, &audioManager);
+
+  audioManager.Play("audio/music/Trials of The Pharaoh Intro.ogg", false, 1.0f);
+  csManager.PlayCutscene("dialogue/0.txt");
+
+  inGame = false;
+  inDialogue = true;
+
 
 
   mRender->EndResourceLoad();
@@ -113,16 +124,18 @@ void App::loadAssets()
 
 void App::loadMaps()
 {
-  currentLevelIndex = 10;  //1 less than desired index
+  currentLevelIndex = -1;  //1 less than desired index
   levels.push_back(Level("maps/1-two-movers.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/2-simple-movers-puzzle.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/3-split-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/4-split-two.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/5-5-tilter-intermission.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/5-tilters.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/6-more-tilters.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/7-light-hold-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/8-light-hold-quick.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/9-three-hold.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/9-25-split-on-off-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/9-5-mirror-hold-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/10-mirror-hold-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/11-mirror-hold-ext.tmx", mRender, gameFont, &audioManager));
@@ -191,12 +204,12 @@ void App::update()
   std::vector<DS::ShaderStructs::ray2D> rays;
   currentCursor = cursor;
 
-  if(!audioManager.Playing(ambientMusicTracks))
+  if(csManager.isFinished() && !audioManager.Playing(ambientMusicTracks))
   {
     int index = (int)(rand.PositiveReal() * ambientMusicTracks.size());
     if(index == lastAmbientIndex)
       index = (int)(rand.PositiveReal() * ambientMusicTracks.size());
-    audioManager.Play(ambientMusicTracks[index], false, 0.7f);
+    audioManager.Play(ambientMusicTracks[index], false, 0.5f);
     lastAmbientIndex = index;
   }
 
@@ -216,13 +229,20 @@ void App::update()
     {
       inGame = true;
       inLevelDialogueTransition = false;
+      audioManager.Stop("audio/music/Trials of The Pharaoh Intro.ogg");
       if(currentLevelIndex == levels.size() - 1)
       {
+
         if(!lastCutsceneWatched)
+        {
+          audioManager.Stop(ambientMusicTracks[lastAmbientIndex]);
+          audioManager.Play("audio/music/Trials of The Pharaoh End.ogg", false, 1.0f);
           csManager.PlayCutscene("dialogue/end.txt");
+        }
         lastCutsceneWatched = true;
         inDialogue = true;
         inGame = false;
+
       }
       else
         nextMap();
@@ -259,9 +279,9 @@ void App::update()
     {
       inLevelTransition = true;
       if(currentLevelIndex % 2 == 0)
-        audioManager.Play("audio/music/Level Complete.wav", false, 0.35f);
+        audioManager.Play("audio/music/Level Complete.ogg", false, 0.35f);
       else
-        audioManager.Play("audio/music/Level Complete2.wav", false, 0.35f);
+        audioManager.Play("audio/music/Level Complete2.ogg", false, 0.35f);
       inGame = false;
     }
 

@@ -1,8 +1,10 @@
-N
-After much hardship Anubis appears before you
-A
-Congratulation, you have successfully completed the challenge!
-E
-Your place in the afterlife is assured and your name reinstated in the Book of The Dead.
-F
-The world will remember the name Hatshepsut. May you emerge forth into the light!"
+A end-A1.ogg
+Congratulations Pharaoh, you have successfully completed...
+E end-A2.ogg
+wait...The book of the dead is revealing your name.......
+F end-A3.ogg
+Yes, I see. Congratulations Pharaoh Hatshepsut. Go into the afterlife and take your rightful place alongside the other pharaohs.
+F end-A4.ogg
+The world will finally remember the name: Hatshepsut!
+C
+Credits

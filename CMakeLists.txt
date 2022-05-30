@@ -3,10 +3,10 @@ cmake_minimum_required(VERSION 3.10)
 
 #customize
 if(GFX_ENV_VULKAN)
-  set(ProjectName "Vulkan-Environment")
+  set(ProjectName "TrialsOfThePharaoh")
   add_definitions(-DGFX_ENV_VULKAN)
 elseif(GFX_ENV_OPENGL)
-  set(ProjectName "OpenGL-Environment")
+  set(ProjectName "TrialsOfThePharaoh-OpenGL-Build")
   add_definitions(-DGFX_ENV_OPENGL)
 endif()
 #windows only
@@ -46,7 +46,8 @@ if(GFX_ENV_VULKAN)
                               ${MAP}
                               ${SPRITES}
                               ${MAP_ELEMENTS}
-                              ${UI})
+                              ${UI}
+                            "resources/resource/resource.o")
 elseif(GFX_ENV_OPENGL)
   file(GLOB OGL_RENDER src/opengl-render/*)
   file(GLOB OGL_RENDER_RESOURCES src/opengl-render/resources/*)
@@ -58,7 +59,8 @@ elseif(GFX_ENV_OPENGL)
                                 ${MAP}
                                 ${SPRITES}
                                 ${MAP_ELEMENTS}
-                                ${UI})
+                                ${UI}
+                                "resources/resource/resource.o")
 endif()
 #link
 target_include_directories(${ProjectName} PUBLIC include/)

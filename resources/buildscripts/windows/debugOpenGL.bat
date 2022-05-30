@@ -10,5 +10,5 @@ Xcopy resources\textures build\Debug\textures /i /c /e /r /y
 Xcopy resources\windows-dlls build\Debug\ /i /c /e /r /y
 Xcopy resources\dialogue build\Debug\dialogue /i /c /e /r /y
 cd build\Debug
-OpenGL-Environment
+TrialsOfThePharaoh-OpenGL-Build
 cd ../..
