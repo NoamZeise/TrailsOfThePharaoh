@@ -2,13 +2,13 @@
 
 App::App()
 {
-
-  mWindowWidth = settings::INITIAL_WINDOW_WIDTH;
-  mWindowHeight = settings::INITIAL_WINDOW_HEIGHT;
-
   glfwSetErrorCallback(error_callback);
   if (!glfwInit())
     throw std::runtime_error("failed to initialise glfw!");
+
+  const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+  mWindowWidth = videoMode->width;
+  mWindowHeight = videoMode->height;
 
   Render::SetGLFWWindowHints();
 
@@ -23,6 +23,7 @@ App::App()
     glfwTerminate();
     throw std::runtime_error("failed to create glfw window!");
   }
+  glfwSetWindowPos(mWindow, 0, 0);
   GLFWimage winIcon[1];
 	winIcon[0].pixels = stbi_load("textures/icon.png", &winIcon[0].width, &winIcon[0].height, 0, 4); //rgba channels
 	glfwSetWindowIcon(mWindow, 1, winIcon);
@@ -131,13 +132,14 @@ void App::loadMaps()
   levels.push_back(Level("maps/4-split-two.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/5-5-tilter-intermission.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/5-tilters.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/9-25-split-on-off-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/6-more-tilters.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/7-light-hold-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/8-light-hold-quick.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/9-three-hold.tmx", mRender, gameFont, &audioManager));
-  levels.push_back(Level("maps/9-25-split-on-off-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/9-5-mirror-hold-intro.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/10-mirror-hold-intro.tmx", mRender, gameFont, &audioManager));
+  levels.push_back(Level("maps/10-5-interim.tmx", mRender, gameFont, &audioManager));
   levels.push_back(Level("maps/11-mirror-hold-ext.tmx", mRender, gameFont, &audioManager));
 }
 

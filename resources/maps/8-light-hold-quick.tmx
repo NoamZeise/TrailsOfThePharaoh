@@ -115,7 +115,7 @@
   <properties>
    <property name="door" type="bool" value="true"/>
   </properties>
-  <object id="91" x="512" y="258.667" width="255.333" height="377.333">
+  <object id="91" x="574" y="258.667" width="193.333" height="441.333">
    <properties>
     <property name="On" type="bool" value="false"/>
     <property name="door" type="bool" value="true"/>
@@ -131,7 +131,7 @@
   <properties>
    <property name="door" type="bool" value="true"/>
   </properties>
-  <object id="134" x="762.781" y="701.333" width="79.2193" height="160">
+  <object id="134" x="768" y="704" width="79.2193" height="160">
    <properties>
     <property name="On" type="bool" value="false"/>
     <property name="door" type="bool" value="true"/>
@@ -164,13 +164,13 @@
   <properties>
    <property name="mover" type="bool" value="true"/>
   </properties>
-  <object id="140" x="668" y="870.568" width="89.7715" height="88.1972">
+  <object id="140" x="679" y="870.911" width="89.7715" height="88.1972">
    <properties>
     <property name="mirror" type="bool" value="true"/>
     <property name="mover" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="141" x="719.526" y="581.657">
+  <object id="141" x="732.526" y="575">
    <properties>
     <property name="track" type="bool" value="true"/>
    </properties>

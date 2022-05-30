@@ -7,36 +7,36 @@
     auto mummyTex = render->LoadTexture("textures/Story/Mummy Pose_1.png");
     Mummy = Sprite(
       mummyTex,
-      glm::vec4(0.0f, -50.0f, mummyTex.dim.x/4, mummyTex.dim.y/4),
+      glm::vec4(0.0f, -50.0f, mummyTex.dim.x, mummyTex.dim.y),
       3.4f
     );
     auto anubisTex = render->LoadTexture("textures/Story/Anubis.png");
     Anubis = Sprite(
       anubisTex,
-      glm::vec4(1200.0f, -50.0f, anubisTex.dim.x/4, anubisTex.dim.y/4),
+      glm::vec4(1200.0f, -50.0f, anubisTex.dim.x, anubisTex.dim.y),
       3.4f
     );
     auto BODTex = render->LoadTexture("textures/Story/BookoftheDead_closed.png");
     Book = Sprite(
       BODTex,
-      glm::vec4(400.0f, 0.0f, BODTex.dim.x/7, BODTex.dim.y/7),
+      glm::vec4(400.0f, 0.0f, BODTex.dim.x, BODTex.dim.y),
       3.4f
     );
     auto EmptyBODTex = render->LoadTexture("textures/Story/BookoftheDead_open_empty.png");
     EmptyBook = Sprite(
       EmptyBODTex,
-      glm::vec4(200.0f, 0.0f, EmptyBODTex.dim.x/7, EmptyBODTex.dim.y/7),
+      glm::vec4(200.0f, 0.0f, EmptyBODTex.dim.x, EmptyBODTex.dim.y),
       3.4f
     );
     EmptyBookTitle = Sprite(
       render->LoadTexture("textures/Story/BookTitle.png"),
-      glm::vec4(200.0f, 0.0f, EmptyBODTex.dim.x/7, EmptyBODTex.dim.y/7),
+      glm::vec4(200.0f, 0.0f, EmptyBODTex.dim.x, EmptyBODTex.dim.y),
       3.4f
     );
     auto FullBODTex = render->LoadTexture("textures/Story/BookoftheDead_open.png");
     FullBook = Sprite(
       FullBODTex,
-      glm::vec4(200.0f, 0.0f, FullBODTex.dim.x/7, FullBODTex.dim.y/7),
+      glm::vec4(200.0f, 0.0f, FullBODTex.dim.x, FullBODTex.dim.y),
       3.4f
     );
     auto textFieldTex = render->LoadTexture("textures/Story/textField.png");
@@ -45,7 +45,7 @@
       Sprite(render->LoadTexture("textures/Story/Tomb_BG_blurred.png"), glm::vec4(0, 0, settings::TARGET_WIDTH, settings::TARGET_HEIGHT), 3.3f),
       Sprite(
         textFieldTex,
-        glm::vec4((settings::TARGET_WIDTH - textFieldTex.dim.x*0.6f)*0.5f, 650, textFieldTex.dim.x*0.6, textFieldTex.dim.y*0.6),
+        glm::vec4((settings::TARGET_WIDTH - textFieldTex.dim.x)*0.5f, 650, textFieldTex.dim.x, textFieldTex.dim.y),
         3.5f
       ),
       font
@@ -117,7 +117,7 @@
       Background.Update(camRect);
       EmptyBookTitle.setRect(
         glmhelper::correctRectWithCamera(
-          glm::vec4(300.0f, 200.0f, EmptyBook.getTextureDim().x/7, EmptyBook.getTextureDim().y/7),
+          glm::vec4(300.0f, 200.0f, EmptyBook.getTextureDim().x, EmptyBook.getTextureDim().y),
           camRect,
           camScale
         )
