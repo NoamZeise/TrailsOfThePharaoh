@@ -41,14 +41,14 @@ void DialogueSystem::addText(std::string text)
   currentText.clear();
   std::string nextLine = "";
   std::string lastWord = "";
-  const int CHAR_WIDTH = 23.0f;
-  const int BOX_WIDTH = 1000.0f;
+  int CHAR_PIXEL_WIDTH = 23.0f;
+  int BOX_WIDTH = 1000.0f;
   for(int i = 0; i < text.size(); i++)
   {
     lastWord += text[i];
     if(text[i] == ' ' || i == text.size() - 1)
     {
-      if((nextLine.size() + lastWord.size() + 1) * CHAR_WIDTH > BOX_WIDTH)
+      if((nextLine.size() + lastWord.size() + 1) * CHAR_PIXEL_WIDTH > BOX_WIDTH)
       {
         this->currentText.push_back(nextLine);
         nextLine = lastWord;

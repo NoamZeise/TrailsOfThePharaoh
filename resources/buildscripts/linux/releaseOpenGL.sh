@@ -6,6 +6,7 @@ cp -r resources/audio build/Release
 cp -r resources/shaders build/Release
 cp -r resources/maps build/Release
 cp -r resources/textures build/Release
+cp -r resources/dialogue build/Release
 cd build/Release
-./OpenGL-Environment
+./TrialsOfThePharaoh-OpenGL-Build
 cd ../..
