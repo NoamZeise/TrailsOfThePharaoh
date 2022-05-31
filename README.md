@@ -3,7 +3,7 @@
 
 A game made in 10 days for [GDTV Jam 2022](https://itch.io/jam/gamedevtv-jam-2022)
 
-Made using my [Vulkan](https://github.com/NoamZeise/Vulkan-Environment) and [OpenGL](https://github.com/NoamZeise/OpenGL-Environment) Environments
+Made using my [Vulkan](https://github.com/NoamZeise/Vulkan-Environment) and [OpenGL](https://github.com/NoamZeise/OpenGL-Environment) Environments, [Tiled Map Parser](https://github.com/NoamZeise/TiledMapParser), and [Audio](https://github.com/NoamZeise/audio) libs.
 
 
 ## Team:
