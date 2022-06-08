@@ -25,7 +25,7 @@ Noam Zeise -> Programming  https://noamzeise.wordpress.com/
 
 ## building from source
 
-### linux debian
+### linux debian/ubuntu
 
 make sure you have cmake, and ninja-build otherwise do
 ```
