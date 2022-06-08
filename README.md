@@ -45,13 +45,19 @@ check vulkan is working with cube demo:
 vkcube
 ```
 
+#### for OpenGL
+generate OpenGL glad header files from https://glad.dav1d.de/ 
+select gl version 4.6, and click generate, download the glad.zip, unzip and place include folders in /usr/local/include/ (glad/ and KHR/)
+
+Warning: if you pick a different OpenGL version, replace glad.c in the repo (under src/opengl-render/glad.c) with your generated glad.c
+
 #### install required libraries (both vulkan and ogl)
 ```
 sudo apt install libglfw3-dev libglm-dev libfreetype-dev libsndfile1-dev libasound-dev portaudio19-dev
 ```
 
 #### use build scrips
-from project root -> build debug vulkan
+from project root -> replace debugVulkan.sh, with (releaseVulkan.sh, debugOpenGL.sh, releaseOpenGL.sh) for whatever build you want
 ```
 mkdir build
 chmod +x resources/buildscripts/linux/debugVulkan.sh
