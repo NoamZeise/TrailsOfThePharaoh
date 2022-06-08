@@ -27,12 +27,13 @@ Noam Zeise -> Programming  https://noamzeise.wordpress.com/
 
 ### linux debian/ubuntu
 
+#### STEP 1
 make sure you have cmake, and ninja-build otherwise do
 ```
 sudo apt install cmake ninja-build
 ```
 
-#### for vulkan:
+#### STEP 2 (vulkan version):
 
 ```
 sudo apt install vulkan-tools
@@ -45,18 +46,18 @@ check vulkan is working with cube demo:
 vkcube
 ```
 
-#### for OpenGL
+#### STEP 2 (OpenGL version)
 generate OpenGL glad header files from https://glad.dav1d.de/ 
 select gl version 4.6, and click generate, download the glad.zip, unzip and place include folders in /usr/local/include/ (glad/ and KHR/)
 
 Warning: if you pick a different OpenGL version, replace glad.c in the repo (under src/opengl-render/glad.c) with your generated glad.c
 
-#### install required libraries (both vulkan and ogl)
+#### STEP 3 - install dependancies
 ```
 sudo apt install libglfw3-dev libglm-dev libfreetype-dev libsndfile1-dev libasound-dev portaudio19-dev
 ```
 
-#### use build scrips
+#### STEP 4 - build with buildscripts
 from project root -> replace debugVulkan.sh, with (releaseVulkan.sh, debugOpenGL.sh, releaseOpenGL.sh) for whatever build you want
 ```
 mkdir build
