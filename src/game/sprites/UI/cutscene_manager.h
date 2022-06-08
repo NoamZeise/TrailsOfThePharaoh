@@ -19,15 +19,14 @@ public:
   void Update(Timer &timer, Input::Controls &controls, glm::vec4 camRect, float camScale);
   void Draw(Render *render);
   void PlayCutscene(std::string cutsceneFile);
-  bool isFinished() { return finished; }
-
+  bool isFinished();
 private:
 
   DialogueSystem ds;
 
   enum class Character
   {
-    None,
+    NoCharacter,
     Anubis,
     Mummy,
     Bod,

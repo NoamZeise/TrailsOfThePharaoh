@@ -1,5 +1,8 @@
 #include "cutscene_manager.h"
 
+
+  bool CutsceneManager::isFinished() { return finished; }
+
   CutsceneManager::CutsceneManager(Render* render, Resource::Font font, Audio::Manager *audio)
   {
     this->audio = audio;
@@ -95,7 +98,7 @@
           case Character::Credit:
             showingEnd = true;
             ds.ShowMessage("");
-          case Character::None:
+          case Character::NoCharacter:
             ds.ShowMessage(next.text);
             break;
         }
@@ -214,7 +217,7 @@
             nextDialogue.character = Character::Credit;
             break;
           default:
-            nextDialogue.character = Character::None;
+            nextDialogue.character = Character::NoCharacter;
             break;
         }
         nextDialogue.audioPath = "";
