@@ -20,7 +20,7 @@ Paulina Ramirez -  Lady Yami #3939  -> Voice Over/Writing
 
 https://lady-yami.itch.io/
 
-Noam Zeise -> Programming  https://noamzeise.wordpress.com/
+Noam Zeise -> Programming  https://www.noamzeise.com/
 
 
 ## building from source
